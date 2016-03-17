@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html ng-app="inspinia">
+
+<head>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>CBS | Dashboard</title>
+    {{ include('BackEndBundle:Skeleton:css.html.twig') }}
+
+</head>
+
+<body ng-controller="MainCtrl as main" class="{{ '{{ $state.current.data.specialClass }}' }}" landing-scrollspy id="page-top">
+<div ui-view></div>
+</div>
+{{ include('BackEndBundle:Skeleton:javascript.html.twig') }}
+    {#<script>#}
+        {#var id_active="";#}
+        {#var url_active = "";#}
+        {#var array_Tab={};#}
+        {#/**#}
+         {#* Función para actualizar el tab en caso de q no le pasen parametros actualiza el tab actual#}
+         {#* @param url url q se llama q renderiza la vista#}
+         {#* @param id id del tab activo#}
+         {#* @param data objeto que es pasado a la petición#}
+         {#*/#}
+        {#function updateTab(url,id,data){#}
+            {#HoldOn.open();#}
+            {#var data=(data=="")?{}:data;#}
+            {#$.post((url=="")?array_Tab[getActive()]:url,#}
+                    {#data,#}
+                    {#function (data, status, response) {#}
+                        {#HoldOn.close();#}
+                        {#var tab_active=(id=="")?id_active:id;#}
+                        {#if (status && status == 'success'){#}
+                            {#var ta = $('#tab_'+tab_active);#}
+                            {#ta.html('');#}
+                            {#ta.html(data.html);#}
+                        {#}#}
+                    {#});#}
+        {#}#}
+        {#/**#}
+         {#* Función que retorna el id del tab activo#}
+         {#* @returns {string}#}
+         {#*/#}
+        {#function getActive(){#}
+            {#return id_active;#}
+        {#}#}
+        {#/**#}
+         {#* Función q retorna la url del tab activo#}
+         {#* @returns {string}#}
+         {#*/#}
+        {#function getUrlActive(){#}
+            {#return url_active;#}
+        {#}#}
+        {#/**#}
+         {#* Función para eliminar un tab#}
+         {#* @param el tab a eliminar#}
+         {#*/#}
+        {#function closeTab(el) {#}
+            {#//there are multiple elements which has .closeTab icon so close the tab whose close icon is clicked#}
+            {#var tabContentId = el.parent().data('tab');#}
+            {#el.parent().parent().remove(); //remove li of tab#}
+            {#$('#nav-tabs-backend a:last').tab('show'); // Select first tab#}
+            {#$('#tab_'+tabContentId).remove(); //remove respective tab content#}
+            {#array_Tab[tabContentId]="";#}
+        {#}#}
+        {#jQuery.fn.reset = function () {#}
+            {#$(this).each (function() { this.reset(); });#}
+        {#}#}
+        {#/**#}
+         {#* Función para resetear un formulario#}
+         {#*/#}
+        {#function resetForm(el){#}
+            {#$('#'+el).reset();#}
+        {#}#}
+        {#$(document).ready(function() {#}
+            {#//Para cuando se cambia el tab, seleccionando el mismo#}
+           {#$(document).on( 'shown.bs.tab', 'a[data-toggle="tab"]', function (e) {#}
+               {#if(array_Tab[$(this).attr("id")]){#}
+                   {#//Le quito la clase al que esta activo#}
+                   {#$('#nav_'+id_active+'').removeClass('active');#}
+                   {#$('#tab_'+id_active+'').removeClass('active');#}
+                   {#//Si existe lo activo#}
+                   {#$('#nav_'+$(this).attr("id")+'').addClass('active');#}
+                   {#$('#tab_'+$(this).attr("id")+'').addClass('active');#}
+                   {#id_active=$(this).attr("id");#}
+               {#}#}
+            {#});#}
+
+            {#//Para cuando se selecciona un link del menu#}
+            {#jQuery('.sidebar-collapse').on('click', ' li > a.ajaxify', function (e) {#}
+                {#e.preventDefault();#}
+                {#var self=$(this);#}
+                {#//Busco por si ha sido seleccionado previamente#}
+                {#if(array_Tab[$(this).attr("id")]){#}
+                    {#//Le quito la clase al que esta activo#}
+                    {#$('#nav_'+id_active+'').removeClass('active');#}
+                    {#$('#tab_'+id_active+'').removeClass('active');#}
+                    {#//Si existe lo activo#}
+                    {#$('#nav_'+$(this).attr("id")+'').addClass('active');#}
+                    {#$('#tab_'+$(this).attr("id")+'').addClass('active');#}
+                    {#id_active=$(this).attr("id");#}
+                {#}#}
+                {#else{#}
+                    {#var data={idTab:'tab_'+$(this).attr("id"),class:$(this).attr("id"),projet:$(this).data("project")};#}
+                    {#//Lo adiciono al arreglo#}
+                    {#array_Tab[$(this).attr("id")] = $(this).data("href");#}
+                    {#HoldOn.open();#}
+                    {#//Función q retorna el html de la respuesta#}
+                    {#$.post( $(this).data("href"),data,#}
+                        {#function (data, status, response) {#}
+                            {#if (status && status == 'success') {#}
+                                {#//Le quito la clase al que esta activo en caso de que tenga algun tab#}
+                                {#if(id_active!==''){#}
+                                    {#$('#nav_'+id_active+'').removeClass('active');#}
+                                    {#$('#tab_'+id_active+'').removeClass('active');#}
+                                {#}#}
+                                {#//Lo adiciono y lo activo#}
+                                {#$('#nav-tabs-backend').append('<li id="nav_'+self.attr("id")+'" class="active"><a id="'+self.attr("id")+'" data-toggle="tab" href="#tab'+self.attr("id")+'" data-tab="'+self.attr("id")+'">'+self.context.innerHTML+'<span class="closeTab" onclick="closeTab($(this))">×</span></a></li>');#}
+                                {#//Adiciono el contenido del tab#}
+                                {#$('#tab-content-backend').append('<div id="tab_'+self.attr("id")+'" class="tab-pane active">'#}
+                                {#+data.html#}
+                                {#+'</div>');#}
+                                {#id_active=self.attr("id");#}
+                                {#HoldOn.close();#}
+                            {#}#}
+                        {#});#}
+                {#}#}
+            {#});#}
+
+            {#$('#changeLocale').chosen();#}
+        {#});#}
+    {#</script>#}
+</body>
+</html>

@@ -1,0 +1,63 @@
+<?php
+
+namespace BackEndBundle\Entity;
+
+use Doctrine\ORM\Mapping as ORM;
+
+/**
+ * Comentarios
+ *
+ * @ORM\Table(name="comentarios", indexes={@ORM\Index(name="FKcomentario750827", columns={"userid"})})
+ * @ORM\Entity
+ */
+class Comentarios
+{
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="id", type="integer", nullable=false)
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="IDENTITY")
+     */
+    private $id;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="titulo", type="string", length=255, nullable=true)
+     */
+    private $titulo;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="descripcion", type="string", length=255, nullable=true)
+     */
+    private $descripcion;
+
+    /**
+     * @var \DateTime
+     *
+     * @ORM\Column(name="fecha", type="date", nullable=true)
+     */
+    private $fecha;
+
+    /**
+     * @var boolean
+     *
+     * @ORM\Column(name="aprobado", type="boolean", nullable=true)
+     */
+    private $aprobado;
+
+    /**
+     * @var \User
+     *
+     * @ORM\ManyToOne(targetEntity="UserBundle\Entity\User")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="userid", referencedColumnName="id")
+     * })
+     */
+    private $userid;
+
+
+}

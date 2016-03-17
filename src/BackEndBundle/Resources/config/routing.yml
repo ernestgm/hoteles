@@ -1,0 +1,18 @@
+back_end_homepage:
+    path:     /hello/{name}
+    defaults: { _controller: BackEndBundle:Default:index }
+
+backend_routes:
+    resource: "@BackEndBundle/Controller/"
+    type:     annotation
+
+backend_login:
+    pattern:  /login
+    defaults: { _controller: FOSUserBundle:Security:login }
+
+backend_login_check:
+    pattern:  /login_check
+    defaults: { _controller: FOSUserBundle:Security:check }
+
+backend_logout:
+    path: fos_user_security_logout

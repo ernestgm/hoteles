@@ -1,0 +1,97 @@
+<?php
+
+namespace BackEndBundle\Entity;
+
+use Doctrine\ORM\Mapping as ORM;
+
+/**
+ * Hotel
+ *
+ * @ORM\Table(name="hotel", indexes={@ORM\Index(name="FKhotel146676", columns={"marcaid"}), @ORM\Index(name="FKhotel802242", columns={"comentariosid"})})
+ * @ORM\Entity
+ */
+class Hotel
+{
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="codigo", type="string", length=255, nullable=false)
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="IDENTITY")
+     */
+    private $codigo;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="url", type="string", length=255, nullable=false)
+     */
+    private $url;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="geolocalizacion", type="string", length=255, nullable=true)
+     */
+    private $geolocalizacion;
+
+    /**
+     * @var \Marca
+     *
+     * @ORM\ManyToOne(targetEntity="Marca")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="marcaid", referencedColumnName="id")
+     * })
+     */
+    private $marcaid;
+
+    /**
+     * @var \Comentarios
+     *
+     * @ORM\ManyToOne(targetEntity="Comentarios")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="comentariosid", referencedColumnName="id")
+     * })
+     */
+    private $comentariosid;
+
+    /**
+     * @var \Doctrine\Common\Collections\Collection
+     *
+     * @ORM\ManyToMany(targetEntity="Facilidades", mappedBy="hotelcodigo")
+     */
+    private $facilidadesid;
+
+    /**
+     * @var \Doctrine\Common\Collections\Collection
+     *
+     * @ORM\ManyToMany(targetEntity="Gastronomia", mappedBy="hotelcodigo")
+     */
+    private $gastronomiaid;
+
+    /**
+     * @var \Doctrine\Common\Collections\Collection
+     *
+     * @ORM\ManyToMany(targetEntity="Motivos", mappedBy="hotelcodigo")
+     */
+    private $motivosid;
+
+    /**
+     * @var \Doctrine\Common\Collections\Collection
+     *
+     * @ORM\ManyToMany(targetEntity="Servicios", mappedBy="hotelcodigo")
+     */
+    private $serviciosid;
+
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->facilidadesid = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->gastronomiaid = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->motivosid = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->serviciosid = new \Doctrine\Common\Collections\ArrayCollection();
+    }
+
+}

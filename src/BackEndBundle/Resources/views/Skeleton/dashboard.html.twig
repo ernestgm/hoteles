@@ -1,0 +1,44 @@
+{{ include('BackEndBundle:Skeleton:menu.html.twig') }}
+<div id="page-wrapper" class="gray-bg dashbard-1">
+    <div class="row border-bottom">
+        <nav class="navbar navbar-static-top" role="navigation" style="margin-bottom: 0">
+            <div class="navbar-header">
+                <a class="navbar-minimalize minimalize-styl-2 btn btn-primary " href="#"><i class="fa fa-bars"></i> </a>
+                <form role="search" class="navbar-form-custom" action="search_results.html">
+                    <div class="form-group hide">
+                        <input type="text" placeholder="{{ 'Search for something...' | trans }}" class="form-control" name="top-search" id="top-search">
+                    </div>
+                </form>
+            </div>
+            <ul class="nav navbar-top-links navbar-right">
+                <li id="home-link-1"><a class="page-scroll" href="{{ path('backend_home') }}"> <i class="fa fa-home"></i>{{ 'frontendbundle.buttonhome.name'|trans }}</a></li>
+                <li>
+                    <a href="{{ path('fos_user_security_logout') }}">
+                        <i class="fa fa-sign-out"></i> {{ 'frontendbundle.buttonlogout.name'|trans }}
+                    </a>
+                </li>
+                <li style="vertical-align: top; margin-top: 6px;">
+                    <a id="a-changeLocale" class="no-search">
+                        {#<select id="changeLocale" class="chosen-select-deselect form-control" onchange="window.location = this.value">
+                        {% for language in language_repository.findAll() %}
+                        {% set active = "" %}
+                        {% set url = app.request.get('_route') %}
+                        {% set url_params = app.request.get('_route_params') %}
+                        {% if app.request.locale == language.code %}
+                        {% set active = 'selected=selected' %}
+                        {% endif %}
+                        <option {{ active }} value="{{ url(url, url_params|merge({'_locale':language.code})) }}">{{ language.code | upper }}</option>
+                        {% endfor %}
+                    </select>#}
+                    </a>
+                </li>
+            </ul>
+
+        </nav>
+    </div>
+    <!-- Main view  -->
+    <div ui-view></div>
+    {#<div class="row" style="margin-top: 5px">#}
+        {#{{ include('BackEndBundle:Skeleton:tabPanel.html.twig') }}#}
+    {#</div>#}
+</div>

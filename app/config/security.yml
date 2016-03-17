@@ -1,0 +1,66 @@
+# To get started with security, check out the documentation:
+# http://symfony.com/doc/current/book/security.html
+security:
+    access_decision_manager:
+        strategy: unanimous
+    encoders:
+        FOS\UserBundle\Model\UserInterface: sha512
+
+    role_hierarchy:
+        ROLE_FBUSER:       ROLE_USER
+        ROLE_ADMIN:       ROLE_FBUSER, ROLE_USER,
+        ROLE_SUPER_ADMIN: ROLE_ADMIN
+
+    providers:
+        fos_userbundle:
+            id: fos_user.user_provider.username_email
+        access_token_user_provider:
+            id: access_token.user_provider
+    firewalls:
+        # disables authentication for assets and the profiler, adapt it according to your needs
+        dev:
+            pattern: ^/(_(profiler|wdt)|css|images|js)/
+            security: false
+#        api:
+#            pattern: ^/[a-z]{2}/api
+#            stateless: true
+#            simple_preauth:
+#                authenticator: access_token.authenticator
+#            provider: access_token_user_provider
+        backend:
+            pattern:            /backend/(.*)
+            form_login:
+              provider:         fos_userbundle
+              login_path:       backend_login
+              check_path:       backend_login_check
+              default_target_path: backend
+            logout:
+              path:             backend_logout
+              target:           /
+            anonymous:          true
+            context:            application
+
+        main:
+            remember_me:
+                key: %secret%
+                lifetime: 10000000
+            pattern: ^/
+            form_login:
+                provider: fos_userbundle
+                login_path:             user_login
+                check_path:             login_check
+                csrf_provider: form.csrf_provider
+            context:            application
+            logout:
+                path:  fos_user_security_logout
+                target:  /
+            anonymous:    true
+
+    access_control:
+        - { path: ^/login$, role: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/register, role: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/resetting, role: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: /backend/login$, role: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: /backend/logout$, role: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: /backend/login_check$, role: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: /backend/, role: IS_AUTHENTICATED_FULLY }

@@ -1,0 +1,82 @@
+<?php
+
+namespace BackEndBundle\Entity;
+
+use Doctrine\ORM\Mapping as ORM;
+
+/**
+ * Gastronomia
+ *
+ * @ORM\Table(name="gastronomia")
+ * @ORM\Entity
+ */
+class Gastronomia
+{
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="id", type="string", length=255, nullable=false)
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="IDENTITY")
+     */
+    private $id;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="descripcion", type="string", length=255, nullable=true)
+     */
+    private $descripcion;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="imagen", type="string", length=255, nullable=true)
+     */
+    private $imagen;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="horario", type="string", length=255, nullable=true)
+     */
+    private $horario;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="dias_habiles", type="string", length=255, nullable=true)
+     */
+    private $diasHabiles;
+
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="tipo", type="integer", nullable=true)
+     */
+    private $tipo;
+
+    /**
+     * @var \Doctrine\Common\Collections\Collection
+     *
+     * @ORM\ManyToMany(targetEntity="Hotel", inversedBy="gastronomiaid")
+     * @ORM\JoinTable(name="gastronomia_hotel",
+     *   joinColumns={
+     *     @ORM\JoinColumn(name="gastronomiaid", referencedColumnName="id")
+     *   },
+     *   inverseJoinColumns={
+     *     @ORM\JoinColumn(name="hotelcodigo", referencedColumnName="codigo")
+     *   }
+     * )
+     */
+    private $hotelcodigo;
+
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->hotelcodigo = new \Doctrine\Common\Collections\ArrayCollection();
+    }
+
+}

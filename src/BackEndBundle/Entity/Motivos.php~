@@ -1,0 +1,61 @@
+<?php
+
+namespace BackEndBundle\Entity;
+
+use Doctrine\ORM\Mapping as ORM;
+
+/**
+ * Motivos
+ *
+ * @ORM\Table(name="motivos")
+ * @ORM\Entity
+ */
+class Motivos
+{
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="id", type="string", length=255, nullable=false)
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="IDENTITY")
+     */
+    private $id;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="descripcion", type="string", length=255, nullable=true)
+     */
+    private $descripcion;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="imagen", type="string", length=255, nullable=true)
+     */
+    private $imagen;
+
+    /**
+     * @var \Doctrine\Common\Collections\Collection
+     *
+     * @ORM\ManyToMany(targetEntity="Hotel", inversedBy="motivosid")
+     * @ORM\JoinTable(name="motivos_hotel",
+     *   joinColumns={
+     *     @ORM\JoinColumn(name="motivosid", referencedColumnName="id")
+     *   },
+     *   inverseJoinColumns={
+     *     @ORM\JoinColumn(name="hotelcodigo", referencedColumnName="codigo")
+     *   }
+     * )
+     */
+    private $hotelcodigo;
+
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->hotelcodigo = new \Doctrine\Common\Collections\ArrayCollection();
+    }
+
+}

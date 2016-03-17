@@ -1,0 +1,116 @@
+services:
+#    back_end.example:
+#        class: BackEndBundle\Example
+#        arguments: [@service_id, "plain_value", %parameter%]
+
+#Entities Repositories Services
+
+#    comentarios
+    comentarios.repository:
+            alias: comentarios.repository.doctrine
+            public: true
+
+    comentarios.repository.doctrine:
+        class: Doctrine\Common\Persistence\ObjectRepository
+        factory_service: doctrine
+        factory_method: getRepository
+        arguments: [ BackEndBundle\Entity\Comentarios ]
+        public: false
+
+#    facilidades
+    facilidades.repository:
+            alias: facilidades.repository.doctrine
+            public: true
+
+    facilidades.repository.doctrine:
+        class: Doctrine\Common\Persistence\ObjectRepository
+        factory_service: doctrine
+        factory_method: getRepository
+        arguments: [ BackEndBundle\Entity\Facilidades ]
+        public: false
+
+#    gastronomia
+    gastronomia.repository:
+            alias: gastronomia.repository.doctrine
+            public: true
+
+    gastronomia.repository.doctrine:
+        class: Doctrine\Common\Persistence\ObjectRepository
+        factory_service: doctrine
+        factory_method: getRepository
+        arguments: [ BackEndBundle\Entity\Gastronomia ]
+        public: false
+
+#    habitacion
+    habitacion.repository:
+            alias: habitacion.repository.doctrine
+            public: true
+
+    habitacion.repository.doctrine:
+        class: Doctrine\Common\Persistence\ObjectRepository
+        factory_service: doctrine
+        factory_method: getRepository
+        arguments: [ BackEndBundle\Entity\Habitacion ]
+        public: false
+
+
+#    hotel
+    hotel.repository:
+            alias: hotel.repository.doctrine
+            public: true
+
+    hotel.repository.doctrine:
+        class: Doctrine\Common\Persistence\ObjectRepository
+        factory_service: doctrine
+        factory_method: getRepository
+        arguments: [ BackEndBundle\Entity\Hotel ]
+        public: false
+
+#    marca
+    marca.repository:
+            alias: marca.repository.doctrine
+            public: true
+
+    marca.repository.doctrine:
+        class: Doctrine\Common\Persistence\ObjectRepository
+        factory_service: doctrine
+        factory_method: getRepository
+        arguments: [ BackEndBundle\Entity\Marca ]
+        public: false
+
+#    motivos
+    motivos.repository:
+            alias: motivos.repository.doctrine
+            public: true
+
+    motivos.repository.doctrine:
+        class: Doctrine\Common\Persistence\ObjectRepository
+        factory_service: doctrine
+        factory_method: getRepository
+        arguments: [ BackEndBundle\Entity\Motivos ]
+        public: false
+
+#    reserva
+    reserva.repository:
+            alias: reserva.repository.doctrine
+            public: true
+
+    reserva.repository.doctrine:
+        class: Doctrine\Common\Persistence\ObjectRepository
+        factory_service: doctrine
+        factory_method: getRepository
+        arguments: [ BackEndBundle\Entity\Reserva ]
+        public: false
+
+
+#    servicios
+    servicios.repository:
+            alias: servicios.repository.doctrine
+            public: true
+
+    servicios.repository.doctrine:
+        class: Doctrine\Common\Persistence\ObjectRepository
+        factory_service: doctrine
+        factory_method: getRepository
+        arguments: [ BackEndBundle\Entity\Servicios ]
+        public: false
