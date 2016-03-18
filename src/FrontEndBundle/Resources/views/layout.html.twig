@@ -33,10 +33,10 @@
 <body id="page-top" class="gray-bg">
 
 {% block navbar %}
-    {{ include('FrontendBundle:layout:navbar.html.twig') }}
+    {{ include('FrontEndBundle:layout:navbar.html.twig') }}
 {% endblock %}
 {% block carousel %}
-    {{ include('FrontendBundle:layout:carousel.html.twig') }}
+    {{ include('FrontEndBundle:layout:carousel.html.twig') }}
 {% endblock %}
 {% for message in app.session.flashbag.get('message_ok') %}
     <div class="alert alert-info">{{ message }}</div>
@@ -47,7 +47,7 @@
 {% block body %}
 {% endblock %}
 {% block footer %}
-    {{ include('FrontendBundle:layout:footer.html.twig') }}
+    {{ include('FrontEndBundle:layout:footer.html.twig') }}
 {% endblock %}
 
 {% block javascripts %}

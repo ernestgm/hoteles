@@ -129,3 +129,22 @@ jms_translation:
             excluded_names: ["*TestCase.php", "*Test.php"]
             excluded_dirs: [cache, data, logs]
             #extractors: [alias_of_the_extractor]
+
+jms_di_extra:
+    automatic_controller_injections:
+        properties:
+            request: "@request"
+            router: "@router"
+
+        method_calls:
+            setRouter: ["@router"]
+    locations:
+        all_bundles: false
+        bundles: [FrontEndBundle, BackendBundle, UserBundle]
+        directories:
+#            - "%kernel.root_dir%/../src/FrontEndBundle/Form"
+    # TODO: grep is disabled due to process spawning errors on the servers.
+    # The reason might be the maximum number of threads/processes apache is allowed to spawn
+    # On AWS this number is restricted by memory: https://dustycodes.wordpress.com/2012/02/09/increasing-number-of-threads-per-process/
+    # So using an EC2 instance with more memory might be a solution
+    disable_grep: true
