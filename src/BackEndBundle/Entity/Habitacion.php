@@ -13,9 +13,9 @@ use Doctrine\ORM\Mapping as ORM;
 class Habitacion
 {
     /**
-     * @var string
+     * @var integer
      *
-     * @ORM\Column(name="id", type="string", length=255, nullable=false)
+     * @ORM\Column(name="id", type="integer", nullable=false)
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="IDENTITY")
      */
@@ -24,23 +24,31 @@ class Habitacion
     /**
      * @var \Doctrine\Common\Collections\Collection
      *
-     * @ORM\ManyToMany(targetEntity="Facilidades", mappedBy="habitacionid")
+     * @ORM\ManyToMany(targetEntity="Hafacilidades", inversedBy="habitacionid")
+     * @ORM\JoinTable(name="habitacion_hafacilidades",
+     *   joinColumns={
+     *     @ORM\JoinColumn(name="habitacionid", referencedColumnName="id")
+     *   },
+     *   inverseJoinColumns={
+     *     @ORM\JoinColumn(name="hafacilidadesid", referencedColumnName="id")
+     *   }
+     * )
      */
-    private $facilidadesid;
+    private $hafacilidadesid;
 
     /**
      * Constructor
      */
     public function __construct()
     {
-        $this->facilidadesid = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->hafacilidadesid = new \Doctrine\Common\Collections\ArrayCollection();
     }
 
 
     /**
      * Get id
      *
-     * @return string 
+     * @return integer 
      */
     public function getId()
     {
@@ -48,35 +56,35 @@ class Habitacion
     }
 
     /**
-     * Add facilidadesid
+     * Add hafacilidadesid
      *
-     * @param \BackEndBundle\Entity\Facilidades $facilidadesid
+     * @param \BackEndBundle\Entity\Hafacilidades $hafacilidadesid
      * @return Habitacion
      */
-    public function addFacilidadesid(\BackEndBundle\Entity\Facilidades $facilidadesid)
+    public function addHafacilidadesid(\BackEndBundle\Entity\Hafacilidades $hafacilidadesid)
     {
-        $this->facilidadesid[] = $facilidadesid;
+        $this->hafacilidadesid[] = $hafacilidadesid;
 
         return $this;
     }
 
     /**
-     * Remove facilidadesid
+     * Remove hafacilidadesid
      *
-     * @param \BackEndBundle\Entity\Facilidades $facilidadesid
+     * @param \BackEndBundle\Entity\Hafacilidades $hafacilidadesid
      */
-    public function removeFacilidadesid(\BackEndBundle\Entity\Facilidades $facilidadesid)
+    public function removeHafacilidadesid(\BackEndBundle\Entity\Hafacilidades $hafacilidadesid)
     {
-        $this->facilidadesid->removeElement($facilidadesid);
+        $this->hafacilidadesid->removeElement($hafacilidadesid);
     }
 
     /**
-     * Get facilidadesid
+     * Get hafacilidadesid
      *
      * @return \Doctrine\Common\Collections\Collection 
      */
-    public function getFacilidadesid()
+    public function getHafacilidadesid()
     {
-        return $this->facilidadesid;
+        return $this->hafacilidadesid;
     }
 }

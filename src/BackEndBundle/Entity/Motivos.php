@@ -13,13 +13,20 @@ use Doctrine\ORM\Mapping as ORM;
 class Motivos
 {
     /**
-     * @var string
+     * @var integer
      *
-     * @ORM\Column(name="id", type="string", length=255, nullable=false)
+     * @ORM\Column(name="id", type="integer", nullable=false)
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="IDENTITY")
      */
     private $id;
+
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="ws_id", type="integer", nullable=false)
+     */
+    private $wsId;
 
     /**
      * @var string
@@ -36,37 +43,45 @@ class Motivos
     private $imagen;
 
     /**
-     * @var \Doctrine\Common\Collections\Collection
+     * @var integer
      *
-     * @ORM\ManyToMany(targetEntity="Hotel", inversedBy="motivosid")
-     * @ORM\JoinTable(name="motivos_hotel",
-     *   joinColumns={
-     *     @ORM\JoinColumn(name="motivosid", referencedColumnName="id")
-     *   },
-     *   inverseJoinColumns={
-     *     @ORM\JoinColumn(name="hotelcodigo", referencedColumnName="codigo")
-     *   }
-     * )
+     * @ORM\Column(name="orden", type="integer", nullable=true)
      */
-    private $hotelcodigo;
+    private $orden;
 
-    /**
-     * Constructor
-     */
-    public function __construct()
-    {
-        $this->hotelcodigo = new \Doctrine\Common\Collections\ArrayCollection();
-    }
 
 
     /**
      * Get id
      *
-     * @return string 
+     * @return integer 
      */
     public function getId()
     {
         return $this->id;
+    }
+
+    /**
+     * Set wsId
+     *
+     * @param integer $wsId
+     * @return Motivos
+     */
+    public function setWsId($wsId)
+    {
+        $this->wsId = $wsId;
+
+        return $this;
+    }
+
+    /**
+     * Get wsId
+     *
+     * @return integer 
+     */
+    public function getWsId()
+    {
+        return $this->wsId;
     }
 
     /**
@@ -116,35 +131,25 @@ class Motivos
     }
 
     /**
-     * Add hotelcodigo
+     * Set orden
      *
-     * @param \BackEndBundle\Entity\Hotel $hotelcodigo
+     * @param integer $orden
      * @return Motivos
      */
-    public function addHotelcodigo(\BackEndBundle\Entity\Hotel $hotelcodigo)
+    public function setOrden($orden)
     {
-        $this->hotelcodigo[] = $hotelcodigo;
+        $this->orden = $orden;
 
         return $this;
     }
 
     /**
-     * Remove hotelcodigo
+     * Get orden
      *
-     * @param \BackEndBundle\Entity\Hotel $hotelcodigo
+     * @return integer 
      */
-    public function removeHotelcodigo(\BackEndBundle\Entity\Hotel $hotelcodigo)
+    public function getOrden()
     {
-        $this->hotelcodigo->removeElement($hotelcodigo);
-    }
-
-    /**
-     * Get hotelcodigo
-     *
-     * @return \Doctrine\Common\Collections\Collection 
-     */
-    public function getHotelcodigo()
-    {
-        return $this->hotelcodigo;
+        return $this->orden;
     }
 }

@@ -7,15 +7,15 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * Hotel
  *
- * @ORM\Table(name="hotel", indexes={@ORM\Index(name="FKhotel146676", columns={"marcaid"}), @ORM\Index(name="FKhotel802242", columns={"comentariosid"})})
+ * @ORM\Table(name="hotel", indexes={@ORM\Index(name="FKhotel146676", columns={"marcaid"}), @ORM\Index(name="FKhotel802242", columns={"comentariosid"}), @ORM\Index(name="FKhotel432874", columns={"redes_socialesid"}), @ORM\Index(name="FKhotel524105", columns={"gastronomiaid"}), @ORM\Index(name="FKhotel414066", columns={"motivosid"}), @ORM\Index(name="FKhotel773210", columns={"faqid"})})
  * @ORM\Entity(repositoryClass="BackEndBundle\Entity\HotelRepository")
  */
 class Hotel
 {
     /**
-     * @var string
+     * @var integer
      *
-     * @ORM\Column(name="codigo", type="string", length=255, nullable=false)
+     * @ORM\Column(name="codigo", type="integer", nullable=false)
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="IDENTITY")
      */
@@ -46,6 +46,46 @@ class Hotel
     private $marcaid;
 
     /**
+     * @var \Motivos
+     *
+     * @ORM\ManyToOne(targetEntity="Motivos")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="motivosid", referencedColumnName="id")
+     * })
+     */
+    private $motivosid;
+
+    /**
+     * @var \RedesSociales
+     *
+     * @ORM\ManyToOne(targetEntity="RedesSociales")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="redes_socialesid", referencedColumnName="id")
+     * })
+     */
+    private $redesSocialesid;
+
+    /**
+     * @var \Gastronomia
+     *
+     * @ORM\ManyToOne(targetEntity="Gastronomia")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="gastronomiaid", referencedColumnName="id")
+     * })
+     */
+    private $gastronomiaid;
+
+    /**
+     * @var \Faq
+     *
+     * @ORM\ManyToOne(targetEntity="Faq")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="faqid", referencedColumnName="id")
+     * })
+     */
+    private $faqid;
+
+    /**
      * @var \Comentarios
      *
      * @ORM\ManyToOne(targetEntity="Comentarios")
@@ -58,23 +98,9 @@ class Hotel
     /**
      * @var \Doctrine\Common\Collections\Collection
      *
-     * @ORM\ManyToMany(targetEntity="Facilidades", mappedBy="hotelcodigo")
+     * @ORM\ManyToMany(targetEntity="Hofacilidades", mappedBy="hotelcodigo")
      */
-    private $facilidadesid;
-
-    /**
-     * @var \Doctrine\Common\Collections\Collection
-     *
-     * @ORM\ManyToMany(targetEntity="Gastronomia", mappedBy="hotelcodigo")
-     */
-    private $gastronomiaid;
-
-    /**
-     * @var \Doctrine\Common\Collections\Collection
-     *
-     * @ORM\ManyToMany(targetEntity="Motivos", mappedBy="hotelcodigo")
-     */
-    private $motivosid;
+    private $hofacilidadesid;
 
     /**
      * @var \Doctrine\Common\Collections\Collection
@@ -88,9 +114,7 @@ class Hotel
      */
     public function __construct()
     {
-        $this->facilidadesid = new \Doctrine\Common\Collections\ArrayCollection();
-        $this->gastronomiaid = new \Doctrine\Common\Collections\ArrayCollection();
-        $this->motivosid = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->hofacilidadesid = new \Doctrine\Common\Collections\ArrayCollection();
         $this->serviciosid = new \Doctrine\Common\Collections\ArrayCollection();
     }
 
@@ -98,7 +122,7 @@ class Hotel
     /**
      * Get codigo
      *
-     * @return string 
+     * @return integer 
      */
     public function getCodigo()
     {
@@ -175,6 +199,98 @@ class Hotel
     }
 
     /**
+     * Set motivosid
+     *
+     * @param \BackEndBundle\Entity\Motivos $motivosid
+     * @return Hotel
+     */
+    public function setMotivosid(\BackEndBundle\Entity\Motivos $motivosid = null)
+    {
+        $this->motivosid = $motivosid;
+
+        return $this;
+    }
+
+    /**
+     * Get motivosid
+     *
+     * @return \BackEndBundle\Entity\Motivos 
+     */
+    public function getMotivosid()
+    {
+        return $this->motivosid;
+    }
+
+    /**
+     * Set redesSocialesid
+     *
+     * @param \BackEndBundle\Entity\RedesSociales $redesSocialesid
+     * @return Hotel
+     */
+    public function setRedesSocialesid(\BackEndBundle\Entity\RedesSociales $redesSocialesid = null)
+    {
+        $this->redesSocialesid = $redesSocialesid;
+
+        return $this;
+    }
+
+    /**
+     * Get redesSocialesid
+     *
+     * @return \BackEndBundle\Entity\RedesSociales 
+     */
+    public function getRedesSocialesid()
+    {
+        return $this->redesSocialesid;
+    }
+
+    /**
+     * Set gastronomiaid
+     *
+     * @param \BackEndBundle\Entity\Gastronomia $gastronomiaid
+     * @return Hotel
+     */
+    public function setGastronomiaid(\BackEndBundle\Entity\Gastronomia $gastronomiaid = null)
+    {
+        $this->gastronomiaid = $gastronomiaid;
+
+        return $this;
+    }
+
+    /**
+     * Get gastronomiaid
+     *
+     * @return \BackEndBundle\Entity\Gastronomia 
+     */
+    public function getGastronomiaid()
+    {
+        return $this->gastronomiaid;
+    }
+
+    /**
+     * Set faqid
+     *
+     * @param \BackEndBundle\Entity\Faq $faqid
+     * @return Hotel
+     */
+    public function setFaqid(\BackEndBundle\Entity\Faq $faqid = null)
+    {
+        $this->faqid = $faqid;
+
+        return $this;
+    }
+
+    /**
+     * Get faqid
+     *
+     * @return \BackEndBundle\Entity\Faq 
+     */
+    public function getFaqid()
+    {
+        return $this->faqid;
+    }
+
+    /**
      * Set comentariosid
      *
      * @param \BackEndBundle\Entity\Comentarios $comentariosid
@@ -198,102 +314,36 @@ class Hotel
     }
 
     /**
-     * Add facilidadesid
+     * Add hofacilidadesid
      *
-     * @param \BackEndBundle\Entity\Facilidades $facilidadesid
+     * @param \BackEndBundle\Entity\Hofacilidades $hofacilidadesid
      * @return Hotel
      */
-    public function addFacilidadesid(\BackEndBundle\Entity\Facilidades $facilidadesid)
+    public function addHofacilidadesid(\BackEndBundle\Entity\Hofacilidades $hofacilidadesid)
     {
-        $this->facilidadesid[] = $facilidadesid;
+        $this->hofacilidadesid[] = $hofacilidadesid;
 
         return $this;
     }
 
     /**
-     * Remove facilidadesid
+     * Remove hofacilidadesid
      *
-     * @param \BackEndBundle\Entity\Facilidades $facilidadesid
+     * @param \BackEndBundle\Entity\Hofacilidades $hofacilidadesid
      */
-    public function removeFacilidadesid(\BackEndBundle\Entity\Facilidades $facilidadesid)
+    public function removeHofacilidadesid(\BackEndBundle\Entity\Hofacilidades $hofacilidadesid)
     {
-        $this->facilidadesid->removeElement($facilidadesid);
+        $this->hofacilidadesid->removeElement($hofacilidadesid);
     }
 
     /**
-     * Get facilidadesid
+     * Get hofacilidadesid
      *
      * @return \Doctrine\Common\Collections\Collection 
      */
-    public function getFacilidadesid()
+    public function getHofacilidadesid()
     {
-        return $this->facilidadesid;
-    }
-
-    /**
-     * Add gastronomiaid
-     *
-     * @param \BackEndBundle\Entity\Gastronomia $gastronomiaid
-     * @return Hotel
-     */
-    public function addGastronomiaid(\BackEndBundle\Entity\Gastronomia $gastronomiaid)
-    {
-        $this->gastronomiaid[] = $gastronomiaid;
-
-        return $this;
-    }
-
-    /**
-     * Remove gastronomiaid
-     *
-     * @param \BackEndBundle\Entity\Gastronomia $gastronomiaid
-     */
-    public function removeGastronomiaid(\BackEndBundle\Entity\Gastronomia $gastronomiaid)
-    {
-        $this->gastronomiaid->removeElement($gastronomiaid);
-    }
-
-    /**
-     * Get gastronomiaid
-     *
-     * @return \Doctrine\Common\Collections\Collection 
-     */
-    public function getGastronomiaid()
-    {
-        return $this->gastronomiaid;
-    }
-
-    /**
-     * Add motivosid
-     *
-     * @param \BackEndBundle\Entity\Motivos $motivosid
-     * @return Hotel
-     */
-    public function addMotivosid(\BackEndBundle\Entity\Motivos $motivosid)
-    {
-        $this->motivosid[] = $motivosid;
-
-        return $this;
-    }
-
-    /**
-     * Remove motivosid
-     *
-     * @param \BackEndBundle\Entity\Motivos $motivosid
-     */
-    public function removeMotivosid(\BackEndBundle\Entity\Motivos $motivosid)
-    {
-        $this->motivosid->removeElement($motivosid);
-    }
-
-    /**
-     * Get motivosid
-     *
-     * @return \Doctrine\Common\Collections\Collection 
-     */
-    public function getMotivosid()
-    {
-        return $this->motivosid;
+        return $this->hofacilidadesid;
     }
 
     /**

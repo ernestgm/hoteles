@@ -3,11 +3,12 @@
 namespace BackEndBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use UserBundle\Entity\User;
 
 /**
  * Comentarios
  *
- * @ORM\Table(name="comentarios", indexes={@ORM\Index(name="FKcomentario750827", columns={"userid"})})
+ * @ORM\Table(name="comentarios", indexes={@ORM\Index(name="FKcomentario750827", columns={"userid"}), @ORM\Index(name="FKcomentario261976", columns={"respuestaid"})})
  * @ORM\Entity(repositoryClass="BackEndBundle\Entity\ComentariosRepository")
  */
 class Comentarios
@@ -48,6 +49,16 @@ class Comentarios
      * @ORM\Column(name="aprobado", type="boolean", nullable=true)
      */
     private $aprobado;
+
+    /**
+     * @var \Respuesta
+     *
+     * @ORM\ManyToOne(targetEntity="Respuesta")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="respuestaid", referencedColumnName="id")
+     * })
+     */
+    private $respuestaid;
 
     /**
      * @var \User
@@ -161,6 +172,29 @@ class Comentarios
     public function getAprobado()
     {
         return $this->aprobado;
+    }
+
+    /**
+     * Set respuestaid
+     *
+     * @param \BackEndBundle\Entity\Respuesta $respuestaid
+     * @return Comentarios
+     */
+    public function setRespuestaid(\BackEndBundle\Entity\Respuesta $respuestaid = null)
+    {
+        $this->respuestaid = $respuestaid;
+
+        return $this;
+    }
+
+    /**
+     * Get respuestaid
+     *
+     * @return \BackEndBundle\Entity\Respuesta 
+     */
+    public function getRespuestaid()
+    {
+        return $this->respuestaid;
     }
 
     /**

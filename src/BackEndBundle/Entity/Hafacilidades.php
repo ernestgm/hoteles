@@ -5,17 +5,17 @@ namespace BackEndBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * Facilidades
+ * Hafacilidades
  *
- * @ORM\Table(name="facilidades")
- * @ORM\Entity(repositoryClass="BackEndBundle\Entity\FacilidadesRepository")
+ * @ORM\Table(name="hafacilidades")
+ * @ORM\Entity(repositoryClass="BackEndBundle\Entity\HafacilidadesRepository")
  */
-class Facilidades
+class Hafacilidades
 {
     /**
-     * @var string
+     * @var integer
      *
-     * @ORM\Column(name="id", type="string", length=255, nullable=false)
+     * @ORM\Column(name="id", type="integer", nullable=false)
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="IDENTITY")
      */
@@ -38,32 +38,9 @@ class Facilidades
     /**
      * @var \Doctrine\Common\Collections\Collection
      *
-     * @ORM\ManyToMany(targetEntity="Habitacion", inversedBy="facilidadesid")
-     * @ORM\JoinTable(name="facilidades_habitacion",
-     *   joinColumns={
-     *     @ORM\JoinColumn(name="facilidadesid", referencedColumnName="id")
-     *   },
-     *   inverseJoinColumns={
-     *     @ORM\JoinColumn(name="habitacionid", referencedColumnName="id")
-     *   }
-     * )
+     * @ORM\ManyToMany(targetEntity="Habitacion", mappedBy="hafacilidadesid")
      */
     private $habitacionid;
-
-    /**
-     * @var \Doctrine\Common\Collections\Collection
-     *
-     * @ORM\ManyToMany(targetEntity="Hotel", inversedBy="facilidadesid")
-     * @ORM\JoinTable(name="facilidades_hotel",
-     *   joinColumns={
-     *     @ORM\JoinColumn(name="facilidadesid", referencedColumnName="id")
-     *   },
-     *   inverseJoinColumns={
-     *     @ORM\JoinColumn(name="hotelcodigo", referencedColumnName="codigo")
-     *   }
-     * )
-     */
-    private $hotelcodigo;
 
     /**
      * Constructor
@@ -71,14 +48,13 @@ class Facilidades
     public function __construct()
     {
         $this->habitacionid = new \Doctrine\Common\Collections\ArrayCollection();
-        $this->hotelcodigo = new \Doctrine\Common\Collections\ArrayCollection();
     }
 
 
     /**
      * Get id
      *
-     * @return string 
+     * @return integer 
      */
     public function getId()
     {
@@ -89,7 +65,7 @@ class Facilidades
      * Set icono
      *
      * @param string $icono
-     * @return Facilidades
+     * @return Hafacilidades
      */
     public function setIcono($icono)
     {
@@ -112,7 +88,7 @@ class Facilidades
      * Set imagen
      *
      * @param string $imagen
-     * @return Facilidades
+     * @return Hafacilidades
      */
     public function setImagen($imagen)
     {
@@ -135,7 +111,7 @@ class Facilidades
      * Add habitacionid
      *
      * @param \BackEndBundle\Entity\Habitacion $habitacionid
-     * @return Facilidades
+     * @return Hafacilidades
      */
     public function addHabitacionid(\BackEndBundle\Entity\Habitacion $habitacionid)
     {
@@ -162,38 +138,5 @@ class Facilidades
     public function getHabitacionid()
     {
         return $this->habitacionid;
-    }
-
-    /**
-     * Add hotelcodigo
-     *
-     * @param \BackEndBundle\Entity\Hotel $hotelcodigo
-     * @return Facilidades
-     */
-    public function addHotelcodigo(\BackEndBundle\Entity\Hotel $hotelcodigo)
-    {
-        $this->hotelcodigo[] = $hotelcodigo;
-
-        return $this;
-    }
-
-    /**
-     * Remove hotelcodigo
-     *
-     * @param \BackEndBundle\Entity\Hotel $hotelcodigo
-     */
-    public function removeHotelcodigo(\BackEndBundle\Entity\Hotel $hotelcodigo)
-    {
-        $this->hotelcodigo->removeElement($hotelcodigo);
-    }
-
-    /**
-     * Get hotelcodigo
-     *
-     * @return \Doctrine\Common\Collections\Collection 
-     */
-    public function getHotelcodigo()
-    {
-        return $this->hotelcodigo;
     }
 }

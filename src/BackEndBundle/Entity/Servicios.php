@@ -13,9 +13,9 @@ use Doctrine\ORM\Mapping as ORM;
 class Servicios
 {
     /**
-     * @var string
+     * @var integer
      *
-     * @ORM\Column(name="id", type="string", length=255, nullable=false)
+     * @ORM\Column(name="id", type="integer", nullable=false)
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="IDENTITY")
      */
@@ -50,6 +50,13 @@ class Servicios
     private $diasHabiles;
 
     /**
+     * @var integer
+     *
+     * @ORM\Column(name="orden", type="integer", nullable=true)
+     */
+    private $orden;
+
+    /**
      * @var \Doctrine\Common\Collections\Collection
      *
      * @ORM\ManyToMany(targetEntity="Hotel", inversedBy="serviciosid")
@@ -76,7 +83,7 @@ class Servicios
     /**
      * Get id
      *
-     * @return string 
+     * @return integer 
      */
     public function getId()
     {
@@ -173,6 +180,29 @@ class Servicios
     public function getDiasHabiles()
     {
         return $this->diasHabiles;
+    }
+
+    /**
+     * Set orden
+     *
+     * @param integer $orden
+     * @return Servicios
+     */
+    public function setOrden($orden)
+    {
+        $this->orden = $orden;
+
+        return $this;
+    }
+
+    /**
+     * Get orden
+     *
+     * @return integer 
+     */
+    public function getOrden()
+    {
+        return $this->orden;
     }
 
     /**

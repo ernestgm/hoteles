@@ -13,9 +13,9 @@ use Doctrine\ORM\Mapping as ORM;
 class Gastronomia
 {
     /**
-     * @var string
+     * @var integer
      *
-     * @ORM\Column(name="id", type="string", length=255, nullable=false)
+     * @ORM\Column(name="id", type="integer", nullable=false)
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="IDENTITY")
      */
@@ -57,33 +57,18 @@ class Gastronomia
     private $tipo;
 
     /**
-     * @var \Doctrine\Common\Collections\Collection
+     * @var integer
      *
-     * @ORM\ManyToMany(targetEntity="Hotel", inversedBy="gastronomiaid")
-     * @ORM\JoinTable(name="gastronomia_hotel",
-     *   joinColumns={
-     *     @ORM\JoinColumn(name="gastronomiaid", referencedColumnName="id")
-     *   },
-     *   inverseJoinColumns={
-     *     @ORM\JoinColumn(name="hotelcodigo", referencedColumnName="codigo")
-     *   }
-     * )
+     * @ORM\Column(name="orden", type="integer", nullable=true)
      */
-    private $hotelcodigo;
+    private $orden;
 
-    /**
-     * Constructor
-     */
-    public function __construct()
-    {
-        $this->hotelcodigo = new \Doctrine\Common\Collections\ArrayCollection();
-    }
 
 
     /**
      * Get id
      *
-     * @return string 
+     * @return integer 
      */
     public function getId()
     {
@@ -206,35 +191,25 @@ class Gastronomia
     }
 
     /**
-     * Add hotelcodigo
+     * Set orden
      *
-     * @param \BackEndBundle\Entity\Hotel $hotelcodigo
+     * @param integer $orden
      * @return Gastronomia
      */
-    public function addHotelcodigo(\BackEndBundle\Entity\Hotel $hotelcodigo)
+    public function setOrden($orden)
     {
-        $this->hotelcodigo[] = $hotelcodigo;
+        $this->orden = $orden;
 
         return $this;
     }
 
     /**
-     * Remove hotelcodigo
+     * Get orden
      *
-     * @param \BackEndBundle\Entity\Hotel $hotelcodigo
+     * @return integer 
      */
-    public function removeHotelcodigo(\BackEndBundle\Entity\Hotel $hotelcodigo)
+    public function getOrden()
     {
-        $this->hotelcodigo->removeElement($hotelcodigo);
-    }
-
-    /**
-     * Get hotelcodigo
-     *
-     * @return \Doctrine\Common\Collections\Collection 
-     */
-    public function getHotelcodigo()
-    {
-        return $this->hotelcodigo;
+        return $this->orden;
     }
 }
