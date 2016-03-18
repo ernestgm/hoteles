@@ -1,0 +1,30 @@
+respuesta:
+    path:     /
+    defaults: { _controller: "BackEndBundle:Respuesta:index" }
+
+respuesta_show:
+    path:     /{id}/show
+    defaults: { _controller: "BackEndBundle:Respuesta:show" }
+
+respuesta_new:
+    path:     /new
+    defaults: { _controller: "BackEndBundle:Respuesta:new" }
+
+respuesta_create:
+    path:     /create
+    defaults: { _controller: "BackEndBundle:Respuesta:create" }
+    methods:  POST
+
+respuesta_edit:
+    path:     /{id}/edit
+    defaults: { _controller: "BackEndBundle:Respuesta:edit" }
+
+respuesta_update:
+    path:     /{id}/update
+    defaults: { _controller: "BackEndBundle:Respuesta:update" }
+    methods:  [POST, PUT]
+
+respuesta_delete:
+    path:     /{id}/delete
+    defaults: { _controller: "BackEndBundle:Respuesta:delete" }
+    methods:  [POST, DELETE]

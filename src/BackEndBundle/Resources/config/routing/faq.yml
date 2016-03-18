@@ -1,0 +1,30 @@
+faq:
+    path:     /
+    defaults: { _controller: "BackEndBundle:Faq:index" }
+
+faq_show:
+    path:     /{id}/show
+    defaults: { _controller: "BackEndBundle:Faq:show" }
+
+faq_new:
+    path:     /new
+    defaults: { _controller: "BackEndBundle:Faq:new" }
+
+faq_create:
+    path:     /create
+    defaults: { _controller: "BackEndBundle:Faq:create" }
+    methods:  POST
+
+faq_edit:
+    path:     /{id}/edit
+    defaults: { _controller: "BackEndBundle:Faq:edit" }
+
+faq_update:
+    path:     /{id}/update
+    defaults: { _controller: "BackEndBundle:Faq:update" }
+    methods:  [POST, PUT]
+
+faq_delete:
+    path:     /{id}/delete
+    defaults: { _controller: "BackEndBundle:Faq:delete" }
+    methods:  [POST, DELETE]

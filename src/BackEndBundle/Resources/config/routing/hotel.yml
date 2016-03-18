@@ -1,0 +1,30 @@
+hotel:
+    path:     /
+    defaults: { _controller: "BackEndBundle:Hotel:index" }
+
+hotel_show:
+    path:     /{id}/show
+    defaults: { _controller: "BackEndBundle:Hotel:show" }
+
+hotel_new:
+    path:     /new
+    defaults: { _controller: "BackEndBundle:Hotel:new" }
+
+hotel_create:
+    path:     /create
+    defaults: { _controller: "BackEndBundle:Hotel:create" }
+    methods:  POST
+
+hotel_edit:
+    path:     /{id}/edit
+    defaults: { _controller: "BackEndBundle:Hotel:edit" }
+
+hotel_update:
+    path:     /{id}/update
+    defaults: { _controller: "BackEndBundle:Hotel:update" }
+    methods:  [POST, PUT]
+
+hotel_delete:
+    path:     /{id}/delete
+    defaults: { _controller: "BackEndBundle:Hotel:delete" }
+    methods:  [POST, DELETE]

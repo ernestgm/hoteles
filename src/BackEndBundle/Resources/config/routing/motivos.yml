@@ -1,0 +1,30 @@
+motivos:
+    path:     /
+    defaults: { _controller: "BackEndBundle:Motivos:index" }
+
+motivos_show:
+    path:     /{id}/show
+    defaults: { _controller: "BackEndBundle:Motivos:show" }
+
+motivos_new:
+    path:     /new
+    defaults: { _controller: "BackEndBundle:Motivos:new" }
+
+motivos_create:
+    path:     /create
+    defaults: { _controller: "BackEndBundle:Motivos:create" }
+    methods:  POST
+
+motivos_edit:
+    path:     /{id}/edit
+    defaults: { _controller: "BackEndBundle:Motivos:edit" }
+
+motivos_update:
+    path:     /{id}/update
+    defaults: { _controller: "BackEndBundle:Motivos:update" }
+    methods:  [POST, PUT]
+
+motivos_delete:
+    path:     /{id}/delete
+    defaults: { _controller: "BackEndBundle:Motivos:delete" }
+    methods:  [POST, DELETE]

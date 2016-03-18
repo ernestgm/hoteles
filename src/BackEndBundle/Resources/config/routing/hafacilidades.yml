@@ -1,0 +1,30 @@
+hafacilidades:
+    path:     /
+    defaults: { _controller: "BackEndBundle:Hafacilidades:index" }
+
+hafacilidades_show:
+    path:     /{id}/show
+    defaults: { _controller: "BackEndBundle:Hafacilidades:show" }
+
+hafacilidades_new:
+    path:     /new
+    defaults: { _controller: "BackEndBundle:Hafacilidades:new" }
+
+hafacilidades_create:
+    path:     /create
+    defaults: { _controller: "BackEndBundle:Hafacilidades:create" }
+    methods:  POST
+
+hafacilidades_edit:
+    path:     /{id}/edit
+    defaults: { _controller: "BackEndBundle:Hafacilidades:edit" }
+
+hafacilidades_update:
+    path:     /{id}/update
+    defaults: { _controller: "BackEndBundle:Hafacilidades:update" }
+    methods:  [POST, PUT]
+
+hafacilidades_delete:
+    path:     /{id}/delete
+    defaults: { _controller: "BackEndBundle:Hafacilidades:delete" }
+    methods:  [POST, DELETE]

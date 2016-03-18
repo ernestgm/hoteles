@@ -1,0 +1,30 @@
+gastronomy:
+    path:     /
+    defaults: { _controller: "BackEndBundle:Gastronomia:index" }
+
+gastronomy_show:
+    path:     /{id}/show
+    defaults: { _controller: "BackEndBundle:Gastronomia:show" }
+
+gastronomy_new:
+    path:     /new
+    defaults: { _controller: "BackEndBundle:Gastronomia:new" }
+
+gastronomy_create:
+    path:     /create
+    defaults: { _controller: "BackEndBundle:Gastronomia:create" }
+    methods:  POST
+
+gastronomy_edit:
+    path:     /{id}/edit
+    defaults: { _controller: "BackEndBundle:Gastronomia:edit" }
+
+gastronomy_update:
+    path:     /{id}/update
+    defaults: { _controller: "BackEndBundle:Gastronomia:update" }
+    methods:  [POST, PUT]
+
+gastronomy_delete:
+    path:     /{id}/delete
+    defaults: { _controller: "BackEndBundle:Gastronomia:delete" }
+    methods:  [POST, DELETE]

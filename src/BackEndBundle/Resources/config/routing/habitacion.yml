@@ -1,0 +1,30 @@
+habitacion:
+    path:     /
+    defaults: { _controller: "BackEndBundle:Habitacion:index" }
+
+habitacion_show:
+    path:     /{id}/show
+    defaults: { _controller: "BackEndBundle:Habitacion:show" }
+
+habitacion_new:
+    path:     /new
+    defaults: { _controller: "BackEndBundle:Habitacion:new" }
+
+habitacion_create:
+    path:     /create
+    defaults: { _controller: "BackEndBundle:Habitacion:create" }
+    methods:  POST
+
+habitacion_edit:
+    path:     /{id}/edit
+    defaults: { _controller: "BackEndBundle:Habitacion:edit" }
+
+habitacion_update:
+    path:     /{id}/update
+    defaults: { _controller: "BackEndBundle:Habitacion:update" }
+    methods:  [POST, PUT]
+
+habitacion_delete:
+    path:     /{id}/delete
+    defaults: { _controller: "BackEndBundle:Habitacion:delete" }
+    methods:  [POST, DELETE]

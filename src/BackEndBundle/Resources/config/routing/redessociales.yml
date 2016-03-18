@@ -1,0 +1,30 @@
+redessociales:
+    path:     /
+    defaults: { _controller: "BackEndBundle:RedesSociales:index" }
+
+redessociales_show:
+    path:     /{id}/show
+    defaults: { _controller: "BackEndBundle:RedesSociales:show" }
+
+redessociales_new:
+    path:     /new
+    defaults: { _controller: "BackEndBundle:RedesSociales:new" }
+
+redessociales_create:
+    path:     /create
+    defaults: { _controller: "BackEndBundle:RedesSociales:create" }
+    methods:  POST
+
+redessociales_edit:
+    path:     /{id}/edit
+    defaults: { _controller: "BackEndBundle:RedesSociales:edit" }
+
+redessociales_update:
+    path:     /{id}/update
+    defaults: { _controller: "BackEndBundle:RedesSociales:update" }
+    methods:  [POST, PUT]
+
+redessociales_delete:
+    path:     /{id}/delete
+    defaults: { _controller: "BackEndBundle:RedesSociales:delete" }
+    methods:  [POST, DELETE]

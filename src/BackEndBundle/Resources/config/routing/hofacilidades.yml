@@ -1,0 +1,30 @@
+hofacilidades:
+    path:     /
+    defaults: { _controller: "BackEndBundle:Hofacilidades:index" }
+
+hofacilidades_show:
+    path:     /{id}/show
+    defaults: { _controller: "BackEndBundle:Hofacilidades:show" }
+
+hofacilidades_new:
+    path:     /new
+    defaults: { _controller: "BackEndBundle:Hofacilidades:new" }
+
+hofacilidades_create:
+    path:     /create
+    defaults: { _controller: "BackEndBundle:Hofacilidades:create" }
+    methods:  POST
+
+hofacilidades_edit:
+    path:     /{id}/edit
+    defaults: { _controller: "BackEndBundle:Hofacilidades:edit" }
+
+hofacilidades_update:
+    path:     /{id}/update
+    defaults: { _controller: "BackEndBundle:Hofacilidades:update" }
+    methods:  [POST, PUT]
+
+hofacilidades_delete:
+    path:     /{id}/delete
+    defaults: { _controller: "BackEndBundle:Hofacilidades:delete" }
+    methods:  [POST, DELETE]
