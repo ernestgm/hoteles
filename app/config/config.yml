@@ -37,6 +37,8 @@ twig:
     strict_variables: "%kernel.debug%"
     globals:
         fos_csrf_provider: "@form.csrf_provider"
+        language_repository: "@language.repository"
+        currency_repository: "@currency.repository"
 
 
 # Assetic Configuration
@@ -148,3 +150,23 @@ jms_di_extra:
     # On AWS this number is restricted by memory: https://dustycodes.wordpress.com/2012/02/09/increasing-number-of-threads-per-process/
     # So using an EC2 instance with more memory might be a solution
     disable_grep: true
+
+fos_rest:
+    view:
+        view_response_listener: 'force'
+
+bazinga_hateoas:
+    metadata:
+        cache:                file
+        file_cache:
+            dir:              %kernel.cache_dir%/hateoas
+
+lexik_currency:
+    currencies:
+        default: USD              # [required] the default currency
+        managed: [USD,EUR,CHF]  # [required] all currencies used in your app
+    decimal_part:
+        precision: 0                           # number of digits for the decimal part
+        round_mode: odd                          # round mode to use (up|down|even|odd)
+    currency_class: BackEndBundle\Entity\Currency  # Use your custom Currency Entity
+    default_adapter: lexik_currency.doctrine_adapter  # service id OR tag alias, this is adapter used by the conversion service

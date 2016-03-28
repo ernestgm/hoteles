@@ -2,8 +2,14 @@
 
 namespace BackEndBundle\Controller;
 
+use Hateoas\HateoasBuilder;
+use Hateoas\Representation\Factory\PagerfantaFactory;
+use Hateoas\Configuration\Route as Routes;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use FOS\RestBundle\Controller\Annotations as Rest;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 
 use BackEndBundle\Entity\Hofacilidades;
 use BackEndBundle\Form\HofacilidadesType;
@@ -12,22 +18,48 @@ use BackEndBundle\Form\HofacilidadesType;
  * Hofacilidades controller.
  *
  */
+/**
+ * @Route("hofacilidades")
+ */
 class HofacilidadesController extends Controller
 {
 
     /**
-     * Lists all Hofacilidades entities.
-     *
+     * @Route("/", name="hofacilidades")
      */
     public function indexAction()
     {
-        $em = $this->getDoctrine()->getManager();
+        return $this->render('BackEndBundle:Hofacilidades:index.html.twig');
+    }
 
-        $entities = $em->getRepository('BackEndBundle:Hofacilidades')->findAll();
+    /**
+     * Lists all hofacilidades entities.
+     *
+     * @Rest\Get(name="hofacilidades_data", path="/data", defaults={"_format" = "json"})
+     * @Rest\View()
+     */
+    public function getDataAction(Request $request)
+    {
+        $limit = $request->query->getInt('limit', 10);
+        $page = $request->query->getInt('page', 1);
+        $sorting = $request->query->get('sorting', array());
+        $filters = $request->query->get('filter', array());
 
-        return $this->render('BackEndBundle:Hofacilidades:index.html.twig', array(
-            'entities' => $entities,
-        ));
+        $resultPager = $this->getDoctrine()->getManager()
+            ->getRepository('BackEndBundle:Hofacilidades')
+            ->findAllPaginated($limit, $page, $sorting, $filters)
+        ;
+
+        $pagerFactory = new PagerfantaFactory();
+
+        return $pagerFactory->createRepresentation(
+            $resultPager,
+            new Routes('hofacilidades_data', array(
+                'limit' => $limit,
+                'page' => $page,
+                'sorting' => $sorting
+            ))
+        );
     }
     /**
      * Creates a new Hofacilidades entity.

@@ -17,3 +17,7 @@ parameters:
 
     # A secret key that's used to generate certain security-related tokens
     secret:            ThisTokenIsNotSoSecretChangeIt
+
+    nodejs_path: 'node'
+    uglifyjs_path: '\bin\uglifyjs'
+    uglifycss_path: 'node_modules\uglifycss\uglifycss'

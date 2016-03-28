@@ -2,8 +2,14 @@
 
 namespace BackEndBundle\Controller;
 
+use Hateoas\HateoasBuilder;
+use Hateoas\Representation\Factory\PagerfantaFactory;
+use Hateoas\Configuration\Route as Routes;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use FOS\RestBundle\Controller\Annotations as Rest;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 
 use BackEndBundle\Entity\Hafacilidades;
 use BackEndBundle\Form\HafacilidadesType;
@@ -12,22 +18,48 @@ use BackEndBundle\Form\HafacilidadesType;
  * Hafacilidades controller.
  *
  */
+/**
+ * @Route("hafacilidades")
+ */
 class HafacilidadesController extends Controller
 {
 
     /**
-     * Lists all Hafacilidades entities.
-     *
+     * @Route("/", name="hafacilidades")
      */
     public function indexAction()
     {
-        $em = $this->getDoctrine()->getManager();
+       return $this->render('BackEndBundle:Hafacilidades:index.html.twig');
+    }
 
-        $entities = $em->getRepository('BackEndBundle:Hafacilidades')->findAll();
+    /**
+     * Lists all hafacilidades entities.
+     *
+     * @Rest\Get(name="hafacilidades_data", path="/data", defaults={"_format" = "json"})
+     * @Rest\View()
+     */
+    public function getDataAction(Request $request)
+    {
+        $limit = $request->query->getInt('limit', 10);
+        $page = $request->query->getInt('page', 1);
+        $sorting = $request->query->get('sorting', array());
+        $filters = $request->query->get('filter', array());
 
-        return $this->render('BackEndBundle:Hafacilidades:index.html.twig', array(
-            'entities' => $entities,
-        ));
+        $resultPager = $this->getDoctrine()->getManager()
+            ->getRepository('BackEndBundle:Hafacilidades')
+            ->findAllPaginated($limit, $page, $sorting, $filters)
+        ;
+
+        $pagerFactory = new PagerfantaFactory();
+
+        return $pagerFactory->createRepresentation(
+            $resultPager,
+            new Routes('hafacilidades_data', array(
+                'limit' => $limit,
+                'page' => $page,
+                'sorting' => $sorting
+            ))
+        );
     }
     /**
      * Creates a new Hafacilidades entity.

@@ -9,7 +9,14 @@
         'ui.bootstrap',                 // Ui Bootstrap
         'pascalprecht.translate',       // Angular Translate
         'ngIdle',                       // Idle timer
-        'ngSanitize'                    // ngSanitize
+        'ngSanitize',
+        'stpa.modal',
+        'angular.chosen',
+        'oitozero.ngSweetAlert',
+        'ngTable',
+        'uiGmapgoogle-maps',
+        'ngValidate'
+
     ])
 })();
 

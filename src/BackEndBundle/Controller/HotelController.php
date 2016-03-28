@@ -2,8 +2,14 @@
 
 namespace BackEndBundle\Controller;
 
+use Hateoas\HateoasBuilder;
+use Hateoas\Representation\Factory\PagerfantaFactory;
+use Hateoas\Configuration\Route as Routes;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use FOS\RestBundle\Controller\Annotations as Rest;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 
 use BackEndBundle\Entity\Hotel;
 use BackEndBundle\Form\HotelType;
@@ -12,26 +18,56 @@ use BackEndBundle\Form\HotelType;
  * Hotel controller.
  *
  */
+/**
+ * @Route("hotel")
+ */
 class HotelController extends Controller
 {
 
     /**
-     * Lists all Hotel entities.
-     *
+     * @Route("/", name="hotel")
      */
     public function indexAction()
     {
-        $em = $this->getDoctrine()->getManager();
-
-        $entities = $em->getRepository('BackEndBundle:Hotel')->findAll();
-
-        return $this->render('BackEndBundle:Hotel:index.html.twig', array(
-            'entities' => $entities,
-        ));
+        return $this->render('BackEndBundle:Hotel:index.html.twig');
     }
+
+    /**
+     * Lists all Hotel entities.
+     *
+     * @Rest\Get(name="hotel_data", path="/data", defaults={"_format" = "json"})
+     * @Rest\View()
+     */
+    public function getDataAction(Request $request)
+    {
+        $limit = $request->query->getInt('limit', 10);
+        $page = $request->query->getInt('page', 1);
+        $sorting = $request->query->get('sorting', array());
+        $filters = $request->query->get('filter', array());
+
+        $resultPager = $this->getDoctrine()->getManager()
+            ->getRepository('BackEndBundle:Hotel')
+            ->findAllPaginated($limit, $page, $sorting, $filters)
+        ;
+
+        $pagerFactory = new PagerfantaFactory();
+
+        return $pagerFactory->createRepresentation(
+            $resultPager,
+            new Routes('hotel_data', array(
+                'limit' => $limit,
+                'page' => $page,
+                'sorting' => $sorting
+            ))
+        );
+    }
+
     /**
      * Creates a new Hotel entity.
      *
+     */
+    /**
+     * @Route("/create", name="hotel_create")
      */
     public function createAction(Request $request)
     {
@@ -75,6 +111,9 @@ class HotelController extends Controller
     /**
      * Displays a form to create a new Hotel entity.
      *
+     */
+    /**
+     * @Route("/new", name="hotel_new")
      */
     public function newAction()
     {

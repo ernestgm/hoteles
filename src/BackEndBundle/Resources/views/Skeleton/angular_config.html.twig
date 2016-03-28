@@ -1,0 +1,195 @@
+<script>
+
+/**
+* INSPINIA - Responsive Admin Theme
+*
+* Inspinia theme use AngularUI Router to manage routing and views
+* Each view are defined as state.
+* Initial there are written state for all view in theme.
+*
+*/
+
+function config($stateProvider, $urlRouterProvider, $ocLazyLoadProvider, IdleProvider, KeepaliveProvider) {
+
+// Configure Idle settings
+IdleProvider.idle(5); // in seconds
+IdleProvider.timeout(120); // in seconds
+
+$urlRouterProvider.otherwise("/dashboards/hello");
+
+$ocLazyLoadProvider.config({
+// Set to true if you want to see what and when is dynamically loaded
+debug: false
+});
+
+$stateProvider
+        .state('dashboards', {
+        abstract: true,
+        url: "/dashboards",
+        templateUrl: "{{ path('backend_dashboard') }}",
+        })
+        .state('dashboards.hello', {
+            url: "/hello",
+            templateUrl: "{{ path('backend_hello') }}",
+        })
+
+        .state('hotel', {
+            abstract: true,
+            url: "/hotel",
+            templateUrl: "{{ path('backend_dashboard') }}",
+        })
+            .state('hotel.administrar', {
+                url: "/administrar",
+                templateUrl: "{{ path('hotel') }}",
+            })
+                .state('hotel.administrar.add', {
+                    url: '/add',
+                    templateUrl: '{{ path('hotel_new') }}',
+                    controller: 'HotelController.AddEditController',
+                    controllerAs: 'hot'
+                })
+                .state('hotel.administrar.edit', {
+                    url: '/edit/:id',
+                    templateUrl: '{{ path('modal_add_user') }}',
+                    controller: 'HotelController.AddEditController',
+                    controllerAs: 'hot'
+                })
+
+        .state('reserva', {
+            abstract: true,
+            url: "/reserva",
+            templateUrl: "{{ path('backend_dashboard') }}",
+        })
+        .state('reserva.administrar', {
+            url: "/administrar",
+            templateUrl: "{{ path('reserva') }}",
+        })
+        .state('marca', {
+            abstract: true,
+            url: "/marca",
+            templateUrl: "{{ path('backend_dashboard') }}",
+        })
+        .state('marca.administrar', {
+            url: "/administrar",
+            templateUrl: "{{ path('marca') }}",
+        })
+        .state('motivos', {
+            abstract: true,
+            url: "/motivos",
+            templateUrl: "{{ path('backend_dashboard') }}",
+        })
+        .state('motivos.administrar', {
+            url: "/administrar",
+            templateUrl: "{{ path('motivos') }}",
+        })
+        .state('facilidades', {
+            abstract: true,
+            url: "/facilidades",
+            templateUrl: "{{ path('backend_dashboard') }}",
+        })
+        .state('facilidades.hotel_administrar', {
+            url: "/hotel/administrar",
+            templateUrl: "{{ path('hofacilidades') }}",
+        })
+        .state('facilidades.habitacion_administrar', {
+            url: "/habitacion/administrar",
+            templateUrl: "{{ path('hafacilidades') }}",
+        })
+        .state('gastronomia', {
+            abstract: true,
+            url: "/gastronomia",
+            templateUrl: "{{ path('backend_dashboard') }}",
+        })
+        .state('gastronomia.administrar', {
+            url: "/administrar",
+            templateUrl: "{{ path('gastronomia') }}",
+        })
+        .state('servicios', {
+            abstract: true,
+            url: "/servicios",
+            templateUrl: "{{ path('backend_dashboard') }}",
+        })
+        .state('servicios.administrar', {
+            url: "/administrar",
+            templateUrl: "{{ path('servicios') }}",
+        })
+        .state('faq', {
+            abstract: true,
+            url: "/faq",
+            templateUrl: "{{ path('backend_dashboard') }}",
+        })
+        .state('faq.administrar', {
+            url: "/administrar",
+            templateUrl: "{{ path('faq') }}",
+        })
+        .state('redes_sociales', {
+            abstract: true,
+            url: "/redes_sociales",
+            templateUrl: "{{ path('backend_dashboard') }}",
+        })
+        .state('redes_sociales.administrar', {
+            url: "/administrar",
+            templateUrl: "{{ path('redes_sociales') }}",
+        })
+        .state('comentarios', {
+            abstract: true,
+            url: "/comentarios",
+            templateUrl: "{{ path('backend_dashboard') }}",
+        })
+        .state('comentarios.administrar', {
+            url: "/administrar",
+            templateUrl: "{{ path('comments') }}",
+        })
+        .state('user', {
+            abstract: true,
+            url: "/user",
+            templateUrl: "{{ path('backend_dashboard') }}",
+        })
+            .state('user.administrar', {
+                url: "/administrar",
+                templateUrl: "{{ path('user_index') }}",
+                controller: 'UserController',
+                controllerAs: 'uc'
+            })
+                .state('user.administrar.add', {
+                    url: '/add',
+                    templateUrl: '{{ path('modal_add_user') }}',
+                    controller: 'UserController.AddEditController',
+                    controllerAs: 'uc'
+                })
+                .state('user.administrar.edit', {
+                    url: '/edit/:id',
+                    templateUrl: '{{ path('modal_add_user') }}',
+                    controller: 'UserController.AddEditController',
+                    controllerAs: 'uc'
+                });
+//.state('projects', {
+//    abstract: true,
+//    url: "/projects",
+//    templateUrl: "/app_dev.php/dashboard",
+//})
+//.state('projects.project_manager', {
+//    url: "/manager",
+//    templateUrl: "/app_dev.php/backend/main_project",
+//})
+//.state('modules', {
+//    abstract: true,
+//    url: "/modules",
+//    templateUrl: "/app_dev.php/dashboard",
+//})
+//.state('modules.modules_manager', {
+//    url: "/manager",
+//    templateUrl: "/app_dev.php/backend/modules",
+//})
+;
+
+}
+
+angular
+.module('inspinia')
+.config(config)
+.run(function($rootScope, $state) {
+$rootScope.$state = $state;
+});
+
+</script>

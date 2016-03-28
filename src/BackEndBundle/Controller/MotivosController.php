@@ -2,8 +2,14 @@
 
 namespace BackEndBundle\Controller;
 
+use Hateoas\HateoasBuilder;
+use Hateoas\Representation\Factory\PagerfantaFactory;
+use Hateoas\Configuration\Route as Routes;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use FOS\RestBundle\Controller\Annotations as Rest;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 
 use BackEndBundle\Entity\Motivos;
 use BackEndBundle\Form\MotivosType;
@@ -12,22 +18,48 @@ use BackEndBundle\Form\MotivosType;
  * Motivos controller.
  *
  */
+/**
+ * @Route("motivos")
+ */
 class MotivosController extends Controller
 {
 
     /**
-     * Lists all Motivos entities.
-     *
+     * @Route("/", name="motivos")
      */
     public function indexAction()
     {
-        $em = $this->getDoctrine()->getManager();
+        return $this->render('BackEndBundle:Motivos:index.html.twig');
+    }
 
-        $entities = $em->getRepository('BackEndBundle:Motivos')->findAll();
+    /**
+     * Lists all Motivos entities.
+     *
+     * @Rest\Get(name="motivos_data", path="/data", defaults={"_format" = "json"})
+     * @Rest\View()
+     */
+    public function getDataAction(Request $request)
+    {
+        $limit = $request->query->getInt('limit', 10);
+        $page = $request->query->getInt('page', 1);
+        $sorting = $request->query->get('sorting', array());
+        $filters = $request->query->get('filter', array());
 
-        return $this->render('BackEndBundle:Motivos:index.html.twig', array(
-            'entities' => $entities,
-        ));
+        $resultPager = $this->getDoctrine()->getManager()
+            ->getRepository('BackEndBundle:Motivos')
+            ->findAllPaginated($limit, $page, $sorting, $filters)
+        ;
+
+        $pagerFactory = new PagerfantaFactory();
+
+        return $pagerFactory->createRepresentation(
+            $resultPager,
+            new Routes('motivos_data', array(
+                'limit' => $limit,
+                'page' => $page,
+                'sorting' => $sorting
+            ))
+        );
     }
     /**
      * Creates a new Motivos entity.

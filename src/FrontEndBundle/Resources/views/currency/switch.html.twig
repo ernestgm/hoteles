@@ -1,0 +1,38 @@
+{#<div class="col-md-offset-0 col-sm-offset-4 col-md-9 col-sm-5 col-xs-12 p-b-10">#}
+    {#<div class="side-by-side clearfix no-trigger select-footer">#}
+        {#<div class="side-by-side clearfix">#}
+            {#<select id="change_currency" class="chosen-select-deselect form-control" onchange="window.location = this.value">#}
+                {#{% for currency in currency_repository.findAll() %}#}
+                    {#{% set active = ""  %}#}
+                    {#{% set url = app.request.get('_route')  %}#}
+                    {#{% set url_params = app.request.get('_route_params') | json_encode()  %}#}
+
+                    {#{% if app.request.session.get('_currency') == currency.code  %}#}
+                        {#{% set active = "selected='selected'" %}#}
+                    {#{% endif %}#}
+                    {#<option {{ active }} value="{{ path('change_currency', {'_currency':currency.code,'route':url,'routeParams': url_params}) }}">{{ currency.name }}</option>#}
+                {#{% endfor %}#}
+            {#</select>#}
+        {#</div>#}
+    {#</div>#}
+{#</div>#}
+{% set currency_active = ""  %}
+
+{% for currency in currency_repository.findAll() %}
+    {% if app.request.session.get('_currency') == currency.code  %}
+        {% set currency_active = currency  %}
+    {% endif %}
+{% endfor %}
+
+<li class="nav-drop">
+    <a href="#">{{ currency_active.code }} {{ currency_active.symbol }}<i class="fa fa-angle-down"></i><i class="fa fa-angle-up"></i></a>
+    <ul class="list nav-drop-menu">
+        {% for currency in currency_repository.findAll() %}
+            {% set active = ""  %}
+            {% set url = app.request.get('_route')  %}
+            {% set url_params = app.request.get('_route_params') | json_encode()  %}
+
+            <li><a onclick="window.location = this.href" href="{{ path('change_currency', {'_currency':currency.code,'route':url,'routeParams': url_params}) }}">{{ currency.code }}<span class="right">{{ currency.symbol }}</span></a></li>
+        {% endfor %}
+    </ul>
+</li>

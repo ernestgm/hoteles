@@ -25,4 +25,12 @@ class DefaultController extends Controller
         return $this->render('BackEndBundle:Skeleton:dashboard.html.twig');
     }
 
+    /**
+     * @Route("/hello", name="backend_hello")
+     */
+    public function helloAction(Request $request)
+    {
+        return $this->render('BackEndBundle:Default:index.html.twig');
+    }
+
 }

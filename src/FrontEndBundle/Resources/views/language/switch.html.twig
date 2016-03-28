@@ -1,0 +1,43 @@
+{#<div class="col-md-offset-0 col-sm-offset-4 col-md-9 col-sm-5 col-xs-12 p-b-10">#}
+    {#<div class="side-by-side clearfix no-trigger select-footer">#}
+        {#<div class="side-by-side clearfix">#}
+            {#{% set lang = ['en','es','de'] %}#}
+            {#<select id="changeLocale" class="chosen-select-deselect form-control" onchange="window.location = this.value">#}
+                {#{% for language in lang %}#}
+                    {#{% set active = ""  %}#}
+                    {#{% set url = app.request.get('_route')  %}#}
+                    {#{% set url_params = app.request.get('_route_params')  %}#}
+                    {#{% if app.request.locale == language  %}#}
+                        {#{% set active = 'selected=selected' %}#}
+                    {#{% endif %}#}
+                    {#<option {{ active }} value="{{ url(url, url_params|merge({'_locale':language})) }}">{{ language }}</option>#}
+                {#{% endfor %}#}
+            {#</select>#}
+        {#</div>#}
+    {#</div>#}
+{#</div>#}
+{% set lenguage_active = ""  %}
+
+{% for language in language_repository.findAll() %}
+    {% if app.request.locale == language.localizedname  %}
+        {% set lenguage_active = language %}
+    {% endif %}
+{% endfor %}
+<li class="top-user-area-lang nav-drop">
+    <a href="#">
+        {% set flags = 'bundles/frontend/img/flags/32/'~ lenguage_active.localizedname ~'.png' %}
+        <img src="{{ asset(flags) }}" alt="{{ lenguage_active.name }}" title="{{ lenguage_active.name }}" />{{ lenguage_active.code }}<i class="fa fa-angle-down"></i><i class="fa fa-angle-up"></i>
+    </a>
+    <ul class="list nav-drop-menu">
+        {% for language in language_repository.findAll() %}
+            {% set url = app.request.get('_route')  %}
+            {% set url_params = app.request.get('_route_params')  %}
+            {% set flags = 'bundles/frontend/img/flags/32/'~ language.localizedname ~'.png' %}
+            <li>
+                <a onclick="window.location = this.href" title="{{ language.code }}" href="{{ url(url, url_params|merge({'_locale':language.localizedname})) }}">
+                    <img src="{{ asset(flags) }}" alt="{{ language.name }}" title="{{ language.name }}" /><span class="right">{{ language.code }}</span>
+                </a>
+            </li>
+        {% endfor %}
+    </ul>
+</li>

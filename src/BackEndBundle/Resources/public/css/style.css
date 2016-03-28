@@ -3352,10 +3352,10 @@ video {
   transform: none;
 }
 .inmodal .modal-title {
-  font-size: 26px;
+  font-size: 20px;
 }
 .inmodal .modal-icon {
-  font-size: 84px;
+  font-size: 40px;
   color: #e2e3e3;
 }
 .modal-footer {
@@ -7992,6 +7992,10 @@ body.md-skin {
 .facebook-div a{
   color: #000033;
 }
+
+/* NG TABLE */
+
+
 @media (min-width: 768px) {
   #page-wrapper {
     position: inherit;

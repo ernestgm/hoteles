@@ -1,0 +1,41 @@
+<script>
+
+    function UserService($filter){
+        var service = {};
+
+        service.GetAll = GetAll;
+        service.GetById = GetById;
+        service.Save = Save;
+
+        return service;
+
+        function GetAll() {
+            return getUsers();
+        }
+
+        function GetById(id) {
+            var filtered = $filter('filter')(getUsers(), { id: id });
+            var user = filtered.length ? filtered[0] : null;
+
+            return user;
+        }
+
+        function getUsers() {
+            if (!localStorage.users) {
+                localStorage.users = JSON.stringify([]);
+            }
+
+            return JSON.parse(localStorage.users);
+        }
+
+        function Save(users) {
+            localStorage.users = JSON.stringify(users);
+            return;
+        }
+
+    }
+
+    angular
+            .module('inspinia')
+            .factory('UserService', UserService);
+</script>

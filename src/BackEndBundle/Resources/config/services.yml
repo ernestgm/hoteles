@@ -163,3 +163,27 @@ services:
         factory_method: getRepository
         arguments: [ BackEndBundle\Entity\Faq ]
         public: false
+
+#    languages
+    language.repository:
+        alias: lenguage.repository.doctrine
+        public: true
+
+    lenguage.repository.doctrine:
+        class: Doctrine\Common\Persistence\ObjectRepository
+        factory_service: doctrine
+        factory_method: getRepository
+        arguments: [ BackEndBundle\Entity\Language ]
+        public: false
+
+#    languages
+    currency.repository:
+        alias: currency.repository.doctrine
+        public: true
+
+    currency.repository.doctrine:
+        class: Doctrine\Common\Persistence\ObjectRepository
+        factory_service: doctrine
+        factory_method: getRepository
+        arguments: [ BackEndBundle\Entity\Currency ]
+        public: false

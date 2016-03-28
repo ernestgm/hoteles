@@ -2,8 +2,14 @@
 
 namespace BackEndBundle\Controller;
 
+use Hateoas\HateoasBuilder;
+use Hateoas\Representation\Factory\PagerfantaFactory;
+use Hateoas\Configuration\Route as Routes;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use FOS\RestBundle\Controller\Annotations as Rest;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 
 use BackEndBundle\Entity\Faq;
 use BackEndBundle\Form\FaqType;
@@ -12,22 +18,48 @@ use BackEndBundle\Form\FaqType;
  * Faq controller.
  *
  */
+/**
+ * @Route("faq")
+ */
 class FaqController extends Controller
 {
 
     /**
-     * Lists all Faq entities.
-     *
+     * @Route("/", name="faq")
      */
     public function indexAction()
     {
-        $em = $this->getDoctrine()->getManager();
+        return $this->render('BackEndBundle:Faq:index.html.twig');
+    }
 
-        $entities = $em->getRepository('BackEndBundle:Faq')->findAll();
+    /**
+     * Lists all Faq entities.
+     *
+     * @Rest\Get(name="faq_data", path="/data", defaults={"_format" = "json"})
+     * @Rest\View()
+     */
+    public function getDataAction(Request $request)
+    {
+        $limit = $request->query->getInt('limit', 10);
+        $page = $request->query->getInt('page', 1);
+        $sorting = $request->query->get('sorting', array());
+        $filters = $request->query->get('filter', array());
 
-        return $this->render('BackEndBundle:Faq:index.html.twig', array(
-            'entities' => $entities,
-        ));
+        $resultPager = $this->getDoctrine()->getManager()
+            ->getRepository('BackEndBundle:Faq')
+            ->findAllPaginated($limit, $page, $sorting, $filters)
+        ;
+
+        $pagerFactory = new PagerfantaFactory();
+
+        return $pagerFactory->createRepresentation(
+            $resultPager,
+            new Routes('faq_data', array(
+                'limit' => $limit,
+                'page' => $page,
+                'sorting' => $sorting
+            ))
+        );
     }
     /**
      * Creates a new Faq entity.

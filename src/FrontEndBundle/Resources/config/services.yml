@@ -3,24 +3,10 @@ services:
 #        class: FrontEndBundle\Example
 #        arguments: [@service_id, "plain_value", %parameter%]
 
-    frontend.proyect_repository:
-        alias: frontend.proyect_repository.doctrine
-        public: false
-
-    frontend.proyect_repository.doctrine:
-        class: Doctrine\Common\Persistence\ObjectRepository
-        factory_service: doctrine
-        factory_method: getRepository
-        arguments: [ FrontEndBundle\Entity\Proyect ]
-        public: false
-
-    frontend.module_repository:
-        alias: frontend.module_repository.doctrine
-        public: false
-
-    frontend.module_repository.doctrine:
-        class: Doctrine\Common\Persistence\ObjectRepository
-        factory_service: doctrine
-        factory_method: getRepository
-        arguments: [ FrontEndBundle\Entity\Module ]
-        public: false
+     hotel.locale_listener:
+         class: FrontEndBundle\EventListener\LocaleListener
+         arguments:
+           - 'en'
+           - @currency.repository
+         tags:
+           - { name: kernel.event_subscriber }

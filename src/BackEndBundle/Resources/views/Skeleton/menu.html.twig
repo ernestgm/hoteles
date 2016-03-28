@@ -18,22 +18,56 @@
                         <li><a ui-sref="contacts">Contacts</a></li>
                         <li><a ui-sref="inbox">Mailbox</a></li>
                         <li class="divider"></li>
-                        <li><a href="../login.html">Logout</a></li>
+                        <li><a href="{{ path('fos_user_security_logout') }}">{{ 'Salir' | trans }}</a></li>
                     </ul>
                 </div>
                 <div class="logo-element">
                     IN+
                 </div>
             </li>
-            <li ng-class="{active: $state.includes('projects')}">
-                <a ui-sref="projects.project_manager"><i class="fa fa-bar-chart-o"></i> <span class="nav-label">{{ 'Gestionar Proyectos' | trans }}</span><span class="fa arrow"></span></a>
+            <li ng-class="{active: $state.includes('dashboards')}">
+                <a ui-sref="dashboards.hello"><i class="fa fa-bar-chart-o"></i> <span class="nav-label">{{ 'Dashboard' | trans }}</span></a>
             </li>
-            <li ng-class="{active: $state.includes('modules')}">
-                <a ui-sref="modules.modules_manager"><i class="fa fa-bar-chart-o"></i> <span class="nav-label">{{ 'Gestionar Modulos' | trans }}</span><span class="fa arrow"></span></a>
+            <li ng-class="{active: $state.includes('hotel')}">
+                <a ui-sref="hotel.administrar"><i class="fa fa-building-o"></i> <span class="nav-label">{{ 'Hotel' | trans }}</span></a>
             </li>
-            <li class="landing_link">
-                <a href="#" onclick="javascript:return false" class="nav-label">Modulos Instalados</a>
+            <li ng-class="{active: $state.includes('reserva')}">
+                <a ui-sref="reserva.administrar"><i class="fa fa-bar-chart-o"></i> <span class="nav-label">{{ 'Reservas' | trans }}</span></a>
             </li>
+            <li ng-class="{active: $state.includes('marca')}">
+                <a ui-sref="marca.administrar"><i class="fa fa-bar-chart-o"></i> <span class="nav-label">{{ 'Marca' | trans }}</span></a>
+            </li>
+            <li ng-class="{active: $state.includes('motivos')}">
+                <a ui-sref="motivos.administrar"><i class="fa fa-bar-chart-o"></i> <span class="nav-label">{{ 'Motivos' | trans }}</span></a>
+            </li>
+            <li ng-class="{active: $state.includes('facilidades')}">
+                <a href="#"><i class="fa fa-th-large"></i> <span class="nav-label">{{ 'Facilidades' | trans }}</span> <span class="fa arrow"></span></a>
+                <ul class="nav nav-second-level collapse" ng-class="{in: $state.includes('facilidades')}">
+                    <li ui-sref-active="active"><a ui-sref="facilidades.hotel_administrar">{{ 'Hotel' | trans }}</a></li>
+                    <li ui-sref-active="active"><a ui-sref="facilidades.habitacion_administrar">{{ 'Habitacion' | trans }}</a></li>
+                </ul>
+            </li>
+            <li ng-class="{active: $state.includes('gastronomia')}">
+                <a ui-sref="gastronomia.administrar"><i class="fa fa-bar-chart-o"></i> <span class="nav-label">{{ 'Gastronomia' | trans }}</span></a>
+            </li>
+            <li ng-class="{active: $state.includes('servicios')}">
+                <a ui-sref="servicios.administrar"><i class="fa fa-bar-chart-o"></i> <span class="nav-label">{{ 'Servicios' | trans }}</span></a>
+            </li>
+            <li ng-class="{active: $state.includes('faq')}">
+                <a ui-sref="faq.administrar"><i class="fa fa-bar-chart-o"></i> <span class="nav-label">{{ 'FAQ' | trans }}</span></a>
+            </li>
+            <li ng-class="{active: $state.includes('redes_sociales')}">
+                <a ui-sref="redes_sociales.administrar"><i class="fa fa-bar-chart-o"></i> <span class="nav-label">{{ 'Redes Sociales' | trans }}</span></a>
+            </li>
+            <li ng-class="{active: $state.includes('comentarios')}">
+                <a ui-sref="comentarios.administrar"><i class="fa fa-bar-chart-o"></i> <span class="nav-label">{{ 'Comentarios' | trans }}</span></a>
+            </li>
+            <li ng-class="{active: $state.includes('user')}">
+                <a ui-sref="user.administrar"><i class="fa fa-bar-chart-o"></i> <span class="nav-label">{{ 'Usuarios' | trans }}</span></a>
+            </li>
+            {#<li class="landing_link">#}
+                {#<a href="#" onclick="javascript:return false" class="nav-label">Modulos Instalados</a>#}
+            {#</li>#}
         </ul>
 
     </div>

@@ -2,33 +2,74 @@
 
 namespace BackEndBundle\Controller;
 
+use Hateoas\HateoasBuilder;
+use Hateoas\Representation\Factory\PagerfantaFactory;
+use Hateoas\Configuration\Route as Routes;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use FOS\RestBundle\Controller\Annotations as Rest;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+
 
 use BackEndBundle\Entity\Comentarios;
 use BackEndBundle\Form\ComentariosType;
+
+
 
 /**
  * Comentarios controller.
  *
  */
+
+/**
+ * @Route("comments")
+ */
 class ComentariosController extends Controller
 {
+
+
+
+    /**
+     * @Route("/", name="comments")
+     */
+    public function indexAction()
+    {
+        return $this->render('BackEndBundle:Comentarios:index.html.twig');
+    }
 
     /**
      * Lists all Comentarios entities.
      *
      */
-    public function indexAction()
+    /**
+     * @Rest\Get(name="comments_data", path="/data", defaults={"_format" = "json"})
+     * @Rest\View()
+     */
+    public function getDataAction(Request $request)
     {
-        $em = $this->getDoctrine()->getManager();
+        $limit = $request->query->getInt('limit', 10);
+        $page = $request->query->getInt('page', 1);
+        $sorting = $request->query->get('sorting', array());
+        $filters = $request->query->get('filter', array());
 
-        $entities = $em->getRepository('BackEndBundle:Comentarios')->findAll();
+        $productsPager = $this->getDoctrine()->getManager()
+            ->getRepository('BackEndBundle:Comentarios')
+            ->findAllPaginated($limit, $page, $sorting, $filters)
+        ;
 
-        return $this->render('BackEndBundle:Comentarios:index.html.twig', array(
-            'entities' => $entities,
-        ));
+        $pagerFactory = new PagerfantaFactory();
+
+        return $pagerFactory->createRepresentation(
+            $productsPager,
+            new Routes('comments_data', array(
+                'limit' => $limit,
+                'page' => $page,
+                'sorting' => $sorting
+            ))
+        );
     }
+
     /**
      * Creates a new Comentarios entity.
      *

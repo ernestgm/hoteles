@@ -64,6 +64,17 @@ function sideNavigation($timeout) {
     };
 };
 
+
+function chosenDirective($timeout){
+    return {
+        restrict: 'A',
+        link: function ( scope, element, attrs ) {
+            $timeout(function(){
+                element.chosen();
+            });
+        }
+    };
+}
 /**
  * responsibleVideo - Directive for responsive video
  */
@@ -475,6 +486,22 @@ function fitHeight(){
     };
 }
 
+
+function opendialog($timeout) {
+    return {
+        restrict: 'A',
+        controller: function ($scope, $element) {
+            $scope.openModal = function (elem) {
+                var elem = $($element).data('modal');
+                var element = angular.element(elem);
+                //var ctrl = element.controller();
+                //ctrl.setModel(scope.blub);
+                element.modal('show');
+            }
+        }
+    };
+};
+
 /**
  *
  * Pass all functions into module
@@ -499,4 +526,6 @@ angular
     .directive('landingScrollspy', landingScrollspy)
     .directive('fitHeight', fitHeight)
     .directive('iboxToolsFullScreen', iboxToolsFullScreen)
+    .directive('chosenDirective',chosenDirective)
+    .directive('opendialog',opendialog)
     .directive('slimScroll', slimScroll);

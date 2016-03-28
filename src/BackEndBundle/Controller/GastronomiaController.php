@@ -2,8 +2,14 @@
 
 namespace BackEndBundle\Controller;
 
+use Hateoas\HateoasBuilder;
+use Hateoas\Representation\Factory\PagerfantaFactory;
+use Hateoas\Configuration\Route as Routes;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use FOS\RestBundle\Controller\Annotations as Rest;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 
 use BackEndBundle\Entity\Gastronomia;
 use BackEndBundle\Form\GastronomiaType;
@@ -12,23 +18,50 @@ use BackEndBundle\Form\GastronomiaType;
  * Gastronomia controller.
  *
  */
+/**
+ * @Route("gastronomia")
+ */
 class GastronomiaController extends Controller
 {
 
     /**
-     * Lists all Gastronomia entities.
-     *
+     * @Route("/", name="gastronomia")
      */
     public function indexAction()
     {
-        $em = $this->getDoctrine()->getManager();
-
-        $entities = $em->getRepository('BackEndBundle:Gastronomia')->findAll();
-
-        return $this->render('BackEndBundle:Gastronomia:index.html.twig', array(
-            'entities' => $entities,
-        ));
+        return $this->render('BackEndBundle:Gastronomia:index.html.twig');
     }
+
+    /**
+     * Lists all gastronomia entities.
+     *
+     * @Rest\Get(name="gastronomia_data", path="/data", defaults={"_format" = "json"})
+     * @Rest\View()
+     */
+    public function getDataAction(Request $request)
+    {
+        $limit = $request->query->getInt('limit', 10);
+        $page = $request->query->getInt('page', 1);
+        $sorting = $request->query->get('sorting', array());
+        $filters = $request->query->get('filter', array());
+
+        $resultPager = $this->getDoctrine()->getManager()
+            ->getRepository('BackEndBundle:Gastronomia')
+            ->findAllPaginated($limit, $page, $sorting, $filters)
+        ;
+
+        $pagerFactory = new PagerfantaFactory();
+
+        return $pagerFactory->createRepresentation(
+            $resultPager,
+            new Routes('gastronomia_data', array(
+                'limit' => $limit,
+                'page' => $page,
+                'sorting' => $sorting
+            ))
+        );
+    }
+
     /**
      * Creates a new Gastronomia entity.
      *

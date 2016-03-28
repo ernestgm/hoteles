@@ -9,3 +9,67 @@ services:
     access_token.authenticator:
         class: UserBundle\Security\AccessTokenAuthenticator
 #        public: false
+
+### User
+    user.repository:
+        alias: user.repository.doctrine
+        public: true
+
+    user.repository.doctrine:
+        class: Doctrine\Common\Persistence\ObjectRepository
+        factory_service: doctrine
+        factory_method: getRepository
+        arguments: [ UserBundle\Entity\User ]
+        public: false
+
+    ### Role
+    role.repository:
+        alias: role.repository.doctrine
+        public: true
+
+    role.repository.doctrine:
+        class: Doctrine\Common\Persistence\ObjectRepository
+        factory_service: doctrine
+        factory_method: getRepository
+        arguments: [ UserBundle\Entity\Role ]
+        public: false
+
+
+    ### Privilege
+    privilege.repository:
+        alias: privilege.repository.doctrine
+        public: true
+
+    privilege.repository.doctrine:
+        class: Doctrine\Common\Persistence\ObjectRepository
+        factory_service: doctrine
+        factory_method: getRepository
+        arguments: [ UserBundle\Entity\Privilege ]
+        public: false
+
+
+    ### PrivilegeCategory
+    privilege.category_repository:
+        alias: privilege_category.repository.doctrine
+        public: true
+
+    privilege_category.repository.doctrine:
+        class: Doctrine\Common\Persistence\ObjectRepository
+        factory_service: doctrine
+        factory_method: getRepository
+        arguments: [ UserBundle\Entity\PrivilegeCategory ]
+        public: false
+
+
+    ### PrivilegeSubCategory
+    privilege.subcategory_repository:
+        alias: privilege_subcategory.repository.doctrine
+        public: true
+
+    privilege_subcategory.repository.doctrine:
+        class: Doctrine\Common\Persistence\ObjectRepository
+        factory_service: doctrine
+        factory_method: getRepository
+        arguments: [ UserBundle\Entity\PrivilegeSubCategory ]
+        public: false
+

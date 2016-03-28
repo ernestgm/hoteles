@@ -1,15 +1,68 @@
-{% extends '::base.html.twig' %}
+<div class="background clearfix animated fadeIn">
+    <div fitHeight id="add-hotel-modal" class="side-form animated fadeInRight">
+        <div class="inmodal">
+            <form name="registerform" ng-submit="hot.saveHotel(registerform)" ng-validate="hot.rules" role="form" id="form-hotel">
+                <div class="modal-header">
+                    <i class="fa fa-building-o modal-icon"></i>
+                    {% verbatim %}
+                        <h4 class="modal-title">{{ hot.title }}</h4>
+                    {% endverbatim %}
+                </div>
+                <div class="modal-body clearfix">
+                    <div class="col-md-12">
+                        <div class="col-md-6">
+                            <div id="error-container-form-user" class="error-container hide"></div>
+                            <div class="input-group m-b">
+                                <span class="input-group-addon">http://</span>
+                                {{ form_widget(form.url, { 'attr': {'ng-model':"uc.hotel.url",'placeholder': 'Url Hotel'|trans, 'title':'Url para el hotel'|trans, 'data-toggle':'tooltip', 'data-container':'body', 'class':'form-control' }}) }}
+                                <span class="input-group-addon">.cubanacan.com</span>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="hide form-group">
+                                {{ form_widget(form.geolocalizacion, { 'attr': {'ng-model':"uc.hotel.geolocalizacion",'placeholder': 'Geolocalizacion'|trans, 'title':'Geolocalizacion'|trans, 'data-toggle':'tooltip', 'data-container':'body', 'class':'form-control' }}) }}
 
-{% block body -%}
-    <h1>Hotel creation</h1>
+                            </div>
+                            <div class="row">
+                            <div class="col-sm-12">
+                                <div class="row">
+                                    <div class="col-sm-6">
+                                        <div class="input-group m-b">
+                                            <span class="input-group-addon">{{ 'Latitud' | trans }}</span>
+                                            <input ng-model="hot.latitud" type="text" class="form-control">
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <div class="input-group m-b">
+                                            <span class="input-group-addon">{{ 'Longitud' | trans }}</span>
+                                            <input ng-model="hot.longitud" type="text" class="form-control">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            </div>
+                            <div class="row">
+                            <div class="col-sm-12 form-group">
+                                <ui-gmap-google-map center='hot.map.center' zoom='hot.map.zoom'>
+                                    <ui-gmap-marker
+                                            idKey='hot.marker.idKey'
+                                            coords='hot.marker.coords'
+                                            options="hot.marker.options"
+                                            events='hot.marker.events'
+                                    >
+                                    </ui-gmap-marker>
+                                </ui-gmap-google-map>
+                            </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <a class="btn btn-white" ui-sref="hotel.administrar">Cancel</a>
+                    <button class="btn btn-primary" type="submit">Save</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
 
-    {{ form(form) }}
-
-        <ul class="record_actions">
-    <li>
-        <a href="{{ path('hotel') }}">
-            Back to the list
-        </a>
-    </li>
-</ul>
-{% endblock %}

@@ -2,8 +2,14 @@
 
 namespace BackEndBundle\Controller;
 
+use Hateoas\HateoasBuilder;
+use Hateoas\Representation\Factory\PagerfantaFactory;
+use Hateoas\Configuration\Route as Routes;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use FOS\RestBundle\Controller\Annotations as Rest;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 
 use BackEndBundle\Entity\RedesSociales;
 use BackEndBundle\Form\RedesSocialesType;
@@ -12,22 +18,48 @@ use BackEndBundle\Form\RedesSocialesType;
  * RedesSociales controller.
  *
  */
+/**
+ * @Route("redes_sociales")
+ */
 class RedesSocialesController extends Controller
 {
 
     /**
-     * Lists all RedesSociales entities.
-     *
+     * @Route("/", name="redes_sociales")
      */
     public function indexAction()
     {
-        $em = $this->getDoctrine()->getManager();
+        return $this->render('BackEndBundle:RedesSociales:index.html.twig');
+    }
 
-        $entities = $em->getRepository('BackEndBundle:RedesSociales')->findAll();
+    /**
+     * Lists all Redes Sociales entities.
+     *
+     * @Rest\Get(name="redes_sociales_data", path="/data", defaults={"_format" = "json"})
+     * @Rest\View()
+     */
+    public function getDataAction(Request $request)
+    {
+        $limit = $request->query->getInt('limit', 10);
+        $page = $request->query->getInt('page', 1);
+        $sorting = $request->query->get('sorting', array());
+        $filters = $request->query->get('filter', array());
 
-        return $this->render('BackEndBundle:RedesSociales:index.html.twig', array(
-            'entities' => $entities,
-        ));
+        $resultPager = $this->getDoctrine()->getManager()
+            ->getRepository('BackEndBundle:RedesSociales')
+            ->findAllPaginated($limit, $page, $sorting, $filters)
+        ;
+
+        $pagerFactory = new PagerfantaFactory();
+
+        return $pagerFactory->createRepresentation(
+            $resultPager,
+            new Routes('redes_sociales_data', array(
+                'limit' => $limit,
+                'page' => $page,
+                'sorting' => $sorting
+            ))
+        );
     }
     /**
      * Creates a new RedesSociales entity.

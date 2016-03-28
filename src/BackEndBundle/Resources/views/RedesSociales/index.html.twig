@@ -1,43 +1,36 @@
-{% extends '::base.html.twig' %}
+<div class="wrapper wrapper-content animated fadeInRight">
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="ibox float-e-margins">
+                <div class="ibox-title">
+                    <h5>Redes Sociales</h5>
 
-{% block body -%}
-    <h1>RedesSociales list</h1>
+                    {#<div ibox-tools></div>#}
+                </div>
+                <div class="ibox-content">
+                    {% verbatim %}
+                        <table ng-controller="RedesSocialesController as rs" ng-table="rs.tableParams" show-filter="true" class="table table-striped table-bordered table-hover">
+                           <tr ng-repeat="redes_sociales in $data">
+                               <td data-title="'Id'" sortable="'id'">{{ redes_sociales.id }}</td>
+                               <td data-title="'Nombre'">{{ redes_sociales.nombre }}</td>
+                               <td data-title="'Valor'">{{ redes_sociales.valor }}</td>
+                               <td data-title="'Actions'" >
+                                        <ul>
+                                            <li>
+                                                <a href="">show</a>
+                                            </li>
+                                            <li>
+                                                <a href="">edit</a>
+                                            </li>
+                                        </ul>
+                               </td>
+                            </tr>
+                        </table>
+                    {% endverbatim %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 
-    <table class="records_list">
-        <thead>
-            <tr>
-                <th>Id</th>
-                <th>Nombre</th>
-                <th>Valor</th>
-                <th>Actions</th>
-            </tr>
-        </thead>
-        <tbody>
-        {% for entity in entities %}
-            <tr>
-                <td><a href="{{ path('redessociales_show', { 'id': entity.id }) }}">{{ entity.id }}</a></td>
-                <td>{{ entity.nombre }}</td>
-                <td>{{ entity.valor }}</td>
-                <td>
-                <ul>
-                    <li>
-                        <a href="{{ path('redessociales_show', { 'id': entity.id }) }}">show</a>
-                    </li>
-                    <li>
-                        <a href="{{ path('redessociales_edit', { 'id': entity.id }) }}">edit</a>
-                    </li>
-                </ul>
-                </td>
-            </tr>
-        {% endfor %}
-        </tbody>
-    </table>
 
-        <ul>
-        <li>
-            <a href="{{ path('redessociales_new') }}">
-                Create a new entry
-            </a>
-        </li>
-    </ul>
-    {% endblock %}

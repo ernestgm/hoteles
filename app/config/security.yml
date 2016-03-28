@@ -7,15 +7,16 @@ security:
         FOS\UserBundle\Model\UserInterface: sha512
 
     role_hierarchy:
-        ROLE_FBUSER:       ROLE_USER
-        ROLE_ADMIN:       ROLE_FBUSER, ROLE_USER,
-        ROLE_SUPER_ADMIN: ROLE_ADMIN
+        ROLE_USER:        [IS_AUTHENTICATED_FULLY]
+        ROLE_ADMIN:       [ROLE_ADMIN, ROLE_USER]
+        ROLE_SUPER_ADMIN: [ROLE_SUPER_ADMIN, ROLE_ADMIN]
 
     providers:
         fos_userbundle:
             id: fos_user.user_provider.username_email
         access_token_user_provider:
             id: access_token.user_provider
+
     firewalls:
         # disables authentication for assets and the profiler, adapt it according to your needs
         dev:
@@ -27,6 +28,7 @@ security:
 #            simple_preauth:
 #                authenticator: access_token.authenticator
 #            provider: access_token_user_provider
+
         backend:
             pattern:            /backend/(.*)
             form_login:
@@ -36,7 +38,7 @@ security:
               default_target_path: backend
             logout:
               path:             backend_logout
-              target:           /
+              target:           /backend
             anonymous:          true
             context:            application
 
@@ -63,4 +65,4 @@ security:
         - { path: /backend/login$, role: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: /backend/logout$, role: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: /backend/login_check$, role: IS_AUTHENTICATED_ANONYMOUSLY }
-        - { path: /backend/, role: IS_AUTHENTICATED_FULLY }
+        - { path: /backend/, role: ROLE_SUPER_ADMIN }

@@ -1,0 +1,777 @@
+<script>
+
+        /**
+         * Create the query object we need to send to our API endpoint
+         * from the table params.
+         */
+        createQuery = function (tableParams) {
+            var query = {
+                page: tableParams.page(),
+                limit: tableParams.count()
+            };
+
+            // The orderBy is in the form ["+state", "-title"]
+            // where '+' represents ascending and '-' descending
+            // We need to convert it to the format accepted by our API
+            _.each(tableParams.orderBy(), function (dirColumn) {
+                var key = 'sorting[' + dirColumn.slice(1) + ']';
+                query[key] = (dirColumn[0] === '+') ? 'asc' : 'desc';
+            });
+            _.each(tableParams.filter(), function (value, index) {
+                if (value != '') {
+                    var key = 'filter[' + index + ']';
+                    query[key] = value;
+                }
+            });
+
+            return query;
+        };
+
+        //Comentarios
+        function CommentController($scope, $location, $http, NgTableParams) {
+            var self = this;
+            // Default values, usually fetched from the url
+            // to allow direct access to the filtered table
+            var sorting = {titulo: 'asc'};
+            var page = 1;
+            var count = 10;
+
+            initData();
+
+            function initData() {
+                refreshData();
+                $scope.$on('comments-table-updated', refresTable);
+            }
+
+            function refreshData() {
+
+                self.tableParams = new NgTableParams(
+                        { page: page, count: count, sorting: sorting },
+                        {
+                            total: 0,
+                            getData: function (tableParams) {
+                                return $http({
+                                    url: '{{ path('comments_data') }}',
+                                    method: 'GET',
+                                    params: createQuery(tableParams)
+                                }).then(
+                                        // Success callback
+                                        function (response) {
+                                            var data = response.data;
+                                            var comments = data._embedded.items;
+                                            //UserService.Save(user);
+                                            // Set the total number of products
+                                            tableParams.total(data.total);
+                                            return comments;
+                                        }
+                                );
+                            }
+                        }
+                );
+            }
+
+            function refresTable(){
+                self.tableParams.reload();
+            }
+        }
+
+        //Hotel
+        function HotelController($scope, $location, $http, NgTableParams) {
+            var self = this;
+            // Default values, usually fetched from the url
+            // to allow direct access to the filtered table
+            var sorting = {titulo: 'asc'};
+            var page = 1;
+            var count = 10;
+
+            initData();
+
+            function initData() {
+                refreshData();
+                $scope.$on('hotel-table-updated', refresTable);
+            }
+
+            function refreshData() {
+
+                self.tableParams = new NgTableParams(
+                        { page: page, count: count, sorting: sorting },
+                        {
+                            total: 0,
+                            getData: function (tableParams) {
+                                return $http({
+                                    url: '{{ path('hotel_data') }}',
+                                    method: 'GET',
+                                    params: createQuery(tableParams)
+                                }).then(
+                                        // Success callback
+                                        function (response) {
+                                            var data = response.data;
+                                            var hotel = data._embedded.items;
+                                            //UserService.Save(user);
+                                            // Set the total number of products
+                                            tableParams.total(data.total);
+                                            return hotel;
+                                        }
+                                );
+                            }
+                        }
+                );
+            }
+
+            function refresTable(){
+                self.tableParams.reload();
+            }
+        }
+
+        function HotelControllerAddEditController($scope, $stateParams, $http, ngTableParams, $state, SweetAlert, UserService) {
+            var ho = this;
+            ho.title = '{{ 'Nuevo Hotel' | trans }}';
+
+            ho.map = { center: { latitude: 22.1338, longitude: -79.4673 }, zoom: 6 };
+            ho.marker = {
+                idKey:'1',
+                coords: { latitude: 22.1338, longitude: -79.4673 },
+                options: { draggable: true },
+                events: {
+                    dragend: function (marker, eventName, args) {
+                        console.log('marker dragend');
+                        ho.latitud = marker.getPosition().lat();
+                        ho.longitud = marker.getPosition().lng();
+                    }
+                }
+            };
+//            idKey='{expression}'
+//            coords='{expression}'
+//            click='{expression}'
+//            options='{expression}'
+//            events='{expression}'
+//            control='{expression}'
+
+        }
+
+        //Marca
+        function MarcaController($scope, $location, $http, NgTableParams) {
+            var self = this;
+            // Default values, usually fetched from the url
+            // to allow direct access to the filtered table
+            var sorting = {titulo: 'asc'};
+            var page = 1;
+            var count = 10;
+
+            initData();
+
+            function initData() {
+                refreshData();
+                $scope.$on('marca-table-updated', refresTable);
+            }
+
+            function refreshData() {
+
+                self.tableParams = new NgTableParams(
+                        { page: page, count: count, sorting: sorting },
+                        {
+                            total: 0,
+                            getData: function (tableParams) {
+                                return $http({
+                                    url: '{{ path('marca_data') }}',
+                                    method: 'GET',
+                                    params: createQuery(tableParams)
+                                }).then(
+                                        // Success callback
+                                        function (response) {
+                                            var data = response.data;
+                                            var marca = data._embedded.items;
+                                            //UserService.Save(user);
+                                            // Set the total number of products
+                                            tableParams.total(data.total);
+                                            return marca;
+                                        }
+                                );
+                            }
+                        }
+                );
+            }
+
+            function refresTable(){
+                self.tableParams.reload();
+            }
+        }
+
+        //Marca
+        function MotivosController($scope, $location, $http, NgTableParams) {
+            var self = this;
+            // Default values, usually fetched from the url
+            // to allow direct access to the filtered table
+            var sorting = {titulo: 'asc'};
+            var page = 1;
+            var count = 10;
+
+            initData();
+
+            function initData() {
+                refreshData();
+                $scope.$on('motivos-table-updated', refresTable);
+            }
+
+            function refreshData() {
+
+                self.tableParams = new NgTableParams(
+                        { page: page, count: count, sorting: sorting },
+                        {
+                            total: 0,
+                            getData: function (tableParams) {
+                                return $http({
+                                    url: '{{ path('motivos_data') }}',
+                                    method: 'GET',
+                                    params: createQuery(tableParams)
+                                }).then(
+                                        // Success callback
+                                        function (response) {
+                                            var data = response.data;
+                                            var motivos = data._embedded.items;
+                                            //UserService.Save(user);
+                                            // Set the total number of products
+                                            tableParams.total(data.total);
+                                            return motivos;
+                                        }
+                                );
+                            }
+                        }
+                );
+            }
+
+            function refresTable(){
+                self.tableParams.reload();
+            }
+        }
+
+        //Marca
+        function RedesSocialesController($scope, $location, $http, NgTableParams) {
+            var self = this;
+            // Default values, usually fetched from the url
+            // to allow direct access to the filtered table
+            var sorting = {titulo: 'asc'};
+            var page = 1;
+            var count = 10;
+
+            initData();
+
+            function initData() {
+                refreshData();
+                $scope.$on('redes_sociales-table-updated', refresTable);
+            }
+
+            function refreshData() {
+
+                self.tableParams = new NgTableParams(
+                        { page: page, count: count, sorting: sorting },
+                        {
+                            total: 0,
+                            getData: function (tableParams) {
+                                return $http({
+                                    url: '{{ path('redes_sociales_data') }}',
+                                    method: 'GET',
+                                    params: createQuery(tableParams)
+                                }).then(
+                                        // Success callback
+                                        function (response) {
+                                            var data = response.data;
+                                            var redes_sociales = data._embedded.items;
+                                            //UserService.Save(user);
+                                            // Set the total number of products
+                                            tableParams.total(data.total);
+                                            return redes_sociales;
+                                        }
+                                );
+                            }
+                        }
+                );
+            }
+
+            function refresTable(){
+                self.tableParams.reload();
+            }
+        }
+
+        //Marca
+        function GastronomiaController($scope, $location, $http, NgTableParams) {
+            var self = this;
+            // Default values, usually fetched from the url
+            // to allow direct access to the filtered table
+            var sorting = {titulo: 'asc'};
+            var page = 1;
+            var count = 10;
+
+            initData();
+
+            function initData() {
+                refreshData();
+                $scope.$on('gastronomia-table-updated', refresTable);
+            }
+
+            function refreshData() {
+
+                self.tableParams = new NgTableParams(
+                        { page: page, count: count, sorting: sorting },
+                        {
+                            total: 0,
+                            getData: function (tableParams) {
+                                return $http({
+                                    url: '{{ path('gastronomia_data') }}',
+                                    method: 'GET',
+                                    params: createQuery(tableParams)
+                                }).then(
+                                        // Success callback
+                                        function (response) {
+                                            var data = response.data;
+                                            var gastronomia = data._embedded.items;
+                                            //UserService.Save(user);
+                                            // Set the total number of products
+                                            tableParams.total(data.total);
+                                            return gastronomia;
+                                        }
+                                );
+                            }
+                        }
+                );
+            }
+
+            function refresTable(){
+                self.tableParams.reload();
+            }
+        }
+
+        //Marca
+        function FaqController($scope, $location, $http, NgTableParams) {
+            var self = this;
+            // Default values, usually fetched from the url
+            // to allow direct access to the filtered table
+            var sorting = {titulo: 'asc'};
+            var page = 1;
+            var count = 10;
+
+            initData();
+
+            function initData() {
+                refreshData();
+                $scope.$on('faq-table-updated', refresTable);
+            }
+
+            function refreshData() {
+
+                self.tableParams = new NgTableParams(
+                        { page: page, count: count, sorting: sorting },
+                        {
+                            total: 0,
+                            getData: function (tableParams) {
+                                return $http({
+                                    url: '{{ path('faq_data') }}',
+                                    method: 'GET',
+                                    params: createQuery(tableParams)
+                                }).then(
+                                        // Success callback
+                                        function (response) {
+                                            var data = response.data;
+                                            var faq = data._embedded.items;
+                                            //UserService.Save(user);
+                                            // Set the total number of products
+                                            tableParams.total(data.total);
+                                            return faq;
+                                        }
+                                );
+                            }
+                        }
+                );
+            }
+
+            function refresTable(){
+                self.tableParams.reload();
+            }
+        }
+
+        //Marca
+        function HafacilidadesController($scope, $location, $http, NgTableParams) {
+            var self = this;
+            // Default values, usually fetched from the url
+            // to allow direct access to the filtered table
+            var sorting = {titulo: 'asc'};
+            var page = 1;
+            var count = 10;
+
+            initData();
+
+            function initData() {
+                refreshData();
+                $scope.$on('hafacilidades-table-updated', refresTable);
+            }
+
+            function refreshData() {
+
+                self.tableParams = new NgTableParams(
+                        { page: page, count: count, sorting: sorting },
+                        {
+                            total: 0,
+                            getData: function (tableParams) {
+                                return $http({
+                                    url: '{{ path('hafacilidades_data') }}',
+                                    method: 'GET',
+                                    params: createQuery(tableParams)
+                                }).then(
+                                        // Success callback
+                                        function (response) {
+                                            var data = response.data;
+                                            var hafacilidades = data._embedded.items;
+                                            //UserService.Save(user);
+                                            // Set the total number of products
+                                            tableParams.total(data.total);
+                                            return hafacilidades;
+                                        }
+                                );
+                            }
+                        }
+                );
+            }
+
+            function refresTable(){
+                self.tableParams.reload();
+            }
+        }
+
+        //Marca
+        function HofacilidadesController($scope, $location, $http, NgTableParams) {
+            var self = this;
+            // Default values, usually fetched from the url
+            // to allow direct access to the filtered table
+            var sorting = {titulo: 'asc'};
+            var page = 1;
+            var count = 10;
+
+            initData();
+
+            function initData() {
+                refreshData();
+                $scope.$on('hofacilidades-table-updated', refresTable);
+            }
+
+            function refreshData() {
+
+                self.tableParams = new NgTableParams(
+                        { page: page, count: count, sorting: sorting },
+                        {
+                            total: 0,
+                            getData: function (tableParams) {
+                                return $http({
+                                    url: '{{ path('hofacilidades_data') }}',
+                                    method: 'GET',
+                                    params: createQuery(tableParams)
+                                }).then(
+                                        // Success callback
+                                        function (response) {
+                                            var data = response.data;
+                                            var hofacilidades = data._embedded.items;
+                                            //UserService.Save(user);
+                                            // Set the total number of products
+                                            tableParams.total(data.total);
+                                            return hofacilidades;
+                                        }
+                                );
+                            }
+                        }
+                );
+            }
+
+            function refresTable(){
+                self.tableParams.reload();
+            }
+        }
+
+        //Marca
+        function ReservaController($scope, $location, $http, NgTableParams) {
+            var self = this;
+            // Default values, usually fetched from the url
+            // to allow direct access to the filtered table
+            var sorting = {titulo: 'asc'};
+            var page = 1;
+            var count = 10;
+
+            initData();
+
+            function initData() {
+                refreshData();
+                $scope.$on('reserva-table-updated', refresTable);
+            }
+
+            function refreshData() {
+
+                self.tableParams = new NgTableParams(
+                        { page: page, count: count, sorting: sorting },
+                        {
+                            total: 0,
+                            getData: function (tableParams) {
+                                return $http({
+                                    url: '{{ path('reserva_data') }}',
+                                    method: 'GET',
+                                    params: createQuery(tableParams)
+                                }).then(
+                                        // Success callback
+                                        function (response) {
+                                            var data = response.data;
+                                            var reserva = data._embedded.items;
+                                            //UserService.Save(user);
+                                            // Set the total number of products
+                                            tableParams.total(data.total);
+                                            return reserva;
+                                        }
+                                );
+                            }
+                        }
+                );
+            }
+
+            function refresTable(){
+                self.tableParams.reload();
+            }
+        }
+
+        //Marca
+        function ServiciosController($scope, $location, $http, NgTableParams) {
+            var self = this;
+            // Default values, usually fetched from the url
+            // to allow direct access to the filtered table
+            var sorting = {titulo: 'asc'};
+            var page = 1;
+            var count = 10;
+
+            initData();
+
+            function initData() {
+                refreshData();
+                $scope.$on('services-table-updated', refresTable);
+            }
+
+            function refreshData() {
+
+                self.tableParams = new NgTableParams(
+                        { page: page, count: count, sorting: sorting },
+                        {
+                            total: 0,
+                            getData: function (tableParams) {
+                                return $http({
+                                            url: '{{ path('servicios_data') }}',
+                                            method: 'GET',
+                                            params: createQuery(tableParams)
+                                        }).then(
+                                            // Success callback
+                                            function (response) {
+                                                var data = response.data;
+                                                var servicios = data._embedded.items;
+                                                //UserService.Save(user);
+                                                // Set the total number of products
+                                                tableParams.total(data.total);
+                                                return servicios;
+                                            }
+                                        );
+                            }
+                        }
+                );
+            }
+
+            function refresTable(){
+                self.tableParams.reload();
+            }
+        }
+
+        //Marca
+        function UserController($scope, $http, NgTableParams, UserService, SweetAlert) {
+            // Default values, usually fetched from the url
+            // to allow direct access to the filtered table
+            var sorting = {titulo: 'asc'};
+            var page = 1;
+            var count = 10;
+
+            var uc = this;
+
+            uc.deleteUser = deleteUser;
+
+            initData();
+
+            function initData() {
+                refreshData();
+                $scope.$on('user-table-updated', refresTable);
+            }
+
+            function refreshData() {
+
+                uc.tableParams = new NgTableParams(
+                        {page: page, count: count, sorting: sorting},
+                        {
+                            total: 0,
+                            getData: function (tableParams) {
+                                return $http({
+                                    url: '{{ path('user_data') }}',
+                                    method: 'GET',
+                                    params: createQuery(tableParams)
+                                }).then(
+                                        // Success callback
+                                        function (response) {
+                                            var data = response.data;
+                                            var user = data._embedded.items;
+                                            UserService.Save(user);
+                                            // Set the total number of products
+                                            tableParams.total(data.total);
+                                            return user;
+                                        }
+                                );
+                            }
+                        }
+                );
+            }
+
+            function refresTable(){
+                uc.tableParams.reload();
+            }
+
+            function deleteUser(id) {
+                SweetAlert.swal({
+                            title: "Seguro?",
+                            text: "Desea eliminar este usuario!",
+                            type: "warning",
+                            showCancelButton: true,
+                            confirmButtonColor: "#DD6B55",
+                            confirmButtonText: "Si",
+                            cancelButtonText: "No",
+                            closeOnConfirm: false,
+                            closeOnCancel: false
+                        },
+                        function (isConfirm) {
+                            if (isConfirm) {
+                                $http.post('{{ path('user_delete_user') }}', {'id': id}).success(
+                                        function (data) {
+                                            SweetAlert.swal({
+                                                title: "OK",
+                                                text: data.sms,
+                                                type: "success"
+                                            });
+                                            uc.tableParams.reload();
+                                        }
+                                );
+                            }
+                        });
+            }
+        }
+
+        //Marca
+        function UserControllerAddEditController($scope, $stateParams, $http, ngTableParams, $state, SweetAlert, UserService) {
+            var uc = this;
+            uc.title = '{{ 'Nuevo Usuario' | trans }}';
+
+            uc.user = {};
+            uc.saveUser = saveUser;
+
+
+            initController();
+
+            function initController() {
+                if ($stateParams.id) {
+                    uc.title = 'Editar Usuario';
+                    uc.user = UserService.GetById($stateParams.id);
+                }
+            }
+
+            uc.rules = {
+                rules: {
+                    fos_user_registration_form_username:{
+                        required: true
+                    },
+                    fos_user_registration_form_email: {
+                        required: true,
+                        email: true
+                    },
+                    "#fos_user_registration_form_plainPassword_first": {
+                        required: true
+                    },
+                    "#fos_user_registration_form_plainPassword_second": {
+                        required: true,
+                        //minlength: 6,
+                        equalTo: "#fos_user_registration_form_plainPassword_first"
+                    },
+                    role:{
+                        required: true
+                    }
+                },
+                messages: {
+                    fos_user_registration_form_plainPassword_second: {
+                        required: "Por favor, repita la contraseña",
+                        equalTo: "Por favor rectifique, las contraseñas no coinciden"
+                    }
+                }
+            }
+
+            function saveUser(form) {
+
+                if(form.validate()) {
+
+                    var url = "{{ path('user_save_user') }}";
+
+                    if ($stateParams.id) {
+                        url = "{{ path('user_edit_user') }}";
+                    }
+
+                    var params = uc.user;
+
+                    $http.post(url, params).success(function ($rdata) {
+                        if ($rdata.success) {
+                            SweetAlert.swal({
+                                title: "Registro de Usuario",
+                                text: $rdata.sms,
+                                type: "success"
+                            });
+                            $state.go('user.administrar');
+                            $scope.$emit('user-table-updated');
+                        } else {
+                            SweetAlert.swal({
+                                title: "Registro de Usuario",
+                                text: $rdata.sms,
+                                type: "error"
+                            });
+                        }
+                    });
+                }
+            }
+
+        }
+
+        /**
+         *
+         * Pass all functions into module
+         */
+        angular
+                .module('inspinia')
+                .controller('CommentController', CommentController)
+
+                .controller('HotelController', HotelController)
+                .controller('HotelController.AddEditController', HotelControllerAddEditController)
+
+                .controller('MarcaController', MarcaController)
+
+                .controller('MotivosController', MotivosController)
+
+                .controller('RedesSocialesController', RedesSocialesController)
+
+                .controller('GastronomiaController', GastronomiaController)
+
+                .controller('FaqController', FaqController)
+
+                .controller('HafacilidadesController', HafacilidadesController)
+
+                .controller('HofacilidadesController', HofacilidadesController)
+
+                .controller('ReservaController', ReservaController)
+
+                .controller('ServiciosController', ServiciosController)
+
+                .controller('UserController', UserController)
+                .controller('UserController.AddEditController', UserControllerAddEditController)
+        ;
+
+</script>
