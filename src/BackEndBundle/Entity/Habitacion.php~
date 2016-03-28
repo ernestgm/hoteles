@@ -8,14 +8,14 @@ use Doctrine\ORM\Mapping as ORM;
  * Habitacion
  *
  * @ORM\Table(name="habitacion")
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="BackEndBundle\Entity\HabitacionRepository")
  */
 class Habitacion
 {
     /**
-     * @var string
+     * @var integer
      *
-     * @ORM\Column(name="id", type="string", length=255, nullable=false)
+     * @ORM\Column(name="id", type="integer", nullable=false)
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="IDENTITY")
      */
@@ -24,16 +24,24 @@ class Habitacion
     /**
      * @var \Doctrine\Common\Collections\Collection
      *
-     * @ORM\ManyToMany(targetEntity="Facilidades", mappedBy="habitacionid")
+     * @ORM\ManyToMany(targetEntity="Hafacilidades", inversedBy="habitacionid")
+     * @ORM\JoinTable(name="habitacion_hafacilidades",
+     *   joinColumns={
+     *     @ORM\JoinColumn(name="habitacionid", referencedColumnName="id")
+     *   },
+     *   inverseJoinColumns={
+     *     @ORM\JoinColumn(name="hafacilidadesid", referencedColumnName="id")
+     *   }
+     * )
      */
-    private $facilidadesid;
+    private $hafacilidadesid;
 
     /**
      * Constructor
      */
     public function __construct()
     {
-        $this->facilidadesid = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->hafacilidadesid = new \Doctrine\Common\Collections\ArrayCollection();
     }
 
 }

@@ -8,14 +8,14 @@ use Doctrine\ORM\Mapping as ORM;
  * Servicios
  *
  * @ORM\Table(name="servicios")
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="BackEndBundle\Entity\ServiciosRepository")
  */
 class Servicios
 {
     /**
-     * @var string
+     * @var integer
      *
-     * @ORM\Column(name="id", type="string", length=255, nullable=false)
+     * @ORM\Column(name="id", type="integer", nullable=false)
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="IDENTITY")
      */
@@ -48,6 +48,13 @@ class Servicios
      * @ORM\Column(name="dias_habiles", type="string", length=255, nullable=true)
      */
     private $diasHabiles;
+
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="orden", type="integer", nullable=true)
+     */
+    private $orden;
 
     /**
      * @var \Doctrine\Common\Collections\Collection

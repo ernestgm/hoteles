@@ -1,0 +1,15 @@
+/*YOUR CUSTOM STYLES*/
+ul.slimmenu li.active > a, ul.slimmenu li:hover > a {
+    background: #ed8323 none repeat scroll 0 0;
+    color: #fff;
+}
+ul.slimmenu li a {
+    color: #737373;
+    display: block;
+    font-family: "Roboto",arial,helvetica,sans-serif;
+    font-size: 15px;
+    padding: 12px 10px;
+    text-transform: uppercase;
+    transition: background-color 0.17s ease-out 0s;
+}
+

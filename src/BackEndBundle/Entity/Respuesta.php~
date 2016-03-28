@@ -1,0 +1,43 @@
+<?php
+
+namespace BackEndBundle\Entity;
+
+use Doctrine\ORM\Mapping as ORM;
+use UserBundle\Entity\User;
+
+/**
+ * Respuesta
+ *
+ * @ORM\Table(name="respuesta", indexes={@ORM\Index(name="FKrespuesta728559", columns={"userid"})})
+ * @ORM\Entity(repositoryClass="BackEndBundle\Entity\RespuestaRepository")
+ */
+class Respuesta
+{
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="id", type="integer", nullable=false)
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="IDENTITY")
+     */
+    private $id;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="descripcion", type="string", length=255, nullable=true)
+     */
+    private $descripcion;
+
+    /**
+     * @var \User
+     *
+     * @ORM\ManyToOne(targetEntity="UserBundle\Entity\User")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="userid", referencedColumnName="id")
+     * })
+     */
+    private $userid;
+
+
+}

@@ -1,0 +1,39 @@
+<?php
+
+namespace BackEndBundle\Entity;
+
+use Doctrine\ORM\Mapping as ORM;
+
+/**
+ * RedesSociales
+ *
+ * @ORM\Table(name="redes_sociales")
+ * @ORM\Entity(repositoryClass="BackEndBundle\Entity\RedesSocialesRepository")
+ */
+class RedesSociales
+{
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="id", type="integer", nullable=false)
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="IDENTITY")
+     */
+    private $id;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="Nombre", type="string", length=255, nullable=true)
+     */
+    private $nombre;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="valor", type="string", length=255, nullable=true)
+     */
+    private $valor;
+
+
+}

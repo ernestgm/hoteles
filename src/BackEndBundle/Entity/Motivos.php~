@@ -8,18 +8,25 @@ use Doctrine\ORM\Mapping as ORM;
  * Motivos
  *
  * @ORM\Table(name="motivos")
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="BackEndBundle\Entity\MotivosRepository")
  */
 class Motivos
 {
     /**
-     * @var string
+     * @var integer
      *
-     * @ORM\Column(name="id", type="string", length=255, nullable=false)
+     * @ORM\Column(name="id", type="integer", nullable=false)
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="IDENTITY")
      */
     private $id;
+
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="ws_id", type="integer", nullable=false)
+     */
+    private $wsId;
 
     /**
      * @var string
@@ -36,26 +43,11 @@ class Motivos
     private $imagen;
 
     /**
-     * @var \Doctrine\Common\Collections\Collection
+     * @var integer
      *
-     * @ORM\ManyToMany(targetEntity="Hotel", inversedBy="motivosid")
-     * @ORM\JoinTable(name="motivos_hotel",
-     *   joinColumns={
-     *     @ORM\JoinColumn(name="motivosid", referencedColumnName="id")
-     *   },
-     *   inverseJoinColumns={
-     *     @ORM\JoinColumn(name="hotelcodigo", referencedColumnName="codigo")
-     *   }
-     * )
+     * @ORM\Column(name="orden", type="integer", nullable=true)
      */
-    private $hotelcodigo;
+    private $orden;
 
-    /**
-     * Constructor
-     */
-    public function __construct()
-    {
-        $this->hotelcodigo = new \Doctrine\Common\Collections\ArrayCollection();
-    }
 
 }

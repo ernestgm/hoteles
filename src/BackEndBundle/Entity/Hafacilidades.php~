@@ -1,0 +1,53 @@
+<?php
+
+namespace BackEndBundle\Entity;
+
+use Doctrine\ORM\Mapping as ORM;
+
+/**
+ * Hafacilidades
+ *
+ * @ORM\Table(name="hafacilidades")
+ * @ORM\Entity(repositoryClass="BackEndBundle\Entity\HafacilidadesRepository")
+ */
+class Hafacilidades
+{
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="id", type="integer", nullable=false)
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="IDENTITY")
+     */
+    private $id;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="icono", type="string", length=255, nullable=true)
+     */
+    private $icono;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="imagen", type="string", length=255, nullable=true)
+     */
+    private $imagen;
+
+    /**
+     * @var \Doctrine\Common\Collections\Collection
+     *
+     * @ORM\ManyToMany(targetEntity="Habitacion", mappedBy="hafacilidadesid")
+     */
+    private $habitacionid;
+
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->habitacionid = new \Doctrine\Common\Collections\ArrayCollection();
+    }
+
+}

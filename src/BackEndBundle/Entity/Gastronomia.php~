@@ -8,14 +8,14 @@ use Doctrine\ORM\Mapping as ORM;
  * Gastronomia
  *
  * @ORM\Table(name="gastronomia")
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="BackEndBundle\Entity\GastronomiaRepository")
  */
 class Gastronomia
 {
     /**
-     * @var string
+     * @var integer
      *
-     * @ORM\Column(name="id", type="string", length=255, nullable=false)
+     * @ORM\Column(name="id", type="integer", nullable=false)
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="IDENTITY")
      */
@@ -57,26 +57,11 @@ class Gastronomia
     private $tipo;
 
     /**
-     * @var \Doctrine\Common\Collections\Collection
+     * @var integer
      *
-     * @ORM\ManyToMany(targetEntity="Hotel", inversedBy="gastronomiaid")
-     * @ORM\JoinTable(name="gastronomia_hotel",
-     *   joinColumns={
-     *     @ORM\JoinColumn(name="gastronomiaid", referencedColumnName="id")
-     *   },
-     *   inverseJoinColumns={
-     *     @ORM\JoinColumn(name="hotelcodigo", referencedColumnName="codigo")
-     *   }
-     * )
+     * @ORM\Column(name="orden", type="integer", nullable=true)
      */
-    private $hotelcodigo;
+    private $orden;
 
-    /**
-     * Constructor
-     */
-    public function __construct()
-    {
-        $this->hotelcodigo = new \Doctrine\Common\Collections\ArrayCollection();
-    }
 
 }
