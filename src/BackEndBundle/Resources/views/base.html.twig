@@ -15,7 +15,9 @@
         {{ include('BackEndBundle:Skeleton:css.html.twig') }}
     {% endblock stylesheets %}
 
-    <link rel="icon" type="image/x-icon" href="{% block favicon %}{{ asset('bundle/frontend/img/cubanacan.ico') }}{% endblock favicon %}" />
+    {% block favicon %}
+        <link rel="icon" type="image/x-icon" href="{{ asset('bundles/frontend/images/cubanacan.ico') }}" />
+    {% endblock %}
 
 </head>
 

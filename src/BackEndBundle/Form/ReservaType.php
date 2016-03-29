@@ -8,7 +8,28 @@ use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 
 class ReservaType extends AbstractType
 {
-
+    /**
+     * @param FormBuilderInterface $builder
+     * @param array $options
+     */
+    public function buildForm(FormBuilderInterface $builder, array $options)
+    {
+        $builder
+            ->add('codigo')
+            ->add('fechaReserva')
+            ->add('fechaEntrada')
+            ->add('fechaSalida')
+            ->add('moneda')
+            ->add('monto')
+            ->add('estadoReserva')
+            ->add('estadoPago')
+            ->add('agencia')
+            ->add('cliente')
+            ->add('hotelcodigo')
+            ->add('userid')
+        ;
+    }
+    
     /**
      * @param OptionsResolverInterface $resolver
      */

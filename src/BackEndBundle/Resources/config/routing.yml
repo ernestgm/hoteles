@@ -1,3 +1,7 @@
+back_end_imagen:
+    resource: "@BackEndBundle/Resources/config/routing/imagen.yml"
+    prefix:   /imagen
+
 backend_routes:
     resource: "@BackEndBundle/Controller/"
     type:     annotation

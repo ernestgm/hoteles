@@ -19,6 +19,7 @@ class MotivosType extends AbstractType
             ->add('descripcion')
             ->add('imagen')
             ->add('orden')
+            ->add('hotelcodigo')
         ;
     }
     

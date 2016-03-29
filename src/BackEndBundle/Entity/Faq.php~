@@ -7,8 +7,8 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * Faq
  *
- * @ORM\Table(name="faq")
- * @ORM\Entity(repositoryClass="BackEndBundle\Entity\FaqRepository")
+ * @ORM\Table(name="faq", indexes={@ORM\Index(name="FKfaq834298", columns={"hotelcodigo"})})
+ * @ORM\Entity
  */
 class Faq
 {
@@ -27,6 +27,16 @@ class Faq
      * @ORM\Column(name="pregunta", type="string", length=255, nullable=true)
      */
     private $pregunta;
+
+    /**
+     * @var \Hotel
+     *
+     * @ORM\ManyToOne(targetEntity="Hotel")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="hotelcodigo", referencedColumnName="codigo")
+     * })
+     */
+    private $hotelcodigo;
 
 
 }

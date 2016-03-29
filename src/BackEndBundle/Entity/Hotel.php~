@@ -7,7 +7,7 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * Hotel
  *
- * @ORM\Table(name="hotel", indexes={@ORM\Index(name="FKhotel146676", columns={"marcaid"}), @ORM\Index(name="FKhotel802242", columns={"comentariosid"}), @ORM\Index(name="FKhotel432874", columns={"redes_socialesid"}), @ORM\Index(name="FKhotel524105", columns={"gastronomiaid"}), @ORM\Index(name="FKhotel414066", columns={"motivosid"}), @ORM\Index(name="FKhotel773210", columns={"faqid"})})
+ * @ORM\Table(name="hotel", indexes={@ORM\Index(name="FKhotel146676", columns={"marcaid"})})
  * @ORM\Entity(repositoryClass="BackEndBundle\Entity\HotelRepository")
  */
 class Hotel
@@ -46,63 +46,6 @@ class Hotel
     private $marcaid;
 
     /**
-     * @var \Motivos
-     *
-     * @ORM\ManyToOne(targetEntity="Motivos")
-     * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="motivosid", referencedColumnName="id")
-     * })
-     */
-    private $motivosid;
-
-    /**
-     * @var \RedesSociales
-     *
-     * @ORM\ManyToOne(targetEntity="RedesSociales")
-     * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="redes_socialesid", referencedColumnName="id")
-     * })
-     */
-    private $redesSocialesid;
-
-    /**
-     * @var \Gastronomia
-     *
-     * @ORM\ManyToOne(targetEntity="Gastronomia")
-     * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="gastronomiaid", referencedColumnName="id")
-     * })
-     */
-    private $gastronomiaid;
-
-    /**
-     * @var \Faq
-     *
-     * @ORM\ManyToOne(targetEntity="Faq")
-     * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="faqid", referencedColumnName="id")
-     * })
-     */
-    private $faqid;
-
-    /**
-     * @var \Comentarios
-     *
-     * @ORM\ManyToOne(targetEntity="Comentarios")
-     * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="comentariosid", referencedColumnName="id")
-     * })
-     */
-    private $comentariosid;
-
-    /**
-     * @var \Doctrine\Common\Collections\Collection
-     *
-     * @ORM\ManyToMany(targetEntity="Hofacilidades", mappedBy="hotelcodigo")
-     */
-    private $hofacilidadesid;
-
-    /**
      * @var \Doctrine\Common\Collections\Collection
      *
      * @ORM\ManyToMany(targetEntity="Servicios", mappedBy="hotelcodigo")
@@ -114,7 +57,6 @@ class Hotel
      */
     public function __construct()
     {
-        $this->hofacilidadesid = new \Doctrine\Common\Collections\ArrayCollection();
         $this->serviciosid = new \Doctrine\Common\Collections\ArrayCollection();
     }
 

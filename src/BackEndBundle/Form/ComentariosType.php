@@ -20,6 +20,7 @@ class ComentariosType extends AbstractType
             ->add('fecha')
             ->add('aprobado')
             ->add('respuestaid')
+            ->add('hotelcodigo')
             ->add('userid')
         ;
     }

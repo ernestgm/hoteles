@@ -16,10 +16,12 @@ class ServiciosType extends AbstractType
     {
         $builder
             ->add('descripcion')
-            ->add('imagen')
+            ->add('icono')
             ->add('horario')
             ->add('diasHabiles')
+            ->add('principal')
             ->add('orden')
+            ->add('imagenid')
             ->add('hotelcodigo')
         ;
     }

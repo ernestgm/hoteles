@@ -16,6 +16,7 @@ class FaqType extends AbstractType
     {
         $builder
             ->add('pregunta')
+            ->add('hotelcodigo')
         ;
     }
     

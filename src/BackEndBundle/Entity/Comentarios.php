@@ -3,12 +3,11 @@
 namespace BackEndBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-use UserBundle\Entity\User;
 
 /**
  * Comentarios
  *
- * @ORM\Table(name="comentarios", indexes={@ORM\Index(name="FKcomentario750827", columns={"userid"}), @ORM\Index(name="FKcomentario261976", columns={"respuestaid"})})
+ * @ORM\Table(name="comentarios", indexes={@ORM\Index(name="FKcomentario750827", columns={"userid"}), @ORM\Index(name="FKcomentario261976", columns={"respuestaid"}), @ORM\Index(name="FKcomentario410413", columns={"hotelcodigo"})})
  * @ORM\Entity(repositoryClass="BackEndBundle\Entity\ComentariosRepository")
  */
 class Comentarios
@@ -61,9 +60,19 @@ class Comentarios
     private $respuestaid;
 
     /**
+     * @var \Hotel
+     *
+     * @ORM\ManyToOne(targetEntity="Hotel")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="hotelcodigo", referencedColumnName="codigo")
+     * })
+     */
+    private $hotelcodigo;
+
+    /**
      * @var \User
      *
-     * @ORM\ManyToOne(targetEntity="UserBundle\Entity\User")
+     * @ORM\ManyToOne(targetEntity="\UserBundle\Entity\User")
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="userid", referencedColumnName="id")
      * })
@@ -198,6 +207,29 @@ class Comentarios
     }
 
     /**
+     * Set hotelcodigo
+     *
+     * @param \BackEndBundle\Entity\Hotel $hotelcodigo
+     * @return Comentarios
+     */
+    public function setHotelcodigo(\BackEndBundle\Entity\Hotel $hotelcodigo = null)
+    {
+        $this->hotelcodigo = $hotelcodigo;
+
+        return $this;
+    }
+
+    /**
+     * Get hotelcodigo
+     *
+     * @return \BackEndBundle\Entity\Hotel 
+     */
+    public function getHotelcodigo()
+    {
+        return $this->hotelcodigo;
+    }
+
+    /**
      * Set userid
      *
      * @param \UserBundle\Entity\User $userid
@@ -213,7 +245,7 @@ class Comentarios
     /**
      * Get userid
      *
-     * @return \UserBundle\Entity\User 
+     * @return \UserBundle\Entity\User
      */
     public function getUserid()
     {

@@ -16,7 +16,6 @@ class MarcaType extends AbstractType
     {
         $builder
             ->add('estilo')
-            ->add('hotelcodigo')
         ;
     }
     

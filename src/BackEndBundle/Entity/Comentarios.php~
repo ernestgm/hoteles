@@ -3,13 +3,12 @@
 namespace BackEndBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-use UserBundle\Entity\User;
 
 /**
  * Comentarios
  *
- * @ORM\Table(name="comentarios", indexes={@ORM\Index(name="FKcomentario750827", columns={"userid"}), @ORM\Index(name="FKcomentario261976", columns={"respuestaid"})})
- * @ORM\Entity(repositoryClass="BackEndBundle\Entity\ComentariosRepository")
+ * @ORM\Table(name="comentarios", indexes={@ORM\Index(name="FKcomentario750827", columns={"userid"}), @ORM\Index(name="FKcomentario261976", columns={"respuestaid"}), @ORM\Index(name="FKcomentario410413", columns={"hotelcodigo"})})
+ * @ORM\Entity
  */
 class Comentarios
 {
@@ -61,9 +60,19 @@ class Comentarios
     private $respuestaid;
 
     /**
+     * @var \Hotel
+     *
+     * @ORM\ManyToOne(targetEntity="Hotel")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="hotelcodigo", referencedColumnName="codigo")
+     * })
+     */
+    private $hotelcodigo;
+
+    /**
      * @var \User
      *
-     * @ORM\ManyToOne(targetEntity="UserBundle\Entity\User")
+     * @ORM\ManyToOne(targetEntity="User")
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="userid", referencedColumnName="id")
      * })

@@ -15,6 +15,7 @@ class HabitacionType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
+            ->add('hotelcodigo')
             ->add('hafacilidadesid')
         ;
     }

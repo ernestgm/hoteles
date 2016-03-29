@@ -7,7 +7,7 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * Faq
  *
- * @ORM\Table(name="faq")
+ * @ORM\Table(name="faq", indexes={@ORM\Index(name="FKfaq834298", columns={"hotelcodigo"})})
  * @ORM\Entity(repositoryClass="BackEndBundle\Entity\FaqRepository")
  */
 class Faq
@@ -27,6 +27,16 @@ class Faq
      * @ORM\Column(name="pregunta", type="string", length=255, nullable=true)
      */
     private $pregunta;
+
+    /**
+     * @var \Hotel
+     *
+     * @ORM\ManyToOne(targetEntity="Hotel")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="hotelcodigo", referencedColumnName="codigo")
+     * })
+     */
+    private $hotelcodigo;
 
 
 
@@ -61,5 +71,28 @@ class Faq
     public function getPregunta()
     {
         return $this->pregunta;
+    }
+
+    /**
+     * Set hotelcodigo
+     *
+     * @param \BackEndBundle\Entity\Hotel $hotelcodigo
+     * @return Faq
+     */
+    public function setHotelcodigo(\BackEndBundle\Entity\Hotel $hotelcodigo = null)
+    {
+        $this->hotelcodigo = $hotelcodigo;
+
+        return $this;
+    }
+
+    /**
+     * Get hotelcodigo
+     *
+     * @return \BackEndBundle\Entity\Hotel 
+     */
+    public function getHotelcodigo()
+    {
+        return $this->hotelcodigo;
     }
 }

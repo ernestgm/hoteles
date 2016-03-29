@@ -7,7 +7,7 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * Habitacion
  *
- * @ORM\Table(name="habitacion")
+ * @ORM\Table(name="habitacion", indexes={@ORM\Index(name="FKhabitacion283531", columns={"hotelcodigo"})})
  * @ORM\Entity(repositoryClass="BackEndBundle\Entity\HabitacionRepository")
  */
 class Habitacion
@@ -20,6 +20,16 @@ class Habitacion
      * @ORM\GeneratedValue(strategy="IDENTITY")
      */
     private $id;
+
+    /**
+     * @var \Hotel
+     *
+     * @ORM\ManyToOne(targetEntity="Hotel")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="hotelcodigo", referencedColumnName="codigo")
+     * })
+     */
+    private $hotelcodigo;
 
     /**
      * @var \Doctrine\Common\Collections\Collection
@@ -53,6 +63,29 @@ class Habitacion
     public function getId()
     {
         return $this->id;
+    }
+
+    /**
+     * Set hotelcodigo
+     *
+     * @param \BackEndBundle\Entity\Hotel $hotelcodigo
+     * @return Habitacion
+     */
+    public function setHotelcodigo(\BackEndBundle\Entity\Hotel $hotelcodigo = null)
+    {
+        $this->hotelcodigo = $hotelcodigo;
+
+        return $this;
+    }
+
+    /**
+     * Get hotelcodigo
+     *
+     * @return \BackEndBundle\Entity\Hotel 
+     */
+    public function getHotelcodigo()
+    {
+        return $this->hotelcodigo;
     }
 
     /**

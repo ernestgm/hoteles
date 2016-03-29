@@ -16,11 +16,12 @@ class GastronomiaType extends AbstractType
     {
         $builder
             ->add('descripcion')
-            ->add('imagen')
             ->add('horario')
             ->add('diasHabiles')
             ->add('tipo')
             ->add('orden')
+            ->add('hotelcodigo')
+            ->add('imagenid')
         ;
     }
     

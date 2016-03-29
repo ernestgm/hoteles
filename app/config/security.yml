@@ -65,4 +65,4 @@ security:
         - { path: /backend/login$, role: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: /backend/logout$, role: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: /backend/login_check$, role: IS_AUTHENTICATED_ANONYMOUSLY }
-        - { path: /backend/, role: ROLE_SUPER_ADMIN }
+        - { path: /backend/, role: IS_AUTHENTICATED_FULLY }

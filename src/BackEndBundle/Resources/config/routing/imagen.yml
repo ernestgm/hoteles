@@ -1,0 +1,10 @@
+imagen:
+    path:     /
+    defaults: { _controller: "BackEndBundle:Imagen:index" }
+
+imagen_show:
+    path:     /{id}/show
+    defaults: { _controller: "BackEndBundle:Imagen:show" }
+
+
+

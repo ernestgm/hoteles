@@ -6,7 +6,7 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 
-class HofacilidadesType extends AbstractType
+class ImagenType extends AbstractType
 {
     /**
      * @param FormBuilderInterface $builder
@@ -15,9 +15,9 @@ class HofacilidadesType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('icono')
-            ->add('imagen')
-            ->add('hotelcodigo')
+            ->add('nombre')
+            ->add('descripcion')
+            ->add('url')
         ;
     }
     
@@ -27,7 +27,7 @@ class HofacilidadesType extends AbstractType
     public function setDefaultOptions(OptionsResolverInterface $resolver)
     {
         $resolver->setDefaults(array(
-            'data_class' => 'BackEndBundle\Entity\Hofacilidades'
+            'data_class' => 'BackEndBundle\Entity\Imagen'
         ));
     }
 
@@ -36,6 +36,6 @@ class HofacilidadesType extends AbstractType
      */
     public function getName()
     {
-        return 'backendbundle_hofacilidades';
+        return 'backendbundle_imagen';
     }
 }

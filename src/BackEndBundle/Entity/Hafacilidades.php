@@ -7,7 +7,7 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * Hafacilidades
  *
- * @ORM\Table(name="hafacilidades")
+ * @ORM\Table(name="hafacilidades", indexes={@ORM\Index(name="FKhafacilida916725", columns={"Imagenid"})})
  * @ORM\Entity(repositoryClass="BackEndBundle\Entity\HafacilidadesRepository")
  */
 class Hafacilidades
@@ -29,11 +29,14 @@ class Hafacilidades
     private $icono;
 
     /**
-     * @var string
+     * @var \Imagen
      *
-     * @ORM\Column(name="imagen", type="string", length=255, nullable=true)
+     * @ORM\ManyToOne(targetEntity="Imagen")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="Imagenid", referencedColumnName="id")
+     * })
      */
-    private $imagen;
+    private $imagenid;
 
     /**
      * @var \Doctrine\Common\Collections\Collection
@@ -85,26 +88,26 @@ class Hafacilidades
     }
 
     /**
-     * Set imagen
+     * Set imagenid
      *
-     * @param string $imagen
+     * @param \BackEndBundle\Entity\Imagen $imagenid
      * @return Hafacilidades
      */
-    public function setImagen($imagen)
+    public function setImagenid(\BackEndBundle\Entity\Imagen $imagenid = null)
     {
-        $this->imagen = $imagen;
+        $this->imagenid = $imagenid;
 
         return $this;
     }
 
     /**
-     * Get imagen
+     * Get imagenid
      *
-     * @return string 
+     * @return \BackEndBundle\Entity\Imagen 
      */
-    public function getImagen()
+    public function getImagenid()
     {
-        return $this->imagen;
+        return $this->imagenid;
     }
 
     /**

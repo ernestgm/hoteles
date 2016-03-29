@@ -16,7 +16,7 @@ class HafacilidadesType extends AbstractType
     {
         $builder
             ->add('icono')
-            ->add('imagen')
+            ->add('imagenid')
             ->add('habitacionid')
         ;
     }

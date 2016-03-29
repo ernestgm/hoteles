@@ -141,15 +141,15 @@ services:
         public: false
 
 #    hofacilidades
-    hofacilidades.repository:
-            alias: hofacilidades.repository.doctrine
+    imagen.repository:
+            alias: imagen.repository.doctrine
             public: true
 
-    hofacilidades.repository.doctrine:
+    imagen.repository.doctrine:
         class: Doctrine\Common\Persistence\ObjectRepository
         factory_service: doctrine
         factory_method: getRepository
-        arguments: [ BackEndBundle\Entity\Hofacilidades ]
+        arguments: [ BackEndBundle\Entity\Imagen ]
         public: false
 
 #    faq

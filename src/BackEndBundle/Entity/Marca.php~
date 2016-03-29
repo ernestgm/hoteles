@@ -28,12 +28,5 @@ class Marca
      */
     private $estilo;
 
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="hotelcodigo", type="string", length=255, nullable=false)
-     */
-    private $hotelcodigo;
-
 
 }

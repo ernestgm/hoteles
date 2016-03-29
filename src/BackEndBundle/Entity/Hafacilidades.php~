@@ -7,7 +7,7 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * Hafacilidades
  *
- * @ORM\Table(name="hafacilidades")
+ * @ORM\Table(name="hafacilidades", indexes={@ORM\Index(name="FKhafacilida916725", columns={"Imagenid"})})
  * @ORM\Entity(repositoryClass="BackEndBundle\Entity\HafacilidadesRepository")
  */
 class Hafacilidades
@@ -29,11 +29,14 @@ class Hafacilidades
     private $icono;
 
     /**
-     * @var string
+     * @var \Imagen
      *
-     * @ORM\Column(name="imagen", type="string", length=255, nullable=true)
+     * @ORM\ManyToOne(targetEntity="Imagen")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="Imagenid", referencedColumnName="id")
+     * })
      */
-    private $imagen;
+    private $imagenid;
 
     /**
      * @var \Doctrine\Common\Collections\Collection

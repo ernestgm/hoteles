@@ -7,7 +7,7 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * Gastronomia
  *
- * @ORM\Table(name="gastronomia")
+ * @ORM\Table(name="gastronomia", indexes={@ORM\Index(name="FKgastronomi948158", columns={"Imagenid"}), @ORM\Index(name="FKgastronomi860780", columns={"hotelcodigo"})})
  * @ORM\Entity(repositoryClass="BackEndBundle\Entity\GastronomiaRepository")
  */
 class Gastronomia
@@ -27,13 +27,6 @@ class Gastronomia
      * @ORM\Column(name="descripcion", type="string", length=255, nullable=true)
      */
     private $descripcion;
-
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="imagen", type="string", length=255, nullable=true)
-     */
-    private $imagen;
 
     /**
      * @var string
@@ -62,6 +55,26 @@ class Gastronomia
      * @ORM\Column(name="orden", type="integer", nullable=true)
      */
     private $orden;
+
+    /**
+     * @var \Hotel
+     *
+     * @ORM\ManyToOne(targetEntity="Hotel")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="hotelcodigo", referencedColumnName="codigo")
+     * })
+     */
+    private $hotelcodigo;
+
+    /**
+     * @var \Imagen
+     *
+     * @ORM\ManyToOne(targetEntity="Imagen")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="Imagenid", referencedColumnName="id")
+     * })
+     */
+    private $imagenid;
 
 
 
@@ -96,29 +109,6 @@ class Gastronomia
     public function getDescripcion()
     {
         return $this->descripcion;
-    }
-
-    /**
-     * Set imagen
-     *
-     * @param string $imagen
-     * @return Gastronomia
-     */
-    public function setImagen($imagen)
-    {
-        $this->imagen = $imagen;
-
-        return $this;
-    }
-
-    /**
-     * Get imagen
-     *
-     * @return string 
-     */
-    public function getImagen()
-    {
-        return $this->imagen;
     }
 
     /**
@@ -211,5 +201,51 @@ class Gastronomia
     public function getOrden()
     {
         return $this->orden;
+    }
+
+    /**
+     * Set hotelcodigo
+     *
+     * @param \BackEndBundle\Entity\Hotel $hotelcodigo
+     * @return Gastronomia
+     */
+    public function setHotelcodigo(\BackEndBundle\Entity\Hotel $hotelcodigo = null)
+    {
+        $this->hotelcodigo = $hotelcodigo;
+
+        return $this;
+    }
+
+    /**
+     * Get hotelcodigo
+     *
+     * @return \BackEndBundle\Entity\Hotel 
+     */
+    public function getHotelcodigo()
+    {
+        return $this->hotelcodigo;
+    }
+
+    /**
+     * Set imagenid
+     *
+     * @param \BackEndBundle\Entity\Imagen $imagenid
+     * @return Gastronomia
+     */
+    public function setImagenid(\BackEndBundle\Entity\Imagen $imagenid = null)
+    {
+        $this->imagenid = $imagenid;
+
+        return $this;
+    }
+
+    /**
+     * Get imagenid
+     *
+     * @return \BackEndBundle\Entity\Imagen 
+     */
+    public function getImagenid()
+    {
+        return $this->imagenid;
     }
 }

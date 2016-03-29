@@ -7,7 +7,7 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * Motivos
  *
- * @ORM\Table(name="motivos")
+ * @ORM\Table(name="motivos", indexes={@ORM\Index(name="FKmotivos374565", columns={"hotelcodigo"})})
  * @ORM\Entity(repositoryClass="BackEndBundle\Entity\MotivosRepository")
  */
 class Motivos
@@ -48,6 +48,16 @@ class Motivos
      * @ORM\Column(name="orden", type="integer", nullable=true)
      */
     private $orden;
+
+    /**
+     * @var \Hotel
+     *
+     * @ORM\ManyToOne(targetEntity="Hotel")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="hotelcodigo", referencedColumnName="codigo")
+     * })
+     */
+    private $hotelcodigo;
 
 
 }

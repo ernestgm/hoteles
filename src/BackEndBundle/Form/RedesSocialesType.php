@@ -17,6 +17,7 @@ class RedesSocialesType extends AbstractType
         $builder
             ->add('nombre')
             ->add('valor')
+            ->add('hotelcodigo')
         ;
     }
     

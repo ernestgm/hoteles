@@ -28,13 +28,6 @@ class Marca
      */
     private $estilo;
 
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="hotelcodigo", type="string", length=255, nullable=false)
-     */
-    private $hotelcodigo;
-
 
 
     /**
@@ -68,28 +61,5 @@ class Marca
     public function getEstilo()
     {
         return $this->estilo;
-    }
-
-    /**
-     * Set hotelcodigo
-     *
-     * @param string $hotelcodigo
-     * @return Marca
-     */
-    public function setHotelcodigo($hotelcodigo)
-    {
-        $this->hotelcodigo = $hotelcodigo;
-
-        return $this;
-    }
-
-    /**
-     * Get hotelcodigo
-     *
-     * @return string 
-     */
-    public function getHotelcodigo()
-    {
-        return $this->hotelcodigo;
     }
 }

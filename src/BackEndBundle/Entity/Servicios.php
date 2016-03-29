@@ -7,7 +7,7 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * Servicios
  *
- * @ORM\Table(name="servicios")
+ * @ORM\Table(name="servicios", indexes={@ORM\Index(name="FKservicios465069", columns={"Imagenid"})})
  * @ORM\Entity(repositoryClass="BackEndBundle\Entity\ServiciosRepository")
  */
 class Servicios
@@ -31,9 +31,9 @@ class Servicios
     /**
      * @var string
      *
-     * @ORM\Column(name="imagen", type="string", length=255, nullable=true)
+     * @ORM\Column(name="icono", type="string", length=255, nullable=true)
      */
-    private $imagen;
+    private $icono;
 
     /**
      * @var string
@@ -50,11 +50,28 @@ class Servicios
     private $diasHabiles;
 
     /**
+     * @var boolean
+     *
+     * @ORM\Column(name="principal", type="boolean", nullable=true)
+     */
+    private $principal;
+
+    /**
      * @var integer
      *
      * @ORM\Column(name="orden", type="integer", nullable=true)
      */
     private $orden;
+
+    /**
+     * @var \Imagen
+     *
+     * @ORM\ManyToOne(targetEntity="Imagen")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="Imagenid", referencedColumnName="id")
+     * })
+     */
+    private $imagenid;
 
     /**
      * @var \Doctrine\Common\Collections\Collection
@@ -114,26 +131,26 @@ class Servicios
     }
 
     /**
-     * Set imagen
+     * Set icono
      *
-     * @param string $imagen
+     * @param string $icono
      * @return Servicios
      */
-    public function setImagen($imagen)
+    public function setIcono($icono)
     {
-        $this->imagen = $imagen;
+        $this->icono = $icono;
 
         return $this;
     }
 
     /**
-     * Get imagen
+     * Get icono
      *
      * @return string 
      */
-    public function getImagen()
+    public function getIcono()
     {
-        return $this->imagen;
+        return $this->icono;
     }
 
     /**
@@ -183,6 +200,29 @@ class Servicios
     }
 
     /**
+     * Set principal
+     *
+     * @param boolean $principal
+     * @return Servicios
+     */
+    public function setPrincipal($principal)
+    {
+        $this->principal = $principal;
+
+        return $this;
+    }
+
+    /**
+     * Get principal
+     *
+     * @return boolean 
+     */
+    public function getPrincipal()
+    {
+        return $this->principal;
+    }
+
+    /**
      * Set orden
      *
      * @param integer $orden
@@ -203,6 +243,29 @@ class Servicios
     public function getOrden()
     {
         return $this->orden;
+    }
+
+    /**
+     * Set imagenid
+     *
+     * @param \BackEndBundle\Entity\Imagen $imagenid
+     * @return Servicios
+     */
+    public function setImagenid(\BackEndBundle\Entity\Imagen $imagenid = null)
+    {
+        $this->imagenid = $imagenid;
+
+        return $this;
+    }
+
+    /**
+     * Get imagenid
+     *
+     * @return \BackEndBundle\Entity\Imagen 
+     */
+    public function getImagenid()
+    {
+        return $this->imagenid;
     }
 
     /**
