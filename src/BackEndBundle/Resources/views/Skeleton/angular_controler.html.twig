@@ -76,7 +76,7 @@
         }
 
         //Hotel
-        function HotelController($scope, $location, $http, NgTableParams) {
+        function HotelController($scope, $location, $http, NgTableParams, WSHotelService) {
             var self = this;
             // Default values, usually fetched from the url
             // to allow direct access to the filtered table
@@ -116,6 +116,17 @@
                             }
                         }
                 );
+
+                $http.get('{{ path('ws_get_hotels') }}').success(
+                        function (data) {
+                            if (data.operationMessage == "OK")
+                            {
+
+                                WSHotelService.Save(data.hotelsDetailsResult.hotelsDetails);
+                            }
+                        }
+                );
+
             }
 
             function refresTable(){
@@ -123,11 +134,49 @@
             }
         }
 
-        function HotelControllerAddEditController($scope, $stateParams, $http, ngTableParams, $state, SweetAlert, UserService) {
+        function HotelControllerAddEditController($scope, $stateParams, $http, ngTableParams, $state, SweetAlert, WSHotelService) {
             var ho = this;
             ho.title = '{{ 'Nuevo Hotel' | trans }}';
 
-            ho.map = { center: { latitude: 22.1338, longitude: -79.4673 }, zoom: 6 };
+            ho.show_loader = true;
+            ho.selectId = selectId;
+            ho.hotel_selected = -1;
+
+            ho.list_hotels = WSHotelService.GetAll();
+
+            if (ho.list_hotels.length > 0){
+                ho.show_loader = false;
+            }
+
+            ho.map = {
+                center: { latitude: 22.1338, longitude: -79.4673 },
+                zoom: 6,
+                events: {
+                    click: function (mapModel, eventName, originalEventArgs) {
+                        // 'this' is the directive's scope
+
+                        var e = originalEventArgs[0];
+                        var lat = e.latLng.lat(),
+                                lon = e.latLng.lng();
+
+                        ho.latitud = lat;
+                        ho.longitud = lon;
+
+                        ho.marker = {
+                            coords: { latitude: lat, longitude: lon },
+                            events: {
+                                dragend: function (marker, eventName, args) {
+                                    console.log('marker dragend');
+                                    ho.latitud = marker.getPosition().lat();
+                                    ho.longitud = marker.getPosition().lng();
+                                }
+                            }
+                        };
+                        //scope apply required because this event handler is outside of the angular domain
+                        $scope.$evalAsync();
+                    },
+                }
+            };
             ho.marker = {
                 idKey:'1',
                 coords: { latitude: 22.1338, longitude: -79.4673 },
@@ -140,6 +189,11 @@
                     }
                 }
             };
+
+            function selectId(index){
+                ho.hotel_selected = index;
+            }
+
 //            idKey='{expression}'
 //            coords='{expression}'
 //            click='{expression}'
@@ -438,54 +492,6 @@
         }
 
         //Marca
-        function HofacilidadesController($scope, $location, $http, NgTableParams) {
-            var self = this;
-            // Default values, usually fetched from the url
-            // to allow direct access to the filtered table
-            var sorting = {titulo: 'asc'};
-            var page = 1;
-            var count = 10;
-
-            initData();
-
-            function initData() {
-                refreshData();
-                $scope.$on('hofacilidades-table-updated', refresTable);
-            }
-
-            function refreshData() {
-
-                self.tableParams = new NgTableParams(
-                        { page: page, count: count, sorting: sorting },
-                        {
-                            total: 0,
-                            getData: function (tableParams) {
-                                return $http({
-                                    url: '{{ path('hofacilidades_data') }}',
-                                    method: 'GET',
-                                    params: createQuery(tableParams)
-                                }).then(
-                                        // Success callback
-                                        function (response) {
-                                            var data = response.data;
-                                            var hofacilidades = data._embedded.items;
-                                            //UserService.Save(user);
-                                            // Set the total number of products
-                                            tableParams.total(data.total);
-                                            return hofacilidades;
-                                        }
-                                );
-                            }
-                        }
-                );
-            }
-
-            function refresTable(){
-                self.tableParams.reload();
-            }
-        }
-
-        //Marca
         function ReservaController($scope, $location, $http, NgTableParams) {
             var self = this;
             // Default values, usually fetched from the url
@@ -763,8 +769,6 @@
                 .controller('FaqController', FaqController)
 
                 .controller('HafacilidadesController', HafacilidadesController)
-
-                .controller('HofacilidadesController', HofacilidadesController)
 
                 .controller('ReservaController', ReservaController)
 

@@ -28,7 +28,8 @@ class AppKernel extends Kernel
             new UserBundle\UserBundle(),
             new BackEndBundle\BackEndBundle(),
             new FrontEndBundle\FrontEndBundle(),
-            new Bazinga\Bundle\HateoasBundle\BazingaHateoasBundle()
+            new Bazinga\Bundle\HateoasBundle\BazingaHateoasBundle(),
+            new Cubanacan\WSBundle\CubanacanWSBundle()
         );
 
         if (in_array($this->getEnvironment(), array('dev', 'test'))) {

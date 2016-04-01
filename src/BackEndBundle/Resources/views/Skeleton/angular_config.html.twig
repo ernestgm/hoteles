@@ -31,6 +31,7 @@ $stateProvider
         .state('dashboards.hello', {
             url: "/hello",
             templateUrl: "{{ path('backend_hello') }}",
+            data: { icon: 'fa-th-large', pageTitle: 'Dashboard' }
         })
 
         .state('hotel', {
@@ -41,18 +42,21 @@ $stateProvider
             .state('hotel.administrar', {
                 url: "/administrar",
                 templateUrl: "{{ path('hotel') }}",
+                data: { icon: 'fa-building-o', pageTitle: '{{ 'Hotel' | trans }}' }
             })
                 .state('hotel.administrar.add', {
                     url: '/add',
                     templateUrl: '{{ path('hotel_new') }}',
                     controller: 'HotelController.AddEditController',
-                    controllerAs: 'hot'
+                    controllerAs: 'ho',
+                    data: { icon: 'fa-building-o', pageTitle: '{{ 'Registrar Nuevo Hotel' | trans }}' }
                 })
                 .state('hotel.administrar.edit', {
                     url: '/edit/:id',
                     templateUrl: '{{ path('modal_add_user') }}',
                     controller: 'HotelController.AddEditController',
-                    controllerAs: 'hot'
+                    controllerAs: 'ho',
+                    data: { icon: 'fa-building-o', pageTitle: '{{ 'Editar Hotel' | trans }}' }
                 })
 
         .state('reserva', {
@@ -68,6 +72,7 @@ $stateProvider
             abstract: true,
             url: "/marca",
             templateUrl: "{{ path('backend_dashboard') }}",
+            data: { icon: 'fa-th-large', pageTitle: 'Marca' }
         })
         .state('marca.administrar', {
             url: "/administrar",
@@ -86,10 +91,6 @@ $stateProvider
             abstract: true,
             url: "/facilidades",
             templateUrl: "{{ path('backend_dashboard') }}",
-        })
-        .state('facilidades.hotel_administrar', {
-            url: "/hotel/administrar",
-            templateUrl: "{{ path('hofacilidades') }}",
         })
         .state('facilidades.habitacion_administrar', {
             url: "/habitacion/administrar",
@@ -149,19 +150,22 @@ $stateProvider
                 url: "/administrar",
                 templateUrl: "{{ path('user_index') }}",
                 controller: 'UserController',
-                controllerAs: 'uc'
+                controllerAs: 'uc',
+                data: { icon: 'fa-user', pageTitle: '{{ 'Gestionar Usuarios' | trans }}' }
             })
                 .state('user.administrar.add', {
                     url: '/add',
                     templateUrl: '{{ path('modal_add_user') }}',
                     controller: 'UserController.AddEditController',
-                    controllerAs: 'uc'
+                    controllerAs: 'uc',
+                    data: { icon: 'fa-user', pageTitle: '{{ 'Registrar Nuevo Usuarios' | trans }}' }
                 })
                 .state('user.administrar.edit', {
                     url: '/edit/:id',
                     templateUrl: '{{ path('modal_add_user') }}',
                     controller: 'UserController.AddEditController',
-                    controllerAs: 'uc'
+                    controllerAs: 'uc',
+                    data: { icon: 'fa-user', pageTitle: '{{ 'Editar Usuario' | trans }}' }
                 });
 //.state('projects', {
 //    abstract: true,

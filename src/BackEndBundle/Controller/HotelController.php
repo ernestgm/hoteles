@@ -11,8 +11,15 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use FOS\RestBundle\Controller\Annotations as Rest;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 
+use Cubanacan\WSBundle\WSClass\TpvRequest;
+use Symfony\Component\Config\Definition\Exception\Exception;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
+
+
 use BackEndBundle\Entity\Hotel;
 use BackEndBundle\Form\HotelType;
+use Symfony\Component\HttpFoundation\Response;
 
 /**
  * Hotel controller.
@@ -259,5 +266,31 @@ class HotelController extends Controller
             ->add('submit', 'submit', array('label' => 'Delete'))
             ->getForm()
         ;
+    }
+
+    /**
+     * @Route("/ws_get_hotels", name="ws_get_hotels")
+     */
+    public function getWsAllHotelAction(Request $request){
+        $functionName = 'getHotelsDetails';
+        $paramsJson = $request->request->get('paramsJson');
+        $webServicesObject = $this->get("cubanacan.wsService");
+
+        $reflector = new \ReflectionObject($webServicesObject);
+
+        if ($reflector->hasMethod($functionName)) {
+            $method = $reflector->getMethod($functionName);
+            $result = $method->invoke($webServicesObject, $paramsJson);
+            return new Response($result);
+        }
+        else {
+            $param = array('functionName' => $functionName,
+                'paramsJson' => $paramsJson);
+
+            //Add authorization and proxy request
+            $result = $this->get("cubanacan.wsService")->sendPost($param);
+
+            return new Response($result);
+        }
     }
 }

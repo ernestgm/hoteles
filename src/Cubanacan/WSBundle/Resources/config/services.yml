@@ -1,0 +1,17 @@
+parameters:
+    cubanacan_ws.wsservice: Cubanacan\WSBundle\DependencyInjection\WSService
+    entityService.class:  Cubanacan\WSBundle\DependencyInjection\EntityService
+    utilService.class:    Cubanacan\WSBundle\DependencyInjection\UtilService
+
+services:
+    cubanacan.wsService:
+        class: %cubanacan_ws.wsservice%
+        arguments:  ["@utilService", "@entityService"]
+#        arguments: [@service_id, "plain_value", %parameter%]
+
+    utilService:
+        class:      %utilService.class%
+
+    entityService:
+        class:      %entityService.class%
+        arguments:  ["@session", "@doctrine.orm.entity_manager", "@utilService"]

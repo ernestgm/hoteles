@@ -1,0 +1,3 @@
+cubanacan_ws_homepage:
+    resource: "@CubanacanWSBundle/Controller"
+    type:     annotation

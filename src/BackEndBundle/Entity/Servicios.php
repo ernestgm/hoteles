@@ -7,7 +7,7 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * Servicios
  *
- * @ORM\Table(name="servicios", indexes={@ORM\Index(name="FKservicios465069", columns={"Imagenid"})})
+ * @ORM\Table(name="servicios", indexes={@ORM\Index(name="FKservicios465069", columns={"Imagenid"}), @ORM\Index(name="FKservicios861780", columns={"hotelcodigo"})})
  * @ORM\Entity(repositoryClass="BackEndBundle\Entity\ServiciosRepository")
  */
 class Servicios
@@ -74,28 +74,14 @@ class Servicios
     private $imagenid;
 
     /**
-     * @var \Doctrine\Common\Collections\Collection
+     * @var \Hotel
      *
-     * @ORM\ManyToMany(targetEntity="Hotel", inversedBy="serviciosid")
-     * @ORM\JoinTable(name="servicios_hotel",
-     *   joinColumns={
-     *     @ORM\JoinColumn(name="serviciosid", referencedColumnName="id")
-     *   },
-     *   inverseJoinColumns={
-     *     @ORM\JoinColumn(name="hotelcodigo", referencedColumnName="codigo")
-     *   }
-     * )
+     * @ORM\ManyToOne(targetEntity="Hotel")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="hotelcodigo", referencedColumnName="codigo")
+     * })
      */
     private $hotelcodigo;
-
-    /**
-     * Constructor
-     */
-    public function __construct()
-    {
-        $this->hotelcodigo = new \Doctrine\Common\Collections\ArrayCollection();
-    }
-
 
     /**
      * Get id
@@ -269,32 +255,22 @@ class Servicios
     }
 
     /**
-     * Add hotelcodigo
+     * Set hotelcodigo
      *
      * @param \BackEndBundle\Entity\Hotel $hotelcodigo
-     * @return Servicios
+     * @return Motivos
      */
-    public function addHotelcodigo(\BackEndBundle\Entity\Hotel $hotelcodigo)
+    public function setHotelcodigo(\BackEndBundle\Entity\Hotel $hotelcodigo = null)
     {
-        $this->hotelcodigo[] = $hotelcodigo;
+        $this->hotelcodigo = $hotelcodigo;
 
         return $this;
     }
 
     /**
-     * Remove hotelcodigo
-     *
-     * @param \BackEndBundle\Entity\Hotel $hotelcodigo
-     */
-    public function removeHotelcodigo(\BackEndBundle\Entity\Hotel $hotelcodigo)
-    {
-        $this->hotelcodigo->removeElement($hotelcodigo);
-    }
-
-    /**
      * Get hotelcodigo
      *
-     * @return \Doctrine\Common\Collections\Collection 
+     * @return \BackEndBundle\Entity\Hotel
      */
     public function getHotelcodigo()
     {

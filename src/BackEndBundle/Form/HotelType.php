@@ -16,9 +16,10 @@ class HotelType extends AbstractType
     {
         $builder
             ->add('url')
+            ->add('id_sistema')
             ->add('geolocalizacion')
             ->add('marcaid')
-            ->add('serviciosid')
+
         ;
     }
     

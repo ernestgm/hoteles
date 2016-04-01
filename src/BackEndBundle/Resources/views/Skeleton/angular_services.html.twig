@@ -35,7 +35,43 @@
 
     }
 
+    function WSHotelService($filter){
+        var wsservice = {};
+
+        wsservice.GetAll = GetAll;
+        wsservice.GetById = GetById;
+        wsservice.Save = Save;
+
+        return wsservice;
+
+        function GetAll() {
+            return getData();
+        }
+
+        function GetById(id) {
+            var filtered = $filter('filter')(getData(), { id: id });
+            var data = filtered.length ? filtered[0] : null;
+
+            return data;
+        }
+
+        function getData() {
+            if (!localStorage.wshotels) {
+                localStorage.wshotels = JSON.stringify([]);
+            }
+
+            return JSON.parse(localStorage.wshotels);
+        }
+
+        function Save(item) {
+            localStorage.wshotels = JSON.stringify(item);
+            return;
+        }
+
+    }
+
     angular
             .module('inspinia')
-            .factory('UserService', UserService);
+            .factory('UserService', UserService)
+            .factory('WSHotelService', WSHotelService);
 </script>

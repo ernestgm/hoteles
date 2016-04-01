@@ -2,13 +2,13 @@
 <div fitHeight id="add-user-modal" class="side-form animated fadeInRight">
 <div class="inmodal">
     <form name="registerform" ng-submit="uc.saveUser(registerform)" ng-validate="uc.rules" role="form" id="form-gest-user">
-        <div class="modal-header">
-            <i class="fa fa-user modal-icon"></i>
-            {% verbatim %}
-                <h4 class="modal-title">{{ uc.title }}</h4>
-            {% endverbatim %}
-            {#<small class="font-bold">Lorem Ipsum is simply dummy text of the printing and typesetting industry.</small>#}
-        </div>
+        {#<div class="modal-header">#}
+            {#<i class="fa fa-user modal-icon"></i>#}
+            {#{% verbatim %}#}
+                {#<h4 class="modal-title">{{ uc.title }}</h4>#}
+            {#{% endverbatim %}#}
+            {#&#123;&#35;<small class="font-bold">Lorem Ipsum is simply dummy text of the printing and typesetting industry.</small>&#35;&#125;#}
+        {#</div>#}
         <div class="modal-body">
             <div id="error-container-form-user" class="error-container hide"></div>
                 <div class="form-group">

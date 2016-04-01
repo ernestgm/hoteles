@@ -1,0 +1,31 @@
+<div class="ibox-content">
+    <h2>{{ 'Hoteles' | trans }}</h2>
+    <p> {{ 'Todos los hoteles registrados en el Web Services.' }}.
+    </p>
+    <div class="input-group m-b">
+        <input ng-model="search_hotel" type="text" placeholder="{{ 'Buscar Hotel' | trans }}" class="input form-control">
+                                <span class="input-group-btn">
+                                        <button type="button" class="btn btn btn-primary"> <i class="fa fa-search"></i></button>
+                                </span>
+    </div>
+    <div class="mail-box" style="height:500px;">
+            <div class="full-height-scroll" full-scroll>
+                <div class="table-responsive">
+                    {% verbatim %}
+                        <table class="table table-hover">
+                            <tbody>
+                            <div ng-show="ho.show_loader == true" class="sk-spinner sk-spinner-double-bounce">
+                                <div class="sk-double-bounce1"></div>
+                                <div class="sk-double-bounce2"></div>
+                            </div>
+                            <tr ng-class="{'active' : hotel.hotelId == ho.hotel_selected }" ng-click="ho.selectId(hotel.hotelId)" ng-repeat="hotel in ho.list_hotels | filter:search_hotel">
+                                <td><a class="client-link">{{ hotel.hotelId }}</a></td>
+                                <td><a class="client-link">{{ hotel.name }}</a></td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    {% endverbatim %}
+                </div>
+            </div>
+    </div>
+</div>

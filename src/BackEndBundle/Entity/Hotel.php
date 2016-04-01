@@ -22,6 +22,13 @@ class Hotel
     private $codigo;
 
     /**
+     * @var integer
+     *
+     * @ORM\Column(name="id_sistema", type="integer", nullable=false)
+     */
+    private $id_sistema;
+
+    /**
      * @var string
      *
      * @ORM\Column(name="url", type="string", length=255, nullable=false)
@@ -44,22 +51,6 @@ class Hotel
      * })
      */
     private $marcaid;
-
-    /**
-     * @var \Doctrine\Common\Collections\Collection
-     *
-     * @ORM\ManyToMany(targetEntity="Servicios", mappedBy="hotelcodigo")
-     */
-    private $serviciosid;
-
-    /**
-     * Constructor
-     */
-    public function __construct()
-    {
-        $this->serviciosid = new \Doctrine\Common\Collections\ArrayCollection();
-    }
-
 
     /**
      * Get codigo
@@ -141,35 +132,18 @@ class Hotel
     }
 
     /**
-     * Add serviciosid
-     *
-     * @param \BackEndBundle\Entity\Servicios $serviciosid
-     * @return Hotel
+     * @return int
      */
-    public function addServiciosid(\BackEndBundle\Entity\Servicios $serviciosid)
+    public function getIdSistema()
     {
-        $this->serviciosid[] = $serviciosid;
-
-        return $this;
+        return $this->id_sistema;
     }
 
     /**
-     * Remove serviciosid
-     *
-     * @param \BackEndBundle\Entity\Servicios $serviciosid
+     * @param int $id_sistema
      */
-    public function removeServiciosid(\BackEndBundle\Entity\Servicios $serviciosid)
+    public function setIdSistema($id_sistema)
     {
-        $this->serviciosid->removeElement($serviciosid);
-    }
-
-    /**
-     * Get serviciosid
-     *
-     * @return \Doctrine\Common\Collections\Collection 
-     */
-    public function getServiciosid()
-    {
-        return $this->serviciosid;
+        $this->id_sistema = $id_sistema;
     }
 }
