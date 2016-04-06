@@ -24,11 +24,16 @@ class Marca
     /**
      * @var string
      *
+     * @ORM\Column(name="nombre", type="string", length=255, nullable=true)
+     */
+    private $nombre;
+
+    /**
+     * @var string
+     *
      * @ORM\Column(name="estilo", type="string", length=255, nullable=true)
      */
     private $estilo;
-
-
 
     /**
      * Get id
@@ -61,5 +66,28 @@ class Marca
     public function getEstilo()
     {
         return $this->estilo;
+    }
+
+    /**
+     * Set nombre
+     *
+     * @param string $nombre
+     * @return Marca
+     */
+    public function setNombre($nombre)
+    {
+        $this->nombre = $nombre;
+
+        return $this;
+    }
+
+    /**
+     * Get nombre
+     *
+     * @return string 
+     */
+    public function getNombre()
+    {
+        return $this->nombre;
     }
 }

@@ -18,7 +18,7 @@
                                 <div class="sk-double-bounce1"></div>
                                 <div class="sk-double-bounce2"></div>
                             </div>
-                            <tr ng-class="{'active' : hotel.hotelId == ho.hotel_selected }" ng-click="ho.selectId(hotel.hotelId)" ng-repeat="hotel in ho.list_hotels | filter:search_hotel">
+                            <tr ng-class="{'active' : hotel.hotelId == ho.hotel.hotel_selected }" ng-click="ho.selectId(hotel.hotelId)" ng-repeat="hotel in ho.list_hotels | filter:search_hotel">
                                 <td><a class="client-link">{{ hotel.hotelId }}</a></td>
                                 <td><a class="client-link">{{ hotel.name }}</a></td>
                             </tr>

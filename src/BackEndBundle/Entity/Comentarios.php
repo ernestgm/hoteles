@@ -7,7 +7,7 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * Comentarios
  *
- * @ORM\Table(name="comentarios", indexes={@ORM\Index(name="FKcomentario750827", columns={"userid"}), @ORM\Index(name="FKcomentario261976", columns={"respuestaid"}), @ORM\Index(name="FKcomentario410413", columns={"hotelcodigo"})})
+ * @ORM\Table(name="comentarios")
  * @ORM\Entity(repositoryClass="BackEndBundle\Entity\ComentariosRepository")
  */
 class Comentarios
@@ -50,32 +50,23 @@ class Comentarios
     private $aprobado;
 
     /**
-     * @var \Respuesta
-     *
-     * @ORM\ManyToOne(targetEntity="Respuesta")
-     * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="respuestaid", referencedColumnName="id")
-     * })
+     * @ORM\OneToMany(targetEntity="Respuesta",mappedBy="comentarioid")
      */
-    private $respuestaid;
+    private $respuesta;
 
     /**
      * @var \Hotel
      *
-     * @ORM\ManyToOne(targetEntity="Hotel")
-     * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="hotelcodigo", referencedColumnName="codigo")
-     * })
+     * @ORM\ManyToOne(targetEntity="Hotel",inversedBy="comentarios")
+     * @ORM\JoinColumn(name="hotelcodigo",referencedColumnName="codigo")
      */
     private $hotelcodigo;
 
     /**
      * @var \User
      *
-     * @ORM\ManyToOne(targetEntity="\UserBundle\Entity\User")
-     * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="userid", referencedColumnName="id")
-     * })
+     * @ORM\ManyToOne(targetEntity="\UserBundle\Entity\User",inversedBy="comentarios")
+     * @ORM\JoinColumn(name="userid",referencedColumnName="id")
      */
     private $userid;
 

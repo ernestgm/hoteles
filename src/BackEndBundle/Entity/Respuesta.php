@@ -7,7 +7,7 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * Respuesta
  *
- * @ORM\Table(name="respuesta", indexes={@ORM\Index(name="FKrespuesta728559", columns={"userid"})})
+ * @ORM\Table(name="respuesta")
  * @ORM\Entity(repositoryClass="BackEndBundle\Entity\RespuestaRepository")
  */
 class Respuesta
@@ -31,12 +31,18 @@ class Respuesta
     /**
      * @var \User
      *
-     * @ORM\ManyToOne(targetEntity="\UserBundle\Entity\User")
-     * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="userid", referencedColumnName="id")
-     * })
+     * @ORM\ManyToOne(targetEntity="\UserBundle\Entity\User",inversedBy="respuestas")
+     * @ORM\JoinColumn(name="userid",referencedColumnName="id")
      */
     private $userid;
+
+    /**
+     * @var \Comentarios
+     *
+     * @ORM\ManyToOne(targetEntity="Comentarios",inversedBy="respuesta")
+     * @ORM\JoinColumn(name="comentarioid",referencedColumnName="id")
+     */
+    private $comentarioid;
 
 
 
@@ -94,5 +100,28 @@ class Respuesta
     public function getUserid()
     {
         return $this->userid;
+    }
+
+    /**
+     * Set comentarioid
+     *
+     * @param \BackEndBundle\Entity\Comentarios $comentarioid
+     * @return Respuesta
+     */
+    public function setComentarioid(\BackEndBundle\Entity\Comentarios $comentarioid = null)
+    {
+        $this->comentarioid = $comentarioid;
+
+        return $this;
+    }
+
+    /**
+     * Get comentarioid
+     *
+     * @return \BackEndBundle\Entity\Comentarios 
+     */
+    public function getComentarioid()
+    {
+        return $this->comentarioid;
     }
 }

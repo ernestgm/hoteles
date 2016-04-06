@@ -8,6 +8,10 @@
                         {#<h4 class="modal-title">{{ ho.title }}</h4>#}
                     {#{% endverbatim %}#}
                 {#</div>#}
+                <div class="modal-footer">
+                    <a class="btn btn-white" ui-sref="hotel.administrar">Cancel</a>
+                    <button class="btn btn-primary" type="submit">Save</button>
+                </div>
                 <div class="modal-body clearfix">
                     <div class="col-md-4">
                         <div class="row">{{ include('BackEndBundle:Hotel:list_all_hotel.html.twig') }}</div>
@@ -63,8 +67,13 @@
                         </div>
                         <div class="col-md-12">
                             <div class="row m-b">
-                                <div class="col-sm-6">
+                                <div class="col-sm-12">
                                     {{ include('BackEndBundle:Hotel:tabla_marca.html.twig') }}
+                                </div>
+                            </div>
+                            <div class="row m-b">
+                                <div class="col-sm-6">
+                                    {{ include('BackEndBundle:Hotel:tabla_th.html.twig') }}
                                 </div>
                                 <div class="col-sm-6">
                                     {{ include('BackEndBundle:Hotel:tabla_motivos.html.twig') }}
@@ -88,5 +97,8 @@
             </form>
         </div>
     </div>
+</div>
+<div id="modal_gastronomia" class="hide">
+    {{ include('BackEndBundle:Hotel:modal_new_gastronomia.html.twig') }}
 </div>
 

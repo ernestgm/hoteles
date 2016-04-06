@@ -7,7 +7,7 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * Servicios
  *
- * @ORM\Table(name="servicios", indexes={@ORM\Index(name="FKservicios465069", columns={"Imagenid"}), @ORM\Index(name="FKservicios861780", columns={"hotelcodigo"})})
+ * @ORM\Table(name="servicios")
  * @ORM\Entity(repositoryClass="BackEndBundle\Entity\ServiciosRepository")
  */
 class Servicios
@@ -20,6 +20,13 @@ class Servicios
      * @ORM\GeneratedValue(strategy="IDENTITY")
      */
     private $id;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="nombre", type="string", length=255, nullable=true)
+     */
+    private $nombre;
 
     /**
      * @var string
@@ -76,10 +83,8 @@ class Servicios
     /**
      * @var \Hotel
      *
-     * @ORM\ManyToOne(targetEntity="Hotel")
-     * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="hotelcodigo", referencedColumnName="codigo")
-     * })
+     * @ORM\ManyToOne(targetEntity="Hotel",cascade={"persist"},inversedBy="servicios")
+     * @ORM\JoinColumn(name="hotelcodigo",referencedColumnName="codigo")
      */
     private $hotelcodigo;
 
@@ -275,5 +280,28 @@ class Servicios
     public function getHotelcodigo()
     {
         return $this->hotelcodigo;
+    }
+
+    /**
+     * Set nombre
+     *
+     * @param string $nombre
+     * @return Servicios
+     */
+    public function setNombre($nombre)
+    {
+        $this->nombre = $nombre;
+
+        return $this;
+    }
+
+    /**
+     * Get nombre
+     *
+     * @return string 
+     */
+    public function getNombre()
+    {
+        return $this->nombre;
     }
 }

@@ -7,7 +7,7 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * Gastronomia
  *
- * @ORM\Table(name="gastronomia", indexes={@ORM\Index(name="FKgastronomi948158", columns={"Imagenid"}), @ORM\Index(name="FKgastronomi860780", columns={"hotelcodigo"})})
+ * @ORM\Table(name="gastronomia")
  * @ORM\Entity(repositoryClass="BackEndBundle\Entity\GastronomiaRepository")
  */
 class Gastronomia
@@ -20,6 +20,13 @@ class Gastronomia
      * @ORM\GeneratedValue(strategy="IDENTITY")
      */
     private $id;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="nombre", type="string", length=255, nullable=true)
+     */
+    private $nombre;
 
     /**
      * @var string
@@ -59,10 +66,8 @@ class Gastronomia
     /**
      * @var \Hotel
      *
-     * @ORM\ManyToOne(targetEntity="Hotel")
-     * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="hotelcodigo", referencedColumnName="codigo")
-     * })
+     * @ORM\ManyToOne(targetEntity="Hotel",cascade={"persist"},inversedBy="gastronomia")
+     * @ORM\JoinColumn(name="hotelcodigo",referencedColumnName="codigo")
      */
     private $hotelcodigo;
 
@@ -247,5 +252,28 @@ class Gastronomia
     public function getImagenid()
     {
         return $this->imagenid;
+    }
+
+    /**
+     * Set nombre
+     *
+     * @param string $nombre
+     * @return Gastronomia
+     */
+    public function setNombre($nombre)
+    {
+        $this->nombre = $nombre;
+
+        return $this;
+    }
+
+    /**
+     * Get nombre
+     *
+     * @return string 
+     */
+    public function getNombre()
+    {
+        return $this->nombre;
     }
 }

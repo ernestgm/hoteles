@@ -1,20 +1,21 @@
 <div class="ibox-content">
-    <h2>{{ 'Motivos' | trans }}</h2>
+    <h2>{{ 'Tipo de Habitación' | trans }}</h2>
 <div class="table-responsive">
     <table class="table table-striped">
         <thead>
         <tr>
             <th>{{ 'Id' | trans }}</th>
-            <th>{{ 'Codigo' | trans }}</th>
+            <th>{{ 'Nombre' | trans }}</th>
             <th style="text-align:right">{{ 'Acciones' | trans }}</th>
         </tr>
         </thead>
         {% verbatim %}
         <tbody>
-        <tr ng-repeat="motivos in ho.hotel.hotel_motivos">
-            <td>{{ motivos.id }}</td>
-            <td>{{ motivos.codigo }}</td>
+        <tr ng-repeat="tipo_h in ho.hotel.hotel_th">
+            <td>{{ tipo_h.roomTypeId }}</td>
+            <td>{{ tipo_h.roomTypeName }}</td>
             <td class="ibox-tools">
+                <a href=""><i class="fa fa-bars"></i></a>
                 <a href=""><i class="fa fa-cog"></i></a>
             </td>
         </tr>

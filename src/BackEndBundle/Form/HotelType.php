@@ -18,7 +18,7 @@ class HotelType extends AbstractType
             ->add('url')
             ->add('id_sistema')
             ->add('geolocalizacion')
-            ->add('marcaid')
+            //->add('marcaid')
 
         ;
     }

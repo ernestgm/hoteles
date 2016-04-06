@@ -41,6 +41,7 @@
         wsservice.GetAll = GetAll;
         wsservice.GetById = GetById;
         wsservice.Save = Save;
+        wsservice.generateName = generateName;
 
         return wsservice;
 
@@ -49,7 +50,7 @@
         }
 
         function GetById(id) {
-            var filtered = $filter('filter')(getData(), { id: id });
+            var filtered = $filter('filter')(getData(), { hotelId: id });
             var data = filtered.length ? filtered[0] : null;
 
             return data;
@@ -64,8 +65,29 @@
         }
 
         function Save(item) {
+            localStorage.wshotels = null;
             localStorage.wshotels = JSON.stringify(item);
             return;
+        }
+
+        function generateName(name){
+            var str = name;
+
+            var re = /cubanacan/i;
+            str = str.replace(re, "");
+            str = str.toLowerCase();
+            var substrs = str.split(" ");
+
+            str = "";
+            for (word in substrs)
+            {
+                if (substrs[word] != ""){
+                    str += substrs[word];
+                }
+            }
+
+            var url_name = str;
+            return url_name;
         }
 
     }

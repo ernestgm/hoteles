@@ -121,8 +121,8 @@
                         function (data) {
                             if (data.operationMessage == "OK")
                             {
-
-                                WSHotelService.Save(data.hotelsDetailsResult.hotelsDetails);
+                                WSHotelService.Save(data.hotelsFullDetailsResult.hotelsDetails);
+//                                WSHotelService.Save([data.hotel]);
                             }
                         }
                 );
@@ -134,13 +134,22 @@
             }
         }
 
-        function HotelControllerAddEditController($scope, $stateParams, $http, ngTableParams, $state, SweetAlert, WSHotelService) {
+        function HotelControllerAddEditController($scope, $modal, $stateParams, $http, ngTableParams, $state, SweetAlert, WSHotelService) {
             var ho = this;
             ho.title = '{{ 'Nuevo Hotel' | trans }}';
 
+            ho.hotel = {};
             ho.show_loader = true;
+
             ho.selectId = selectId;
-            ho.hotel_selected = -1;
+            ho.saveHotel = saveHotel;
+
+            ho.hotel.hotel_selected = -1;
+            ho.hotel.hotel_data = null;
+            ho.hotel.hotel_marca = "";
+            ho.hotel.hotel_th = null;
+            ho.hotel.hotel_motivos = null;
+            ho.hotel.hotel_gastronomia = null;
 
             ho.list_hotels = WSHotelService.GetAll();
 
@@ -169,9 +178,11 @@
                                     console.log('marker dragend');
                                     ho.latitud = marker.getPosition().lat();
                                     ho.longitud = marker.getPosition().lng();
+                                    ho.hotel.geolocalizacion = JSON.stringify([{latitud: marker.getPosition().lat()},{longitud: marker.getPosition().lng()}]);
                                 }
                             }
                         };
+                        ho.hotel.geolocalizacion = JSON.stringify([{latitud: ho.latitud},{longitud: ho.longitud}]);
                         //scope apply required because this event handler is outside of the angular domain
                         $scope.$evalAsync();
                     },
@@ -186,14 +197,145 @@
                         console.log('marker dragend');
                         ho.latitud = marker.getPosition().lat();
                         ho.longitud = marker.getPosition().lng();
+                        ho.hotel.geolocalizacion = JSON.stringify([{latitud: marker.getPosition().lat()},{longitud: marker.getPosition().lng()}]);
                     }
                 }
             };
 
             function selectId(index){
-                ho.hotel_selected = index;
+                ho.hotel.hotel_selected = index;
+                ho.hotel.hotel_data = WSHotelService.GetById(index);
+
+                ho.hotel.url = WSHotelService.generateName(ho.hotel.hotel_data.name);
+
+                ho.hotel.hotel_marca = ho.hotel.hotel_data.brand
+                ho.hotel.hotel_th = ho.hotel.hotel_data.roomTypes.roomType;
+                ho.hotel.hotel_servicios = ho.hotel.hotel_data.facilities.accommodationFacility;
+                ho.hotel.hotel_motivos = [
+                    {
+                        id: '1',
+                        codigo: 'M1',
+                    },
+                    {
+                        id: '2',
+                        codigo: 'M2',
+                    },
+                    {
+                        id: '3',
+                        codigo: 'M3',
+                    },
+                    {
+                        id: '4',
+                        codigo: 'M4',
+                    },
+                    {
+                        id: '5',
+                        codigo: 'M5',
+                    }
+                ];
+
+                ho.hotel.hotel_gastronomia = [
+                    {
+                        id: '1',
+                        name: 'M1',
+                    },
+                    {
+                        id: '2',
+                        name: 'M2',
+                    },
+                    {
+                        id: '3',
+                        name: 'M3',
+                    },
+                    {
+                        id: '4',
+                        name: 'M4',
+                    },
+                    {
+                        id: '5',
+                        name: 'M5',
+                    }
+                ];
             }
 
+            ho.addGastronomia = function () {
+                var temp = $('#modal_gastronomia').html();
+
+                var modalInstance = $modal.open({
+                    template: temp,
+                });
+            };
+
+            ho.rules = {
+                rules: {
+                    fos_user_registration_form_username:{
+                        required: true
+                    },
+                    fos_user_registration_form_email: {
+                        required: true,
+                        email: true
+                    },
+                    "#fos_user_registration_form_plainPassword_first": {
+                        required: true
+                    },
+                    "#fos_user_registration_form_plainPassword_second": {
+                        required: true,
+                        //minlength: 6,
+                        equalTo: "#fos_user_registration_form_plainPassword_first"
+                    },
+                    role:{
+                        required: true
+                    }
+                },
+                messages: {
+                    fos_user_registration_form_plainPassword_second: {
+                        required: "Por favor, repita la contraseña",
+                        equalTo: "Por favor rectifique, las contraseñas no coinciden"
+                    }
+                }
+            }
+
+            function saveHotel(form) {
+                if (ho.hotel.hotel_selected != -1){
+                    if(form.validate()) {
+
+                        var url = "{{ path('hotel_create') }}";
+
+                        {#if ($stateParams.id) {#}
+                            {#url = "{{ path('user_edit_user') }}";#}
+                        {#}#}
+
+                        var params = ho.hotel;
+                        HoldOn.open();
+
+                        $http.post(url, params).success(function ($rdata) {
+                            if ($rdata.success) {
+                                HoldOn.close();
+                                SweetAlert.swal({
+                                    title: "{{ 'Registro de Hotel' | trans }}",
+                                    text: $rdata.sms,
+                                    type: "success"
+                                });
+                                $state.go('hotel.administrar');
+                                $scope.$emit('hotel-table-updated');
+                            } else {
+                                SweetAlert.swal({
+                                    title: "Registro de Hotel",
+                                    text: $rdata.sms,
+                                    type: "error"
+                                });
+                            }
+                        });
+                    }
+                }else{
+                    SweetAlert.swal({
+                        title: "{{ 'Seleccione un Hotel' | trans }}",
+                        text: "{{ 'Para continuar debe seleccionar un Hotel' | trans }}",
+                        type: "warning"
+                    });
+                }
+
+            }
 //            idKey='{expression}'
 //            coords='{expression}'
 //            click='{expression}'

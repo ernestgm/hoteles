@@ -7,7 +7,7 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * Motivos
  *
- * @ORM\Table(name="motivos", indexes={@ORM\Index(name="FKmotivos374565", columns={"hotelcodigo"})})
+ * @ORM\Table(name="motivos")
  * @ORM\Entity(repositoryClass="BackEndBundle\Entity\MotivosRepository")
  */
 class Motivos
@@ -27,6 +27,13 @@ class Motivos
      * @ORM\Column(name="ws_id", type="integer", nullable=false)
      */
     private $wsId;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="nombre", type="string", length=255, nullable=true)
+     */
+    private $nombre;
 
     /**
      * @var string
@@ -52,14 +59,20 @@ class Motivos
     /**
      * @var \Hotel
      *
-     * @ORM\ManyToOne(targetEntity="Hotel")
-     * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="hotelcodigo", referencedColumnName="codigo")
-     * })
+     * @ORM\ManyToOne(targetEntity="Hotel",cascade={"persist"},inversedBy="motivos")
+     * @ORM\JoinColumn(name="hotelcodigo",referencedColumnName="codigo")
      */
     private $hotelcodigo;
 
-
+    /**
+     * @var \Imagen
+     *
+     * @ORM\ManyToOne(targetEntity="Imagen")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="Imagenid", referencedColumnName="id")
+     * })
+     */
+    private $imagenid;
 
     /**
      * Get id
@@ -184,5 +197,51 @@ class Motivos
     public function getHotelcodigo()
     {
         return $this->hotelcodigo;
+    }
+
+    /**
+     * Set imagenid
+     *
+     * @param \BackEndBundle\Entity\Imagen $imagenid
+     * @return Motivos
+     */
+    public function setImagenid(\BackEndBundle\Entity\Imagen $imagenid = null)
+    {
+        $this->imagenid = $imagenid;
+
+        return $this;
+    }
+
+    /**
+     * Get imagenid
+     *
+     * @return \BackEndBundle\Entity\Imagen 
+     */
+    public function getImagenid()
+    {
+        return $this->imagenid;
+    }
+
+    /**
+     * Set nombre
+     *
+     * @param string $nombre
+     * @return Motivos
+     */
+    public function setNombre($nombre)
+    {
+        $this->nombre = $nombre;
+
+        return $this;
+    }
+
+    /**
+     * Get nombre
+     *
+     * @return string 
+     */
+    public function getNombre()
+    {
+        return $this->nombre;
     }
 }

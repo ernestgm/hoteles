@@ -4,36 +4,22 @@
     <table class="table table-striped">
         <thead>
         <tr>
-            <th>Project</th>
-            <th>Action</th>
+            <th>{{ 'Id' | trans }}</th>
+            <th>{{ 'Codigo' | trans }}</th>
+            <th style="text-align:right">{{ 'Acciones' | trans }}</th>
         </tr>
         </thead>
+        {% verbatim %}
         <tbody>
-        <tr>
-            <td>Project
-                <small>This is example of project</small>
+        <tr ng-repeat="servicios in ho.hotel.hotel_servicios">
+            <td>{{ servicios.id }}</td>
+            <td>{{ servicios.description }}</td>
+            <td class="ibox-tools">
+                <a href=""><i class="fa fa-cog"></i></a>
             </td>
-            <td><a href=""><i class="fa fa-check text-navy"></i></a></td>
-        </tr>
-        <tr>
-            <td>Project
-                <small>This is example of project</small>
-            </td>
-            <td><a href=""><i class="fa fa-check text-navy"></i></a></td>
-        </tr>
-        <tr>
-            <td>Project
-                <small>This is example of project</small>
-            </td>
-            <td><a href=""><i class="fa fa-check text-navy"></i></a></td>
-        </tr>
-        <tr>
-            <td>Project
-                <small>This is example of project</small>
-            </td>
-            <td><a href=""><i class="fa fa-check text-navy"></i></a></td>
         </tr>
         </tbody>
+        {% endverbatim %}
     </table>
 </div>
 </div>

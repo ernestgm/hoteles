@@ -2,6 +2,12 @@
 
 namespace BackEndBundle\Controller;
 
+use BackEndBundle\Entity\Gastronomia;
+use BackEndBundle\Entity\Habitacion;
+use BackEndBundle\Entity\Hafacilidades;
+use BackEndBundle\Entity\Marca;
+use BackEndBundle\Entity\Motivos;
+use BackEndBundle\Entity\Servicios;
 use Hateoas\HateoasBuilder;
 use Hateoas\Representation\Factory\PagerfantaFactory;
 use Hateoas\Configuration\Route as Routes;
@@ -78,22 +84,104 @@ class HotelController extends Controller
      */
     public function createAction(Request $request)
     {
-        $entity = new Hotel();
-        $form = $this->createCreateForm($entity);
+        $em = $this->getDoctrine()->getManager();
+        $hotel = new Hotel();
+        $form = $this->createCreateForm($hotel);
         $form->handleRequest($request);
 
-        if ($form->isValid()) {
-            $em = $this->getDoctrine()->getManager();
-            $em->persist($entity);
+        if ($request->getMethod() == 'POST') {
+            //dump($request->request->all());die;
+            $hotel->setIdSistema($request->request->get('hotel_selected'));
+            $hotel->setUrl($request->request->get('url'));
+            $hotel_data = $request->request->get('hotel_data');
+            $hotel->setNombre($hotel_data['name']);
+            $hotel->setGeolocalizacion($request->request->get('geolocalizacion'));
+
+            $em->persist($hotel);
             $em->flush();
 
-            return $this->redirect($this->generateUrl('hotel_show', array('id' => $entity->getId())));
+            //Guardar Marca
+            $marca = new Marca();
+            $marca->setNombre($request->request->get('hotel_marca'));
+
+            $hotel->setMarcaid($marca);
+
+            //Guardar Servicios
+            $servicios = $request->request->get('hotel_servicios');
+            $orden = 0;
+
+            foreach ($servicios as $servicio){
+                $class = new Servicios();
+                $class->setDescripcion($servicio['description']);
+                $class->setOrden($orden++);
+                $class->setHotelcodigo($hotel);
+                $hotel->addServicio($class);
+
+            }
+
+            //Guardar Gastronomia
+            $gastronomias = $request->request->get('hotel_gastronomia');
+            $orden = 0;
+
+            foreach ($gastronomias as $gastronomia){
+                $class = new Gastronomia();
+                $class->setNombre($gastronomia['name']);
+                $class->setOrden($orden++);
+                $class->setHotelcodigo($hotel);
+                $hotel->addGastronomium($class);
+
+            }
+
+            //Guardar Motivos
+            $motivos = $request->request->get('hotel_motivos');
+            $orden = 0;
+
+            foreach ($motivos as $motivo){
+                $class = new Motivos();
+                $class->setNombre($motivo['codigo']);
+                $class->setWsId($motivo['id']);
+                $class->setOrden($orden++);
+                $class->setHotelcodigo($hotel);
+                $hotel->addMotivo($class);
+
+            }
+
+            //Guardar Tipo Habitacion
+            $tipos_habitacion = $request->request->get('hotel_th');
+
+            foreach ($tipos_habitacion as $tipos_h){
+                $class = new Habitacion();
+                $class->setNombre($tipos_h['roomTypeName']);
+                $class->setWsId($tipos_h['roomTypeId']);
+
+                $facilidades  = $tipos_h['roomServices']['roomService'];
+                foreach ($facilidades as $facilidad){
+                    $subclass = new Hafacilidades();
+                    $subclass->setNombre($facilidad['name']);
+                    $class->addHafacilidadesid($subclass);
+                }
+                $class->setHotelcodigo($hotel);
+                $hotel->addTipoHabitacion($class);
+            }
+
+
+
+            $em->persist($hotel);
+            $em->flush();
         }
 
-        return $this->render('BackEndBundle:Hotel:new.html.twig', array(
-            'entity' => $entity,
-            'form'   => $form->createView(),
-        ));
+        return new JsonResponse(['success' => true, 'sms' => 'El Hotel se ha adicionado correctamente']);
+
+//        if ($form->isValid()) {
+//
+//
+//            return $this->redirect($this->generateUrl('hotel_show', array('id' => $entity->getId())));
+//        }
+//
+//        return $this->render('BackEndBundle:Hotel:new.html.twig', array(
+//            'entity' => $entity,
+//            'form'   => $form->createView(),
+//        ));
     }
 
     /**
@@ -272,8 +360,9 @@ class HotelController extends Controller
      * @Route("/ws_get_hotels", name="ws_get_hotels")
      */
     public function getWsAllHotelAction(Request $request){
-        $functionName = 'getHotelsDetails';
-        $paramsJson = $request->request->get('paramsJson');
+        $functionName = 'getHotelsFullDetails';
+        $paramsJson = '';
+
         $webServicesObject = $this->get("cubanacan.wsService");
 
         $reflector = new \ReflectionObject($webServicesObject);

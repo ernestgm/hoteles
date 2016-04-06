@@ -7,7 +7,7 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * Hafacilidades
  *
- * @ORM\Table(name="hafacilidades", indexes={@ORM\Index(name="FKhafacilida916725", columns={"Imagenid"})})
+ * @ORM\Table(name="hafacilidades")
  * @ORM\Entity(repositoryClass="BackEndBundle\Entity\HafacilidadesRepository")
  */
 class Hafacilidades
@@ -20,6 +20,13 @@ class Hafacilidades
      * @ORM\GeneratedValue(strategy="IDENTITY")
      */
     private $id;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="nombre", type="string", length=255, nullable=true)
+     */
+    private $nombre;
 
     /**
      * @var string
@@ -141,5 +148,28 @@ class Hafacilidades
     public function getHabitacionid()
     {
         return $this->habitacionid;
+    }
+
+    /**
+     * Set nombre
+     *
+     * @param string $nombre
+     * @return Hafacilidades
+     */
+    public function setNombre($nombre)
+    {
+        $this->nombre = $nombre;
+
+        return $this;
+    }
+
+    /**
+     * Get nombre
+     *
+     * @return string 
+     */
+    public function getNombre()
+    {
+        return $this->nombre;
     }
 }

@@ -61,10 +61,28 @@ class User extends BaseUser
      */
     private $userRoles;
 
+    /**
+     * @ORM\OneToMany(targetEntity="BackEndBundle\Entity\Comentarios",mappedBy="userid")
+     */
+    private $comentarios;
+
+    /**
+     * @ORM\OneToMany(targetEntity="BackEndBundle\Entity\Respuesta",mappedBy="userid")
+     */
+    private $respuestas;
+
+    /**
+     * @ORM\OneToMany(targetEntity="BackEndBundle\Entity\Reserva",mappedBy="userid")
+     */
+    private $reservas;
+
     public function __construct()
     {
         parent::__construct();
         $this->userRoles = new ArrayCollection();
+        $this->respuestas = new ArrayCollection();
+        $this->comentarios = new ArrayCollection();
+        $this->reservas = new ArrayCollection();
     }
 
     public function getId(){
@@ -297,5 +315,104 @@ class User extends BaseUser
     public function getCountry()
     {
         return $this->country;
+    }
+
+    /**
+     * Add comentarios
+     *
+     * @param \BackEndBundle\Entity\Comentarios $comentarios
+     * @return User
+     */
+    public function addComentario(\BackEndBundle\Entity\Comentarios $comentarios)
+    {
+        $this->comentarios[] = $comentarios;
+
+        return $this;
+    }
+
+    /**
+     * Remove comentarios
+     *
+     * @param \BackEndBundle\Entity\Comentarios $comentarios
+     */
+    public function removeComentario(\BackEndBundle\Entity\Comentarios $comentarios)
+    {
+        $this->comentarios->removeElement($comentarios);
+    }
+
+    /**
+     * Get comentarios
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getComentarios()
+    {
+        return $this->comentarios;
+    }
+
+    /**
+     * Add respuestas
+     *
+     * @param \BackEndBundle\Entity\Respuestas $respuestas
+     * @return User
+     */
+    public function addRespuesta(\BackEndBundle\Entity\Respuestas $respuestas)
+    {
+        $this->respuestas[] = $respuestas;
+
+        return $this;
+    }
+
+    /**
+     * Remove respuestas
+     *
+     * @param \BackEndBundle\Entity\Respuestas $respuestas
+     */
+    public function removeRespuesta(\BackEndBundle\Entity\Respuestas $respuestas)
+    {
+        $this->respuestas->removeElement($respuestas);
+    }
+
+    /**
+     * Get respuestas
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getRespuestas()
+    {
+        return $this->respuestas;
+    }
+
+    /**
+     * Add reservas
+     *
+     * @param \BackEndBundle\Entity\Reserva $reservas
+     * @return User
+     */
+    public function addReserva(\BackEndBundle\Entity\Reserva $reservas)
+    {
+        $this->reservas[] = $reservas;
+
+        return $this;
+    }
+
+    /**
+     * Remove reservas
+     *
+     * @param \BackEndBundle\Entity\Reserva $reservas
+     */
+    public function removeReserva(\BackEndBundle\Entity\Reserva $reservas)
+    {
+        $this->reservas->removeElement($reservas);
+    }
+
+    /**
+     * Get reservas
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getReservas()
+    {
+        return $this->reservas;
     }
 }
