@@ -76,7 +76,7 @@
         }
 
         //Hotel
-        function HotelController($scope, $location, $http, NgTableParams, WSHotelService) {
+        function HotelController($scope, $location, $http, NgTableParams, WSHotelService,SweetAlert) {
             var self = this;
             // Default values, usually fetched from the url
             // to allow direct access to the filtered table
@@ -119,10 +119,16 @@
 
                 $http.get('{{ path('ws_get_hotels') }}').success(
                         function (data) {
-                            if (data.operationMessage == "OK")
+                            if (data.success == "OK")
                             {
-                                WSHotelService.Save(data.hotelsFullDetailsResult.hotelsDetails);
+                                WSHotelService.Save(data.results);
 //                                WSHotelService.Save([data.hotel]);
+                            }else{
+                                SweetAlert.swal({
+                                    title: "Registro de Hotel",
+                                    text: '{{ 'Error en WebServices' }}',
+                                    type: "error"
+                                });
                             }
                         }
                 );
@@ -211,56 +217,23 @@
                 ho.hotel.hotel_marca = ho.hotel.hotel_data.brand
                 ho.hotel.hotel_th = ho.hotel.hotel_data.roomTypes.roomType;
                 ho.hotel.hotel_servicios = ho.hotel.hotel_data.facilities.accommodationFacility;
-                ho.hotel.hotel_motivos = [
-                    {
-                        id: '1',
-                        codigo: 'M1',
-                    },
-                    {
-                        id: '2',
-                        codigo: 'M2',
-                    },
-                    {
-                        id: '3',
-                        codigo: 'M3',
-                    },
-                    {
-                        id: '4',
-                        codigo: 'M4',
-                    },
-                    {
-                        id: '5',
-                        codigo: 'M5',
-                    }
-                ];
+                ho.hotel.hotel_motivos = ho.hotel.hotel_data.themes.themeLocalizationResult;
 
-                ho.hotel.hotel_gastronomia = [
-                    {
-                        id: '1',
-                        name: 'M1',
-                    },
-                    {
-                        id: '2',
-                        name: 'M2',
-                    },
-                    {
-                        id: '3',
-                        name: 'M3',
-                    },
-                    {
-                        id: '4',
-                        name: 'M4',
-                    },
-                    {
-                        id: '5',
-                        name: 'M5',
-                    }
-                ];
+                //ho.hotel.hotel_gastronomia = [];
+
+                if (ho.hotel.hotel_data.gastronomia){
+                    ho.hotel.hotel_gastronomia = ho.hotel.hotel_data.gastronomia;
+                }else{
+                    ho.hotel.hotel_gastronomia = [];
+                    ho.hotel.hotel_data.gastronomia = [];
+                }
+
+                console.log(ho.hotel.hotel_data);
+
             }
 
             ho.addGastronomia = function () {
                 var temp = $('#modal_gastronomia').html();
-
                 var modalInstance = $modal.open({
                     template: temp,
                 });
@@ -318,6 +291,7 @@
                                 });
                                 $state.go('hotel.administrar');
                                 $scope.$emit('hotel-table-updated');
+                                WSHotelService.Delete(ho.hotel.hotel_selected);
                             } else {
                                 SweetAlert.swal({
                                     title: "Registro de Hotel",

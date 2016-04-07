@@ -42,6 +42,7 @@
         wsservice.GetById = GetById;
         wsservice.Save = Save;
         wsservice.generateName = generateName;
+        wsservice.Delete = Delete;
 
         return wsservice;
 
@@ -54,6 +55,20 @@
             var data = filtered.length ? filtered[0] : null;
 
             return data;
+        }
+
+        function Delete(id) {
+            var hotels = getData();
+            for (var i = 0; i < hotels.length; i++) {
+                var hotel = hotels[i];
+                if (hotel.hotelId === id) {
+                    hotels.splice(i, 1);
+                    break;
+                }
+            }
+            wsservice.Save(hotels);
+
+            return;
         }
 
         function getData() {

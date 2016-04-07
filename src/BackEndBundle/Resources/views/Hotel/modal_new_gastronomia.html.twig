@@ -2,36 +2,45 @@
     <div class="modal-header">
         <h4 class="modal-title">{{ 'Adicionar Gastronomia' | trans }}</h4>
     </div>
-    <div class="modal-body clearfix">
-        <div id="error-container-form-user" class="error-container hide"></div>
-        <div class="col-sm-7">
-            <div class="form-group">
-                nombre
+    <form name="registerform" ng-submit="ho.saveHotel(registerform)" ng-validate="ho.rules" role="form" id="form-hotel">
+        <div class="modal-body clearfix">
+            <div id="error-container-form-user" class="error-container hide"></div>
+            <div class="col-sm-7">
+                {#->add('descripcion')#}
+                {#->add('horario')#}
+                {#->add('diasHabiles')#}
+                {#->add('tipo')#}
+                {#->add('orden')#}
+                {#->add('hotelcodigo')#}
+                {#->add('imagenid')#}
+                <div class="form-group">
+                    {#{{ form_widget(form.nombre, { 'attr': {'ng-model':"ho.hotel.url",'placeholder': 'Url Hotel'|trans, 'title':'Url para el hotel'|trans, 'data-toggle':'tooltip', 'data-container':'body', 'class':'form-control' }}) }}#}
+                </div>
+                <div class="form-group">
+                    descripcion
+                </div>
+                <div class="form-group">
+                    horario
+                </div>
+                <div class="form-group">
+                    dias habiles
+                </div>
+                <div class="form-group">
+                    tipo
+                </div>
             </div>
-            <div class="form-group">
-                descripcion
-            </div>
-            <div class="form-group">
-                horario
-            </div>
-            <div class="form-group">
-                dias habiles
-            </div>
-            <div class="form-group">
-                tipo
-            </div>
-        </div>
-        <div class="col-sm-5">
-            <div class="form-group">
-                {#<form action="" class="dropzone" drop-zone="" id="file-dropzone">#}
+            <div class="col-sm-5">
+                <div class="form-group">
+                    {#<form action="" class="dropzone" drop-zone="" id="file-dropzone">#}
 
-                {#</form>#}
+                    {#</form>#}
+                </div>
             </div>
-        </div>
 
-    </div>
-    <div class="modal-footer">
-        <button type="button" class="btn btn-white" ng-click="cancel()">Close</button>
-        <button type="button" class="btn btn-primary" ng-click="ok()">Save changes</button>
-    </div>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-white" ng-click="cancel()">Close</button>
+            <button type="button" class="btn btn-primary" ng-click="ok()">Save changes</button>
+        </div>
+    </form>
 </div>

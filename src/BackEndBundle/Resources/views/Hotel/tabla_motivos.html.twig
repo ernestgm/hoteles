@@ -4,16 +4,14 @@
     <table class="table table-striped">
         <thead>
         <tr>
-            <th>{{ 'Id' | trans }}</th>
-            <th>{{ 'Codigo' | trans }}</th>
+            <th>{{ 'Nombre' | trans }}</th>
             <th style="text-align:right">{{ 'Acciones' | trans }}</th>
         </tr>
         </thead>
         {% verbatim %}
         <tbody>
         <tr ng-repeat="motivos in ho.hotel.hotel_motivos">
-            <td>{{ motivos.id }}</td>
-            <td>{{ motivos.codigo }}</td>
+            <td>{{ motivos.name }}</td>
             <td class="ibox-tools">
                 <a href=""><i class="fa fa-cog"></i></a>
             </td>

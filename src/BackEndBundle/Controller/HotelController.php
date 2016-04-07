@@ -138,8 +138,8 @@ class HotelController extends Controller
 
             foreach ($motivos as $motivo){
                 $class = new Motivos();
-                $class->setNombre($motivo['codigo']);
-                $class->setWsId($motivo['id']);
+                $class->setNombre($motivo['name']);
+                $class->setWsId(1);
                 $class->setOrden($orden++);
                 $class->setHotelcodigo($hotel);
                 $hotel->addMotivo($class);
@@ -356,7 +356,9 @@ class HotelController extends Controller
         ;
     }
 
+
     /**
+     *
      * @Route("/ws_get_hotels", name="ws_get_hotels")
      */
     public function getWsAllHotelAction(Request $request){
@@ -376,10 +378,37 @@ class HotelController extends Controller
             $param = array('functionName' => $functionName,
                 'paramsJson' => $paramsJson);
 
+            $em = $this->getDoctrine()->getManager();
+            $hotels = $em->getRepository('BackEndBundle:Hotel')->findAll();
+
+            foreach ($hotels as $onehotel){
+                $ids_hotels[] = $onehotel->getIdSistema();
+            }
             //Add authorization and proxy request
             $result = $this->get("cubanacan.wsService")->sendPost($param);
 
-            return new Response($result);
+            $wshotels = json_decode(utf8_decode($result));
+//
+            if ($wshotels->operationMessage == 'OK'){
+                $wshotels = $wshotels->hotelsFullDetailsResult->hotelsDetails;
+
+                foreach($wshotels as $hotel){
+                    if (!in_array($hotel->hotelId, $ids_hotels))
+                        $_hotels[] = $hotel;
+                }
+                $result = array('success' => 'OK','results' => $_hotels);
+            }else{
+                $result = array('success' => 'ERROR');
+            }
+
+
+//            foreach
+//
+//            return
+
+            //dump(json_decode(utf8_decode($result)));die;
+
+            return new JsonResponse($result);
         }
     }
 }
