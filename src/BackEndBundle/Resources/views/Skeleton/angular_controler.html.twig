@@ -142,6 +142,7 @@
 
         function HotelControllerAddEditController($scope, $modal, $stateParams, $http, ngTableParams, $state, SweetAlert, WSHotelService) {
             var ho = this;
+
             ho.title = '{{ 'Nuevo Hotel' | trans }}';
 
             ho.hotel = {};
@@ -151,8 +152,10 @@
             ho.saveHotel = saveHotel;
 
             ho.hotel.hotel_selected = -1;
+            ho.hotel.add_gast_show = 0;
+
             ho.hotel.hotel_data = null;
-            ho.hotel.hotel_marca = "";
+            ho.hotel.hotel_marca = {nombre:"",estilo:""};
             ho.hotel.hotel_th = null;
             ho.hotel.hotel_motivos = null;
             ho.hotel.hotel_gastronomia = null;
@@ -210,16 +213,19 @@
 
             function selectId(index){
                 ho.hotel.hotel_selected = index;
+                ho.hotel.add_gast_show = 1;
+
+                WSHotelService.AddMarca(index, ho.hotel.hotel_marca);
                 ho.hotel.hotel_data = WSHotelService.GetById(index);
 
                 ho.hotel.url = WSHotelService.generateName(ho.hotel.hotel_data.name);
 
-                ho.hotel.hotel_marca = ho.hotel.hotel_data.brand
+                ho.hotel.hotel_marca = ho.hotel.hotel_data.brand;
+
                 ho.hotel.hotel_th = ho.hotel.hotel_data.roomTypes.roomType;
                 ho.hotel.hotel_servicios = ho.hotel.hotel_data.facilities.accommodationFacility;
                 ho.hotel.hotel_motivos = ho.hotel.hotel_data.themes.themeLocalizationResult;
 
-                //ho.hotel.hotel_gastronomia = [];
 
                 if (ho.hotel.hotel_data.gastronomia){
                     ho.hotel.hotel_gastronomia = ho.hotel.hotel_data.gastronomia;
@@ -227,17 +233,161 @@
                     ho.hotel.hotel_gastronomia = [];
                     ho.hotel.hotel_data.gastronomia = [];
                 }
+            }
 
-                console.log(ho.hotel.hotel_data);
+            ho.listRoomServices = function(id, roomTypeId){
+                var temp = $('#modal_th').data('template');
+                var modalInstance = $modal.open({
+                    template: temp,
+                    controller: ModalTHCtrl,
+                    resolve: {
+                        servicios: function(){
+                            return WSHotelService.GetRoomServices(id, roomTypeId);
+                        }
+                    },
+                    size: "lg"
+                });
+                modalInstance.idhotel = id;
+                modalInstance.roomTypeId = roomTypeId;
 
             }
 
-            ho.addGastronomia = function () {
+            function ModalTHCtrl($scope, $modalInstance, servicios){
+                $scope.servicios_h = servicios;
+
+//                $modalInstance.opened.then(
+//                        function(e){
+//                            console.log($modalInstance);
+//                            $scope.servicios_h = WSHotelService.GetRoomServices($modalInstance.idhotel, $modalInstance.roomTypeId);
+//                        }
+//                );
+
+
+                $scope.cancel = function () {
+                    $modalInstance.dismiss('cancel');
+                };
+            }
+
+
+            ho.updateMarca = function (id) {
+                var temp = $('#modal_marca').html();
+                var modalInstance = $modal.open({
+                    template: temp,
+                    controller: ModalMarcaCtrl
+                });
+                modalInstance.idhotel = id;
+            };
+
+            function ModalMarcaCtrl($scope,$modalInstance){
+                var marca = { nombre:"",estilo:"" };
+
+                $scope.marcaAdded = function ( file, event, flow ){
+                    marca.estilo = 'marca/'+file.name;
+
+                    var formData = new FormData();
+
+                    formData.append('file', file.file);
+                    formData.append('entity', 'marca');
+
+                    jQuery.ajax({
+                        url: '{{ path('upload_images') }}',
+                        data: formData,
+                        enctype: 'multipart/form-data',
+                        cache: false,
+                        type: 'POST',
+                        processData: false,
+                        contentType: false,
+                        success: function(result) {
+                            console.log('OK');
+                        },
+                        error: function() {
+
+                        }
+                    });
+                }
+
+                $scope.saveMarca = function () {
+                    WSHotelService.AddMarca($modalInstance.idhotel, marca);
+                    $modalInstance.close();
+                };
+
+                $scope.cancel = function () {
+                    $modalInstance.dismiss('cancel');
+                };
+            }
+
+            ho.addGastronomia = function (id) {
                 var temp = $('#modal_gastronomia').html();
                 var modalInstance = $modal.open({
                     template: temp,
+                    controller: ModalGastronomiaCtrl,
+                    size: "lg"
                 });
+                modalInstance.idhotel = id;
             };
+
+            ho.removeGastronomia = function(id_gastronomia){
+                WSHotelService.removeGastronomia(ho.hotel.hotel_selected, id_gastronomia);
+                selectId(ho.hotel.hotel_selected);
+            }
+
+            function ModalGastronomiaCtrl($scope,$modalInstance){
+                var gast_images = {};
+
+                $scope.imageAdded = function ( file, event, flow ){
+                    gast_images.url = 'gastronomia/'+file.name;
+
+                    var formData = new FormData();
+
+                    formData.append('file', file.file);
+                    formData.append('entity', 'gastronomia');
+
+                    jQuery.ajax({
+                        url: '{{ path('upload_images') }}',
+                        data: formData,
+                        enctype: 'multipart/form-data',
+                        cache: false,
+                        type: 'POST',
+                        processData: false,
+                        contentType: false,
+                        success: function(result) {
+                            console.log('OK');
+                        },
+                        error: function() {
+
+                        }
+                    });
+
+
+                }
+
+                //r.readAsBinaryString(f);
+
+                $scope.saveGast = function () {
+                    var gastronomia = {};
+
+                    gastronomia.nombre = $scope.modal_nombre;
+                    gastronomia.descripcion = $scope.modal_descripcion;
+                    gastronomia.horario = $scope.modal_horario;
+                    gastronomia.diasHabiles = $scope.modal_diasHabiles;
+                    gastronomia.tipo = $scope.modal_tipo;
+
+
+                    gast_images.nombre = $scope.modal_imagen_nombre;
+                    gast_images.descripcion = $scope.modal_imagen_descripcion;
+
+                    gastronomia.imagen = gast_images;
+
+                    WSHotelService.AddGastronomia($modalInstance.idhotel,gastronomia);
+                    selectId($modalInstance.idhotel);
+
+                    $modalInstance.close();
+                };
+
+                $scope.cancel = function () {
+                    $modalInstance.dismiss('cancel');
+                };
+            }
 
             ho.rules = {
                 rules: {

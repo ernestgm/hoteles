@@ -43,6 +43,10 @@
         wsservice.Save = Save;
         wsservice.generateName = generateName;
         wsservice.Delete = Delete;
+        wsservice.AddGastronomia = AddGastronomia;
+        wsservice.removeGastronomia = removeGastronomia;
+        wsservice.AddMarca = AddMarca;
+        wsservice.GetRoomServices = GetRoomServices;
 
         return wsservice;
 
@@ -83,6 +87,88 @@
             localStorage.wshotels = null;
             localStorage.wshotels = JSON.stringify(item);
             return;
+        }
+
+        function GetRoomServices(id, roomTypeId){
+            var hotel = GetById(id);
+            var filtered = $filter('filter')(hotel.roomTypes.roomType, { roomTypeId: roomTypeId });
+            var data = filtered.length ? filtered[0] : null;
+            return data.roomServices.roomService;
+        }
+
+        function AddMarca(id, marca){
+            var hotels = getData();
+
+            var hotel = GetById(id);
+
+            if (!hotel.brand.nombre)
+                hotel.brand = {nombre: hotel.brand, estilo:""};
+
+            if (marca.estilo && marca.estilo != "")
+                hotel.brand.estilo = marca.estilo;
+
+            for (var i = 0; i < hotels.length; i++) {
+                if (hotels[i].hotelId === id) {
+                    hotels[i] = hotel;
+                    break;
+                }
+            }
+
+            console.log(hotel);
+
+            Save(hotels);
+        }
+
+        function AddGastronomia(id, gastronomia){
+            var hotels = getData();
+
+            var hotel = GetById(id);
+
+            if (hotel.gastronomia){
+                var lastGast = hotel.gastronomia[hotel.gastronomia.length - 1] || { id: 0 };
+                gastronomia.id = lastGast.id + 1;
+                hotel.gastronomia.push(gastronomia);
+            }else{
+                hotel.gastronomia = [];
+                gastronomia.id = 1;
+                hotel.gastronomia.push(gastronomia);
+            }
+
+            for (var i = 0; i < hotels.length; i++) {
+               if (hotels[i].hotelId === id) {
+                   hotels[i] = hotel;
+                   break;
+               }
+            }
+
+            console.log(hotel);
+
+            Save(hotels);
+        }
+
+        function removeGastronomia(id, id_gastronomia){
+            var hotels = getData();
+
+            var hotel = GetById(id);
+
+            if (hotel.gastronomia){
+                for (var i = 0; i < hotel.gastronomia.length; i++) {
+                    var gastronomia = hotel.gastronomia[i];
+                    if (gastronomia.id === id_gastronomia) {
+                        hotel.gastronomia.splice(i, 1);
+                        break;
+                    }
+                }
+            }
+
+            for (var i = 0; i < hotels.length; i++) {
+                if (hotels[i].hotelId === id) {
+                    hotels[i] = hotel;
+                    break;
+                }
+            }
+
+            Save(hotels);
         }
 
         function generateName(name){

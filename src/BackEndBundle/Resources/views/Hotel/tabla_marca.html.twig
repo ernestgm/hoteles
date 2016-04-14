@@ -11,10 +11,10 @@
         </thead>
         {% verbatim %}
         <tbody>
-        <tr ng-show="ho.hotel.hotel_marca != ''">
-            <td>{{ ho.hotel.hotel_marca }}</td>
+        <tr ng-show="ho.hotel.hotel_marca.nombre != ''">
+            <td>{{ ho.hotel.hotel_marca.nombre }}</td>
             <td class="ibox-tools">
-                <a href=""><i class="fa fa-cog"></i></a>
+                <a href="" ng-click="ho.updateMarca(ho.hotel.hotel_selected)"><i class="fa fa-cog"></i></a>
             </td>
         </tr>
         </tbody>

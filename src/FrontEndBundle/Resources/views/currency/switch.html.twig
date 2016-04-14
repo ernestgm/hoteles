@@ -17,10 +17,15 @@
     {#</div>#}
 {#</div>#}
 {% set currency_active = ""  %}
-
 {% for currency in currency_repository.findAll() %}
-    {% if app.request.session.get('_currency') == currency.code  %}
-        {% set currency_active = currency  %}
+    {% if app.request.session.get('_currency') is null  %}
+        {% if currency_repository.getDefaultCurrency() == currency.code  %}
+            {% set currency_active = currency  %}
+        {% endif %}
+    {% else %}
+        {% if app.request.session.get('_currency') == currency.code  %}
+            {% set currency_active = currency  %}
+        {% endif %}
     {% endif %}
 {% endfor %}
 

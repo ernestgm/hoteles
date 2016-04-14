@@ -14,7 +14,8 @@
         'oitozero.ngSweetAlert',
         'ngTable',
         'uiGmapgoogle-maps',
-        'ngValidate'
+        'ngValidate',
+        'flow'
     ])
 })();
 

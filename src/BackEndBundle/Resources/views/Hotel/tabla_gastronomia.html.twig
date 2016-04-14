@@ -1,7 +1,7 @@
 <div class="ibox-content">
     <span class="text-muted small pull-right">
       <div class="ibox-tools">
-          <a ng-click="ho.addGastronomia()" class="btn btn-primary btn-xs">
+          <a ng-show="ho.hotel.add_gast_show != 0" ng-click="ho.addGastronomia(ho.hotel.hotel_selected)" class="btn btn-primary btn-xs">
               <i class="fa fa-plus"></i>
           </a>
       </div>
@@ -18,10 +18,10 @@
         {% verbatim %}
         <tbody>
         <tr ng-repeat="gastronomia in ho.hotel.hotel_gastronomia">
-            <td>{{ gastronomia.name }}</td>
+            <td>{{ gastronomia.nombre }}</td>
             <td class="ibox-tools">
                 <a href=""><i class="fa fa-cog"></i></a>
-                <a href=""><i class="fa fa-trash-o"></i></a>
+                <a ng-click="ho.removeGastronomia(gastronomia.id)" href=""><i class="fa fa-trash-o"></i></a>
             </td>
         </tr>
         </tbody>

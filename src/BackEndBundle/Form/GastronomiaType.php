@@ -21,8 +21,6 @@ class GastronomiaType extends AbstractType
             ->add('diasHabiles')
             ->add('tipo')
             ->add('orden')
-            ->add('hotelcodigo')
-            ->add('imagenid')
         ;
     }
     

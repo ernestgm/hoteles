@@ -2,10 +2,11 @@
     <div class="modal-header">
         <h4 class="modal-title">{{ 'Adicionar Gastronomia' | trans }}</h4>
     </div>
-    <form name="registerform" ng-submit="ho.saveHotel(registerform)" ng-validate="ho.rules" role="form" id="form-hotel">
+
         <div class="modal-body clearfix">
             <div id="error-container-form-user" class="error-container hide"></div>
-            <div class="col-sm-7">
+            <form name="gastronomiaform" ng-submit="ho.saveHotel(gastronomiaform)" ng-validate="" role="form" id="form-gastronomia">
+            <div class="col-sm-6">
                 {#->add('descripcion')#}
                 {#->add('horario')#}
                 {#->add('diasHabiles')#}
@@ -14,33 +15,55 @@
                 {#->add('hotelcodigo')#}
                 {#->add('imagenid')#}
                 <div class="form-group">
-                    {#{{ form_widget(form.nombre, { 'attr': {'ng-model':"ho.hotel.url",'placeholder': 'Url Hotel'|trans, 'title':'Url para el hotel'|trans, 'data-toggle':'tooltip', 'data-container':'body', 'class':'form-control' }}) }}#}
+                    {{ form_widget(gastronomia_form.nombre, { 'attr': {'ng-model':"modal_nombre",'placeholder': 'Nombre'|trans, 'title':'Nombre de la Gastronomia'|trans, 'data-toggle':'tooltip', 'data-container':'body', 'class':'form-control' }}) }}
                 </div>
                 <div class="form-group">
-                    descripcion
+                    {{ form_widget(gastronomia_form.descripcion, { 'attr': {'ng-model':"modal_descripcion",'type':'textarea','placeholder': 'Descripcion'|trans, 'title':'Descripcion de la Gastronomia'|trans, 'data-toggle':'tooltip', 'data-container':'body', 'class':'form-control' }}) }}
                 </div>
                 <div class="form-group">
-                    horario
+                    {{ form_widget(gastronomia_form.horario, { 'attr': {'ng-model':"modal_horario",'placeholder': 'Horario'|trans, 'title':'Horario de la Gastronomia'|trans, 'data-toggle':'tooltip', 'data-container':'body', 'class':'form-control' }}) }}
                 </div>
                 <div class="form-group">
-                    dias habiles
+                    {{ form_widget(gastronomia_form.diasHabiles, { 'attr': {'ng-model':"modal_diasHabiles",'placeholder': 'Dias Habiles'|trans, 'title':'Dias Habiles'|trans, 'data-toggle':'tooltip', 'data-container':'body', 'class':'form-control' }}) }}
                 </div>
                 <div class="form-group">
-                    tipo
+                    {{ form_widget(gastronomia_form.tipo, { 'attr': {'ng-model':"modal_tipo",'placeholder': 'Tipo de Gastronomia'|trans, 'title':'Tipo de Gastronomia'|trans, 'data-toggle':'tooltip', 'data-container':'body', 'class':'form-control' }}) }}
                 </div>
             </div>
-            <div class="col-sm-5">
-                <div class="form-group">
-                    {#<form action="" class="dropzone" drop-zone="" id="file-dropzone">#}
+            </form>
+            <form name="imagenform" role="form" id="form-imagen">
+                <div class="col-sm-6">
+                    <div class="form-group">
+                        <button type="button" class="btn btn-white" ng-init="show_add_images = 0" ng-click="show_add_images = 1">{{ 'Add Image' | trans }}</button>
+                    </div>
+                    <div ng-show="show_add_images == 1">
+                        <div class="row">
+                            <div class="col-sm-7">
+                                <div class="form-group">
+                                    {{ form_widget(image_form.nombre, { 'attr': {'ng-model':"modal_imagen_nombre",'placeholder': 'Nombre Imagen'|trans, 'title':'Titulo Imagen'|trans, 'data-toggle':'tooltip', 'data-container':'body', 'class':'form-control' }}) }}
+                                </div>
+                                <div class="form-group">
+                                    {{ form_widget(image_form.descripcion, { 'attr': {'ng-model':"modal_imagen_descripcion",'placeholder': 'Descripcion'|trans, 'title':'Descripcion'|trans, 'data-toggle':'tooltip', 'data-container':'body', 'class':'form-control' }}) }}
+                                </div>
+                            </div>
+                            <div class="col-sm-5">
+                                <div flow-init
+                                     flow-file-added="imageAdded( $file, $event, $flow )">
 
-                    {#</form>#}
+                                    <input type="file" flow-btn/>
+                                    <img width="100%" flow-img="$flow.files[0]" />
+
+                                </div>
+                                {#{{ form_widget(image_form.url, { 'attr': {'ng-model':"modal_imagen_url",'placeholder': 'Tipo de Gastronomia'|trans, 'title':'Tipo de Gastronomia'|trans, 'data-toggle':'tooltip', 'data-container':'body', 'class':'form-control hide' }}) }}#}
+                            </div>
+                        </div>
+                    </div>
                 </div>
-            </div>
-
+            </form>
         </div>
         <div class="modal-footer">
-            <button type="button" class="btn btn-white" ng-click="cancel()">Close</button>
-            <button type="button" class="btn btn-primary" ng-click="ok()">Save changes</button>
+            <button type="button" class="btn btn-white" ng-click="cancel()">{{ 'Close' | trans }}</button>
+            <button type="button" class="btn btn-primary" ng-click="saveGast()">{{ 'Save' | trans }}</button>
         </div>
-    </form>
+
 </div>

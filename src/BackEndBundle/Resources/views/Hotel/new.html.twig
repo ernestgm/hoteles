@@ -1,4 +1,4 @@
-<div class="background clearfix animated fadeIn">
+<div class="background clearfix">
     <div fitHeight id="add-hotel-modal" style="width: 100%;" class="side-form animated fadeInRight">
         <div class="inmodal">
             <form name="registerform" ng-submit="ho.saveHotel(registerform)" ng-validate="ho.rules" role="form" id="form-hotel">
@@ -100,5 +100,11 @@
 </div>
 <div id="modal_gastronomia" class="hide">
     {{ include('BackEndBundle:Hotel:modal_new_gastronomia.html.twig') }}
+</div>
+<div id="modal_marca" class="hide">
+    {{ include('BackEndBundle:Hotel:modal_marca.html.twig') }}
+</div>
+<div id="modal_th" class="hide" data-template='{{ include('BackEndBundle:Hotel:modal_th.html.twig') }}'>
+    {#{{ include('BackEndBundle:Hotel:modal_th.html.twig') }}#}
 </div>
 

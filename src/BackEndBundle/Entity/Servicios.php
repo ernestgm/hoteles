@@ -73,7 +73,7 @@ class Servicios
     /**
      * @var \Imagen
      *
-     * @ORM\ManyToOne(targetEntity="Imagen")
+     * @ORM\ManyToOne(targetEntity="Imagen",cascade={"persist"})
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="Imagenid", referencedColumnName="id")
      * })

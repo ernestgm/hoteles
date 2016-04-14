@@ -5,12 +5,17 @@ namespace BackEndBundle\Controller;
 use BackEndBundle\Entity\Gastronomia;
 use BackEndBundle\Entity\Habitacion;
 use BackEndBundle\Entity\Hafacilidades;
+use BackEndBundle\Entity\Imagen;
 use BackEndBundle\Entity\Marca;
 use BackEndBundle\Entity\Motivos;
 use BackEndBundle\Entity\Servicios;
+use BackEndBundle\Form\GastronomiaType;
+use BackEndBundle\Form\ImagenType;
+use BackEndBundle\Form\MarcaType;
 use Hateoas\HateoasBuilder;
 use Hateoas\Representation\Factory\PagerfantaFactory;
 use Hateoas\Configuration\Route as Routes;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -36,6 +41,10 @@ use Symfony\Component\HttpFoundation\Response;
  */
 class HotelController extends Controller
 {
+
+    /** @var \Symfony\Component\HttpFoundation\File\UploadedFile $file */
+
+    private $file;
 
     /**
      * @Route("/", name="hotel")
@@ -101,8 +110,10 @@ class HotelController extends Controller
             $em->flush();
 
             //Guardar Marca
+            $marca_request = $request->request->get('hotel_marca');
             $marca = new Marca();
-            $marca->setNombre($request->request->get('hotel_marca'));
+            $marca->setNombre($marca_request['nombre']);
+            $marca->setEstilo($marca_request['estilo']);
 
             $hotel->setMarcaid($marca);
 
@@ -125,8 +136,23 @@ class HotelController extends Controller
 
             foreach ($gastronomias as $gastronomia){
                 $class = new Gastronomia();
-                $class->setNombre($gastronomia['name']);
+                $class->setNombre($gastronomia['nombre']);
+                $class->setDescripcion($gastronomia['descripcion']);
+                $class->setDiasHabiles($gastronomia['diasHabiles']);
+                $class->setHorario($gastronomia['horario']);
+                $class->setTipo($gastronomia['tipo']);
+
                 $class->setOrden($orden++);
+
+                if ($gastronomia['imagen']){
+                    $imageClass = new Imagen();
+                    $imageClass->setUrl($gastronomia['imagen']['url']);
+                    $imageClass->setDescripcion($gastronomia['imagen']['descripcion']);
+                    $imageClass->setNombre($gastronomia['imagen']['nombre']);
+
+                    $class->setImagenid($imageClass);
+                }
+
                 $class->setHotelcodigo($hotel);
                 $hotel->addGastronomium($class);
 
@@ -215,9 +241,26 @@ class HotelController extends Controller
         $entity = new Hotel();
         $form   = $this->createCreateForm($entity);
 
+        $gastronomiaFrom = $this->createForm(new GastronomiaType(), new Gastronomia(), array(
+            'method' => 'POST',
+        ));
+
+        $imagesFrom = $this->createForm(new ImagenType(), new Imagen(), array(
+            'method' => 'POST',
+        ));
+
+        $marcaFrom = $this->createForm(new MarcaType(), new Marca(), array(
+            'method' => 'POST',
+        ));
+
+
+
         return $this->render('BackEndBundle:Hotel:new.html.twig', array(
             'entity' => $entity,
             'form'   => $form->createView(),
+            'gastronomia_form' => $gastronomiaFrom->createView(),
+            'marca_form' => $marcaFrom->createView(),
+            'image_form' => $imagesFrom->createView()
         ));
     }
 
@@ -364,6 +407,7 @@ class HotelController extends Controller
     public function getWsAllHotelAction(Request $request){
         $functionName = 'getHotelsFullDetails';
         $paramsJson = '';
+        $ids_hotels = array();
 
         $webServicesObject = $this->get("cubanacan.wsService");
 
@@ -387,7 +431,10 @@ class HotelController extends Controller
             //Add authorization and proxy request
             $result = $this->get("cubanacan.wsService")->sendPost($param);
 
+
+
             $wshotels = json_decode(utf8_decode($result));
+
 //
             if ($wshotels->operationMessage == 'OK'){
                 $wshotels = $wshotels->hotelsFullDetailsResult->hotelsDetails;
@@ -411,4 +458,26 @@ class HotelController extends Controller
             return new JsonResponse($result);
         }
     }
+
+    /**
+     *
+     * @Route("/upload_images", name="upload_images")
+     */
+    public function upLoadImageAction(Request $request){
+        $fileBag = $request->files;
+        $images = $fileBag->get('file');
+        $entity = $request->get('entity');
+
+//        $a = new UploadedFile();
+//        $a->getClientOriginalName()
+
+        $Dir = $this->container->getParameter('kernel.root_dir').'/../web/uploads/'.$entity.'/';
+        $images->move($Dir, $images->getClientOriginalName());
+
+        $result = array('success' => true);
+
+        return new JsonResponse($result);
+
+    }
+
 }

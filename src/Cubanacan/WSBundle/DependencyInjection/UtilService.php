@@ -1,8 +1,6 @@
 <?php
 namespace Cubanacan\WSBundle\DependencyInjection;
 
-require_once 'HTTP/Request2.php';
-require_once 'Net/URL2.php';
 
 //header ('Content-type: text/html; charset=utf-8');
 
@@ -37,38 +35,6 @@ class UtilService {
         return false;
     }
     
-    /*
-     * Envia un arreglo a una url por el metodo post
-     * 
-     * @param $url url a pasar la petición post
-     * @param $arrayParam arreglo de parametros a pasar por post
-     */
-    public function sendPostToUrl($url, $arrayParam, $method=\HTTP_Request2::METHOD_POST, 
-                                        $user=null, $pass=null, $language="es", $authType=\HTTP_Request2::AUTH_BASIC)
-    {
-        $responseText = "";
-        try{
-            $netUrl = new \Net_URL2($url);
-            if($method == null)
-                $method=\HTTP_Request2::METHOD_POST;
-            $request = new \HTTP_Request2($netUrl, $method);
-            $request->setHeader("Accept-Language", $language);
-            //$request->setHeader('Content-type: application/json; charset=utf-8');
-            
-            if($user != null && $pass != null)
-                $request->setAuth($user, $pass, $authType);
-            
-            $request->addPostParameter($arrayParam);
-            $response = $request->send();      
-
-            $responseText = $response->getBody();
-        }
-        catch(\Exception $e){
-        }
-        return $responseText;
-
-    }
-
     public function getDataServer($url,$arrayParam,$user=null, $pass=null,$language="es",$authType = CURLAUTH_BASIC ){
         $curl = curl_init($url);
         curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
